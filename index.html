@@ -227,6 +227,14 @@ td small{color:#647265;line-height:1.5}
  #tb td:first-child .vehicle-thumbs{margin-top:9px}
 }
 @media (max-width:360px){.photo-pick{min-height:123px}.photo-pick .photo-hint small{display:none}}
+/* Acesso rápido ao catálogo público (também no celular) */
+.intro-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.catalogue-link,.catalogue-share{display:inline-flex;gap:7px;align-items:center;justify-content:center;border-radius:11px;min-height:42px;padding:10px 14px;font-size:13px;font-weight:800;text-decoration:none;cursor:pointer;white-space:nowrap}
+.catalogue-link{background:#0e1a0b;color:#d7ff8b;border:1px solid #0e1a0b}
+.catalogue-link:hover{background:#233817;color:white}
+.catalogue-share{background:#edf6df;color:#315a11;border:1px solid #c6dfb4}
+.catalogue-share:hover{background:#dff0c9}
+@media(max-width:740px){.intro{flex-wrap:wrap;align-items:flex-start}.intro-actions{width:100%;margin-top:3px}.catalogue-link,.catalogue-share{flex:1;min-width:0;padding:10px 8px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -244,7 +252,7 @@ td small{color:#647265;line-height:1.5}
 <header class="app-header"><div class="brand"><img class="logo" src="assets/logo-jokar.png" alt="Jokar Automóveis"><span class="brand-sub">CENTRAL DE GESTÃO</span></div>
 <div class="header-actions"><nav class="topnav" aria-label="Menu principal"><button id="t1" class="on" type="button">Painel</button><button id="t2" type="button">Cadastros</button><button id="t3" type="button">Financeiro</button></nav><button id="lo" class="btn logout" type="button" title="Sair da conta">Sair</button></div></header>
 <nav class="mobile-nav" aria-label="Menu principal para celular"><button id="t1m" class="on" type="button"><span class="nav-glyph">▦</span><span>Painel</span></button><button id="t2m" type="button"><span class="nav-glyph">＋</span><span>Cadastros</span></button><button id="t3m" type="button"><span class="nav-glyph">↗</span><span id="t3ml">Financeiro</span></button></nav>
-<div class="intro"><div><span class="eyebrow">JOKAR AUTOMÓVEIS</span><h1>Gestão comercial</h1><p>Controle do estoque, clientes e movimentação de vendas.</p></div><div class="intro-mark">● <span>PAINEL INTERNO</span></div></div>
+<div class="intro"><div><span class="eyebrow">JOKAR AUTOMÓVEIS</span><h1>Gestão comercial</h1><p>Controle do estoque, clientes e movimentação de vendas.</p></div><div class="intro-actions"><a class="catalogue-link" href="catalogo.html" target="_blank" rel="noopener">↗ Ver catálogo público</a><button class="catalogue-share" id="copyCatalog" type="button">Copiar link</button></div></div>
 
 <section id="v1">
 <div class="stats" id="stats"></div>
@@ -347,6 +355,12 @@ var FOTO_BUCKET="veiculos-jokar",fotoUrls=Object.create(null),fotoUrlExpires=Obj
 var editedPhotoId=null,viewedPhotoId=null,viewedPhotoSlot=1;
 var previewObjects=Object.create(null);
 var $=function(i){return document.getElementById(i)};
+$("copyCatalog").addEventListener("click",async function(){
+  var link=new URL("catalogo.html",window.location.href).href;
+  try{await navigator.clipboard.writeText(link);this.textContent="✓ Link copiado";setTimeout(()=>this.textContent="Copiar link",2200)}
+  catch(e){window.prompt("Copie o link do catálogo:",link)}
+});
+
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 var ADM=false;
 function quem(e){return String(e).split("@")[0]}
