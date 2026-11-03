@@ -181,6 +181,52 @@ td small{color:#647265;line-height:1.5}
 }
 @media (max-width:380px){.brand .logo{width:134px}.brand-sub{font-size:6px}.g{grid-template-columns:1fr}.ovl .g{grid-template-columns:1fr!important}.login-content{padding:20px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* ===== FOTOS DOS VEICULOS | JOKAR v2 ===== */
+.photo-section{margin-top:18px;padding:17px;background:#f7fbf3;border:1px solid #dcebd1;border-radius:14px}
+.photo-section h3{margin:0 0 4px;font-size:15px;letter-spacing:-.02em}
+.photo-note{font-size:12px;color:#68776a;margin:0 0 13px;line-height:1.45}
+.photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.photo-pick{border:2px dashed #bfdaaa;min-height:168px;border-radius:13px;background:white;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;cursor:pointer;text-align:center}
+.photo-pick:focus-within{outline:3px solid #8ac936;outline-offset:2px}
+.photo-pick:has(img:not(.hide)){border-style:solid;border-color:#bde58e}
+.photo-pick>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo-pick .photo-hint{position:relative;z-index:1;color:#617651;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px}
+.photo-pick .photo-hint b{font-size:12px;color:#344e29}
+.photo-pick .photo-hint small{font-size:11px}
+.photo-pick .photo-glyph{font-size:26px;font-weight:300;line-height:1.1}
+.photo-pick:has(img:not(.hide)) .photo-hint{position:absolute;bottom:0;left:0;right:0;color:white;background:linear-gradient(transparent,rgba(0,0,0,.76));padding:28px 7px 7px}
+.photo-pick:has(img:not(.hide)) .photo-hint b,.photo-pick:has(img:not(.hide)) .photo-hint small{color:white}
+.photo-pick:has(img:not(.hide)) .photo-glyph{display:none}
+.photo-pick input[type=file]{cursor:pointer;position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;padding:0}
+.vehicle-thumbs{display:flex;gap:6px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.photo-thumb{appearance:none;display:inline-flex;align-items:center;justify-content:center;width:73px;height:55px;border:1px solid #d8e6cf;background:#eef5e6;border-radius:9px;overflow:hidden;padding:0;cursor:pointer}
+.photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-thumb:hover,.photo-thumb:focus-visible{border-color:#8fc51f;outline:2px solid #b6ea60;outline-offset:1px}
+.photo-empty{display:inline-flex;align-items:center;justify-content:center;height:55px;min-width:73px;padding:0 6px;border:1px dashed #cfddc6;border-radius:9px;color:#819278;background:#f8fbf4;font-size:10px;font-weight:700}
+.photo-action{border-radius:9px;background:#e8f6d9;color:#345b0a;border:1px solid #ceebb2;font-size:12px;font-weight:700;padding:7px 10px;cursor:pointer;margin:0 7px 5px 0}
+.photo-action:hover{background:#d8f5b7}
+.photo-modal-title{font-weight:800;margin:0 0 8px;font-size:18px}
+.photo-modal-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.photo-view-card{width:min(92vw,940px)!important;max-width:940px!important;background:#0b1109;color:white;border-color:#293b25;padding:14px!important}
+.photo-view-card img{width:100%;max-height:76dvh;min-height:140px;object-fit:contain;border-radius:9px;display:block;background:#090b09}
+.photo-view-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.photo-view-head h2{color:white;margin:0;font-size:16px}
+.photo-close{background:#273225;color:#fff;border-color:#4d6449}
+.photo-counter{font-size:12px;color:#d9e6d3;white-space:nowrap}
+.photo-fail{color:#b91c1c;font-size:12px;line-height:1.4}
+@media (max-width:740px){
+ .photo-section{padding:13px;margin-top:15px}
+ .photo-grid{gap:9px}
+ .photo-pick{min-height:138px}
+ .photo-pick .photo-hint{padding:5px}
+ .photo-thumb,.photo-empty{width:87px;height:63px}
+ .photo-modal-actions .btn{flex:1}
+ .photo-view-card{width:100%!important;border-radius:18px 18px 0 0!important}
+ .photo-view-card img{max-height:72dvh}
+ #tb td:first-child .vehicle-thumbs{margin-top:9px}
+}
+@media (max-width:360px){.photo-pick{min-height:123px}.photo-pick .photo-hint small{display:none}}
 </style>
 </head>
 <body>
@@ -230,7 +276,15 @@ td small{color:#647265;line-height:1.5}
 <div><label for="vv">Preço anunciado (R$)</label><input id="vv" type="number" min="0" step="0.01" inputmode="decimal"></div>
 <div><label for="vs">Situação</label><select id="vs"><option value="disponivel">Disponível</option><option value="reservado">Reservado</option><option value="vendido">Vendido</option></select></div></div>
 <div style="margin-top:10px"><label>Observações</label><textarea id="vo" rows="2"></textarea></div>
-<div style="margin-top:12px"><button class="btn p" id="sv">Salvar veículo</button><span class="msg" id="m2"></span></div>
+<div class="photo-section" aria-label="Fotos do veículo">
+  <h3>Fotos do veículo <span style="font-size:12px;color:#75816e;font-weight:500">(até 2 imagens)</span></h3>
+  <p class="photo-note">Escolha uma foto principal e uma segunda foto. Você pode tirar uma foto ou selecionar imagens do celular. JPG, PNG ou WebP; o sistema otimiza as imagens automaticamente.</p>
+  <div class="photo-grid">
+    <label class="photo-pick" for="vf1"><img id="pvf1" alt="Prévia da foto principal" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 1 · Principal</b><small>Toque para escolher</small></span><input id="vf1" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Escolher foto principal"></label>
+    <label class="photo-pick" for="vf2"><img id="pvf2" alt="Prévia da segunda foto" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 2 · Adicional</b><small>Toque para escolher</small></span><input id="vf2" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Escolher segunda foto"></label>
+  </div>
+</div>
+<div style="margin-top:12px"><button class="btn p" id="sv">Salvar veículo</button><span class="msg" id="m2" role="status"></span></div>
 </div>
 
 <div class="card"><h2>Clientes cadastrados</h2><div class="sc"><table style="min-width:520px"><tbody id="cl"></tbody></table></div></div>
@@ -253,6 +307,23 @@ td small{color:#647265;line-height:1.5}
 <div class="card adm-only"><h2>Fluxo de caixa</h2>
 <div class="sc"><table style="min-width:640px"><thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th><th>Por</th><th></th></tr></thead><tbody id="mvb"></tbody></table></div></div>
 </section>
+<!-- Substituir/adicionar imagens em veículos já cadastrados -->
+<div id="fedit" class="ovl hide" role="dialog" aria-modal="true" aria-labelledby="feditTitle"><div class="card" style="width:100%;max-width:600px;margin:0">
+  <h2 id="feditTitle" class="photo-modal-title">Fotos do veículo</h2>
+  <p class="photo-note">Selecione apenas a foto que deseja adicionar ou substituir. As demais serão mantidas.</p>
+  <div class="photo-grid">
+    <label class="photo-pick" for="ef1"><img id="pef1" class="hide" alt="Foto 1 cadastrada"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 1 · Principal</b><small>Selecionar / substituir</small></span><input id="ef1" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Adicionar ou substituir foto principal"></label>
+    <label class="photo-pick" for="ef2"><img id="pef2" class="hide" alt="Foto 2 cadastrada"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 2 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef2" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Adicionar ou substituir segunda foto"></label>
+  </div>
+  <div id="feditMsg" class="photo-fail" role="status" style="margin-top:8px"></div>
+  <div class="photo-modal-actions"><button class="btn p" id="savePhotos" type="button">Salvar fotos</button><button class="btn" id="cancelPhotos" type="button">Cancelar</button></div>
+</div></div>
+<!-- Galeria em tela cheia para computador e celular -->
+<div id="fviewer" class="ovl hide" role="dialog" aria-modal="true" aria-label="Visualizar fotos do veículo"><div class="card photo-view-card">
+  <div class="photo-view-head"><h2 id="fviewerTitle">Foto do veículo</h2><button class="btn photo-close" id="closeViewer" type="button" aria-label="Fechar foto">✕</button></div>
+  <img id="fviewerImg" alt="Foto ampliada do veículo">
+  <div class="photo-modal-actions" style="justify-content:space-between"><button class="btn photo-close" id="previousPhoto" type="button">← Anterior</button><span class="photo-counter" id="photoCounter"></span><button class="btn photo-close" id="nextPhoto" type="button">Próxima →</button></div>
+</div></div>
 <div id="ovl" class="ovl hide"><div class="card" style="width:100%;max-width:420px;margin:0">
 <h2>Registrar venda do veículo</h2><p style="margin:0 0 12px"><b id="sn"></b></p>
 <div class="g" style="grid-template-columns:1fr 1fr">
@@ -272,6 +343,9 @@ function showErr(m){var e=document.getElementById("lm");if(e)e.textContent="Erro
 window.onerror=function(m){showErr(m)};
 window.onunhandledrejection=function(ev){showErr((ev.reason&&ev.reason.message)||ev.reason)};
 var D={clientes:[],veiculos:[],vendas:[],movs:[]},db=null,pend={};
+var FOTO_BUCKET="veiculos-jokar",fotoUrls=Object.create(null),fotoUrlExpires=Object.create(null);
+var editedPhotoId=null,viewedPhotoId=null,viewedPhotoSlot=1;
+var previewObjects=Object.create(null);
 var $=function(i){return document.getElementById(i)};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 var ADM=false;
@@ -287,21 +361,153 @@ async function load(){
   var d=await sb.from("movimentos").select("*");
   if(a.error||b.error){err(a.error||b.error);return}
   D.clientes=a.data;D.vendas=c.data||[];D.movs=d.data||[];
-  D.veiculos=b.data.map(function(p){return{id:p.id,clienteId:p.cliente_id,nome:p.nome,marca:p.marca,modelo:p.modelo,ano:p.ano,km:p.quilometragem,placa:p.placa,cor:p.cor,preco:p.valor,obs:p.obs,status:p.status,criadoPor:p.criado_por}});
+  D.veiculos=b.data.map(function(p){return{id:p.id,clienteId:p.cliente_id,nome:p.nome,marca:p.marca,modelo:p.modelo,ano:p.ano,km:p.quilometragem,placa:p.placa,cor:p.cor,preco:p.valor,obs:p.obs,status:p.status,criadoPor:p.criado_por,foto1:p.foto_1||null,foto2:p.foto_2||null}});
+  await atualizarFotosAssinadas();
   render();
 }
 async function put(col,obj){
   var r;
   if(col==="clientes"){r=await sb.from("clientes").upsert(obj)}
-  else{var o={cliente_id:obj.clienteId,nome:obj.nome,marca:obj.marca||null,modelo:obj.modelo||null,ano:obj.ano||null,quilometragem:obj.km===""?null:obj.km,placa:obj.placa||null,cor:obj.cor||null,valor:(obj.preco===""||obj.preco==null)?null:obj.preco,obs:obj.obs,status:obj.status};if(obj.id)o.id=obj.id;r=await sb.from("produtos").upsert(o)}
+  else{var o={cliente_id:obj.clienteId,nome:obj.nome,marca:obj.marca||null,modelo:obj.modelo||null,ano:obj.ano||null,quilometragem:obj.km===""?null:obj.km,placa:obj.placa||null,cor:obj.cor||null,valor:(obj.preco===""||obj.preco==null)?null:obj.preco,obs:obj.obs,status:obj.status,foto_1:obj.foto1||null,foto_2:obj.foto2||null};if(obj.id)o.id=obj.id;r=await sb.from("produtos").upsert(o)}
   if(r.error){err(r.error);return false}
   await load();return true;
 }
 async function del(col,id){
+  var fotos=col==="clientes"?D.veiculos.filter(function(v){return v.clienteId===id}).flatMap(function(v){return[v.foto1,v.foto2].filter(Boolean)}):
+    D.veiculos.filter(function(v){return v.id===id}).flatMap(function(v){return[v.foto1,v.foto2].filter(Boolean)});
   var r=await sb.from(col==="clientes"?"clientes":"produtos").delete().eq("id",id);
-  if(r.error)err(r.error);
+  if(r.error){err(r.error);return}
+  if(fotos.length)await excluirArquivos(fotos);
   await load();
 }
+// Retorna URLs temporárias; o bucket é privado e nunca expõe os arquivos publicamente.
+async function atualizarFotosAssinadas(){
+  var paths=Array.from(new Set(D.veiculos.flatMap(function(v){return[v.foto1,v.foto2].filter(Boolean)})));
+  var agora=Date.now(),pendentes=paths.filter(function(p){return !fotoUrls[p]||!fotoUrlExpires[p]||fotoUrlExpires[p]<agora});
+  for(var i=0;i<pendentes.length;i+=60){
+    var lote=pendentes.slice(i,i+60),r=await sb.storage.from(FOTO_BUCKET).createSignedUrls(lote,3600);
+    if(r.error){console.warn("Fotos: configure o bucket privado em atualizacao_fotos.sql",r.error);return}
+    (r.data||[]).forEach(function(a,j){if(a&&a.signedUrl){fotoUrls[lote[j]]=a.signedUrl;fotoUrlExpires[lote[j]]=Date.now()+50*60*1000}});
+  }
+}
+function fotoUrl(path){return path&&fotoUrls[path]||""}
+function miniaturas(v){
+  var html='<div class="vehicle-thumbs">';
+  [v.foto1,v.foto2].forEach(function(p,i){
+    var url=fotoUrl(p);
+    if(url)html+='<button type="button" class="photo-thumb" data-viewphoto="'+esc(v.id)+'" data-photoslot="'+(i+1)+'" title="Ampliar foto '+(i+1)+'"><img loading="lazy" src="'+esc(url)+'" alt="Foto '+(i+1)+' de '+esc(v.nome)+'"></button>';
+    else html+='<span class="photo-empty">'+(p?'Sem acesso':'Foto '+(i+1))+'</span>';
+  });
+  return html+'</div>';
+}
+function mostrarPreview(inputId,previewId,existingUrl){
+  var input=$(inputId),prev=$(previewId),arquivo=input.files&&input.files[0];
+  if(previewObjects[inputId]){URL.revokeObjectURL(previewObjects[inputId]);delete previewObjects[inputId]}
+  var src="";
+  if(arquivo){
+    if(!["image/jpeg","image/png","image/webp"].includes(arquivo.type)||arquivo.size>20*1024*1024){
+      alert("Selecione uma imagem JPG, PNG ou WebP de até 20 MB. Ela será otimizada antes do envio.");input.value="";
+    }else{src=URL.createObjectURL(arquivo);previewObjects[inputId]=src}
+  }
+  prev.src=src||existingUrl||"";
+  prev.classList.toggle("hide",!prev.src);
+}
+["vf1","vf2","ef1","ef2"].forEach(function(id){
+  $(id).addEventListener("change",function(){
+    var p="p"+id;
+    var vehicle=D.veiculos.find(function(v){return v.id===editedPhotoId});
+    mostrarPreview(id,p, id[0]==="e"&&vehicle?fotoUrl(id==="ef1"?vehicle.foto1:vehicle.foto2):"");
+  });
+});
+async function otimizarImagem(arquivo){
+  if(!arquivo)return null;
+  if(!["image/jpeg","image/png","image/webp"].includes(arquivo.type))throw Error("Use fotos JPG, PNG ou WebP.");
+  if(arquivo.size>20*1024*1024)throw Error("A foto deve ter no máximo 20 MB antes da otimização.");
+  var objectUrl=URL.createObjectURL(arquivo),img=new Image();
+  try{
+    await new Promise(function(resolve,reject){img.onload=resolve;img.onerror=function(){reject(Error("Não foi possível abrir a foto. Use JPG, PNG ou WebP."))};img.src=objectUrl});
+    var fator=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));
+    var canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(img.naturalWidth*fator));canvas.height=Math.max(1,Math.round(img.naturalHeight*fator));
+    var ctx=canvas.getContext("2d");ctx.fillStyle="#ffffff";ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    var jpeg=await new Promise(function(resolve){canvas.toBlob(resolve,"image/jpeg",0.82)});
+    canvas.width=canvas.height=0;
+    if(!jpeg||jpeg.size>5*1024*1024)throw Error("A foto não pôde ser reduzida para 5 MB. Escolha outra imagem.");
+    return jpeg;
+  }finally{URL.revokeObjectURL(objectUrl)}
+}
+async function enviarFotos(id,inputs,enviados){
+  var au=await sb.auth.getUser(),user=au.data&&au.data.user;
+  if(au.error||!user)throw Error("Sessão expirada. Entre novamente para enviar as fotos.");
+  var resultado={};
+  for(var n=0;n<inputs.length;n++){
+    var inp=$(inputs[n]),file=inp.files&&inp.files[0];
+    if(!file)continue;
+    var jpeg=await otimizarImagem(file);
+    var numero=inputs[n].endsWith("1")?1:2;
+    var path=user.id+"/"+id+"/foto-"+numero+"-"+crypto.randomUUID()+".jpg";
+    var r=await sb.storage.from(FOTO_BUCKET).upload(path,jpeg,{contentType:"image/jpeg",cacheControl:"3600",upsert:false});
+    if(r.error)throw Error("Falha ao enviar foto "+numero+": "+r.error.message+". Confira se executou atualizacao_fotos.sql no Supabase.");
+    enviados.push(path);resultado[numero]=path;
+  }
+  return resultado;
+}
+async function excluirArquivos(paths){
+  var list=paths.filter(Boolean);if(!list.length)return;
+  var r=await sb.storage.from(FOTO_BUCKET).remove(list);
+  if(r.error)console.warn("Não foi possível limpar todas as fotos antigas do Storage:",r.error.message);
+}
+function abrirEdicaoFotos(id){
+  var v=D.veiculos.find(function(c){return c.id===id});if(!v)return;
+  editedPhotoId=id;
+  $("feditTitle").textContent="Fotos · "+v.nome;
+  $("feditMsg").textContent="";
+  [1,2].forEach(function(n){$("ef"+n).value="";mostrarPreview("ef"+n,"pef"+n,fotoUrl(n===1?v.foto1:v.foto2))});
+  $("fedit").classList.remove("hide");
+}
+function fecharEdicaoFotos(){
+  $("fedit").classList.add("hide");editedPhotoId=null;
+  [1,2].forEach(function(n){$("ef"+n).value="";mostrarPreview("ef"+n,"pef"+n,"")});
+}
+$("cancelPhotos").onclick=fecharEdicaoFotos;
+$("fedit").addEventListener("click",function(e){if(e.target===$("fedit"))fecharEdicaoFotos()});
+$("savePhotos").onclick=async function(){
+  var v=D.veiculos.find(function(c){return c.id===editedPhotoId});if(!v)return;
+  if(!$("ef1").files.length&&!$("ef2").files.length){$("feditMsg").textContent="Escolha ao menos uma foto para adicionar ou substituir.";return}
+  $("savePhotos").disabled=true;$("feditMsg").textContent="Enviando imagens...";
+  var enviados=[];
+  try{
+    var files=await enviarFotos(v.id,["ef1","ef2"],enviados);
+    var update={},antigos=[];
+    if(files[1]){update.foto_1=files[1];if(v.foto1)antigos.push(v.foto1)}
+    if(files[2]){update.foto_2=files[2];if(v.foto2)antigos.push(v.foto2)}
+    var r=await sb.from("produtos").update(update).eq("id",v.id).select("id").single();
+    if(r.error)throw Error("Não foi possível salvar as fotos no cadastro: "+r.error.message);
+    await excluirArquivos(antigos);
+    fecharEdicaoFotos();await load();
+  }catch(e){await excluirArquivos(enviados);$("feditMsg").textContent=e.message||String(e)}
+  finally{$("savePhotos").disabled=false}
+};
+function abrirViewer(id,slot){
+  var v=D.veiculos.find(function(c){return c.id===id});if(!v)return;
+  viewedPhotoId=id;viewedPhotoSlot=Number(slot)||1;
+  if(!fotoUrl(viewedPhotoSlot===1?v.foto1:v.foto2))return;
+  atualizarViewer();$("fviewer").classList.remove("hide");
+}
+function atualizarViewer(){
+  var v=D.veiculos.find(function(c){return c.id===viewedPhotoId});if(!v)return;
+  var imgs=[fotoUrl(v.foto1),fotoUrl(v.foto2)],url=imgs[viewedPhotoSlot-1];
+  if(!url)return;
+  $("fviewerImg").src=url;$("fviewerImg").alt="Foto "+viewedPhotoSlot+" do veículo "+v.nome;
+  $("fviewerTitle").textContent=v.nome;
+  $("photoCounter").textContent="Foto "+viewedPhotoSlot+" de 2";
+  $("previousPhoto").disabled=!imgs[0]||viewedPhotoSlot===1;
+  $("nextPhoto").disabled=!imgs[1]||viewedPhotoSlot===2;
+}
+function fecharViewer(){$("fviewer").classList.add("hide");$("fviewerImg").removeAttribute("src");viewedPhotoId=null}
+$("closeViewer").onclick=fecharViewer;
+$("fviewer").addEventListener("click",function(e){if(e.target===$("fviewer"))fecharViewer()});
+$("previousPhoto").onclick=function(){viewedPhotoSlot=1;atualizarViewer()};
+$("nextPhoto").onclick=function(){viewedPhotoSlot=2;atualizarViewer()};
 function today(){return new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10)}
 function fd(d){return String(d||"").split("-").reverse().join("/")}
 async function delT(t,id){
@@ -354,7 +560,7 @@ function openSale(id){
 }
 $("scn").onclick=function(){$("ovl").classList.add("hide")};
 $("ovl").addEventListener("click",function(e){if(e.target===$("ovl"))$("ovl").classList.add("hide")});
-document.addEventListener("keydown",function(e){if(e.key==="Escape")$("ovl").classList.add("hide")});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){$("ovl").classList.add("hide");if(!$("fedit").classList.contains("hide"))fecharEdicaoFotos();if(!$("fviewer").classList.contains("hide"))fecharViewer()}});
 $("sok").onclick=async function(){
   var x=D.veiculos.find(function(v){return v.id===saleId});if(!x)return;
   var val=$("sval").value;if(!val||Number(val)<=0){$("sval").focus();return}
@@ -381,12 +587,12 @@ function render(){
   }).sort(function(a,b){return(a.status==="disponivel"?0:1)-(b.status==="disponivel"?0:1)||String(a.nome||a.marca).localeCompare(String(b.nome||b.marca))});
   $("tb").innerHTML=rows.length?rows.map(function(x){
     var c=cli(x.clienteId)||{nome:"(removido)"};
-    return '<tr><td><b>'+esc(x.nome||((x.marca||"")+" "+(x.modelo||"")))+'</b>'+(x.criadoPor?'<br><span class="by" title="'+esc(x.criadoPor)+'">por '+esc(quem(x.criadoPor))+'</span>':'')+'</td>'
+    return '<tr><td><b>'+esc(x.nome||((x.marca||"")+" "+(x.modelo||"")))+'</b>'+(x.criadoPor?'<br><span class="by" title="'+esc(x.criadoPor)+'">por '+esc(quem(x.criadoPor))+'</span>':'')+miniaturas(x)+'</td>'
     +'<td><small>'+esc([x.ano,x.km!=null?Number(x.km).toLocaleString('pt-BR')+' km':'',x.placa,x.cor].filter(Boolean).join(' · '))+(x.obs?'<br>'+esc(x.obs):'')+'</small></td>'
     +'<td><b>'+brl(x.preco)+'</b></td>'
     +'<td>'+esc(c.nome)+'<br><small>'+esc(c.telefone||"")+'</small></td>'
     +'<td>'+(x.status==="vendido"?'<span class="tag vendido">Vendido</span>':'<button class="tag '+x.status+'" data-st="'+x.id+'" title="Alternar disponível / reservado">'+SL[x.status]+'</button>')+'</td>'
-    +'<td style="white-space:nowrap">'+(x.status!=="vendido"?'<button class="x" style="color:var(--ac);margin-right:10px" data-sell="'+x.id+'">Vender</button>':'')+'<button class="x adm-only" data-dv="'+x.id+'">'+(pend[x.id]?"Confirmar?":"Excluir")+'</button></td></tr>'
+    +'<td style="white-space:normal;min-width:135px"><button class="photo-action" data-editphotos="'+esc(x.id)+'" type="button">📷 Fotos</button>'+(x.status!=="vendido"?'<button class="x" style="color:#3c6b1e;margin-right:10px" data-sell="'+x.id+'">Vender</button>':'')+'<button class="x adm-only" data-dv="'+x.id+'">'+(pend[x.id]?"Confirmar?":"Excluir")+'</button></td></tr>'
   }).join(""):'<tr><td colspan="6" class="vz">Nenhum veículo encontrado. Use Cadastros para adicionar.</td></tr>';
   $("cl").innerHTML=D.clientes.length?D.clientes.map(function(c){
     var k=v.filter(function(x){return x.clienteId===c.id}).length;
@@ -399,7 +605,10 @@ function render(){
 }
 function ask(id,fn){if(pend[id]){delete pend[id];fn()}else{pend[id]=1;render();setTimeout(function(){delete pend[id];render()},3000)}}
 document.addEventListener("click",function(e){
-  var t=e.target,id;
+  var t=e.target.closest("button");if(!t)return;
+  var id;
+  if(id=t.getAttribute("data-viewphoto")){abrirViewer(id,t.getAttribute("data-photoslot"));return}
+  if(id=t.getAttribute("data-editphotos")){abrirEdicaoFotos(id);return}
   if(id=t.getAttribute("data-st")){var x=D.veiculos.find(function(v){return v.id===id});
     if(x&&x.status!=="vendido")put("veiculos",Object.assign({},x,{status:x.status==="disponivel"?"reservado":"disponivel"}))}
   else if(id=t.getAttribute("data-sell"))openSale(id);
@@ -427,10 +636,17 @@ $("sv").onclick=async function(){
   var marca=$("vm").value.trim(),modelo=$("vmodel").value.trim();
   var placa=$("vplaca").value.trim().replace(/[^A-Za-z0-9]/g,"").toUpperCase();
   if(placa&& !/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(placa)){alert("Informe uma placa válida com 7 caracteres.");$("vplaca").focus();return}
-  $("sv").disabled=true;
-  var ok=await put("veiculos",{clienteId:$("vc").value,nome:marca+" "+modelo,marca:marca,modelo:modelo,ano:$("vano").value.trim(),km:$("vkm").value,placa:placa,cor:$("vcor").value.trim(),obs:$("vo").value.trim(),preco:$("vv").value,status:$("vs").value});
-  $("sv").disabled=false;
-  if(ok){["vm","vmodel","vano","vkm","vplaca","vcor","vo","vv"].forEach(function(i){$(i).value=""});flash("m2")}
+  $("sv").disabled=true;$("m2").textContent="Salvando veículo e fotos...";
+  var uploaded=[];
+  try{
+    var uid=crypto.randomUUID(),fotos=await enviarFotos(uid,["vf1","vf2"],uploaded);
+    var ok=await put("veiculos",{id:uid,clienteId:$("vc").value,nome:marca+" "+modelo,marca:marca,modelo:modelo,ano:$("vano").value.trim(),km:$("vkm").value,placa:placa,cor:$("vcor").value.trim(),obs:$("vo").value.trim(),preco:$("vv").value,status:$("vs").value,foto1:fotos[1]||null,foto2:fotos[2]||null});
+    if(!ok){await excluirArquivos(uploaded);$("m2").textContent="Não foi possível salvar.";return}
+    ["vm","vmodel","vano","vkm","vplaca","vcor","vo","vv"].forEach(function(i){$(i).value=""});
+    [1,2].forEach(function(n){$("vf"+n).value="";mostrarPreview("vf"+n,"pvf"+n,"")});
+    flash("m2");
+  }catch(e){await excluirArquivos(uploaded);$("m2").textContent="Erro ao enviar fotos";err(e)}
+  finally{$("sv").disabled=false}
 };
 async function gate(){
   if(!sb){$("lm").textContent="Configure a conexão no arquivo config.js para acessar o sistema.";return}
@@ -455,7 +671,7 @@ $("li").onclick=async function(){
   $("lp").value="";gate();
 };
 $("lp").onkeydown=function(e){if(e.key==="Enter")$("li").click()};
-$("lo").onclick=async function(){await sb.auth.signOut();D={clientes:[],veiculos:[],vendas:[],movs:[]};gate()};
+$("lo").onclick=async function(){await sb.auth.signOut();D={clientes:[],veiculos:[],vendas:[],movs:[]};fotoUrls=Object.create(null);fotoUrlExpires=Object.create(null);gate()};
 setInterval(function(){if(!$("app").classList.contains("hide"))load()},30000);
 gate();
 </script>
