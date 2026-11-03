@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Catálogo de Veículos | Leal Veículos + Jokar Automóveis</title>
 <meta name="theme-color" content="#0c110a">
-<meta name="description" content="Conheça o estoque da Leal Veículos e Jokar Automóveis. Veja preços, fotos e detalhes dos veículos e fale diretamente com Felipe Karon ou Joaquim Felipe pelo WhatsApp.">
+<meta name="description" content="Conheça o estoque da Leal Veículos e Jokar Automóveis, com fotos e preços e WhatsApp exclusivo de cada loja.">
 <meta property="og:title" content="Leal Veículos + Jokar Automóveis | Confira nosso estoque">
 <meta property="og:description" content="Encontre seu próximo carro e fale diretamente com nossos vendedores.">
 <meta property="og:type" content="website">
@@ -96,6 +96,7 @@ button{cursor:pointer}
 .seller-card{border:1px solid #344b29;background:#1a2815;border-radius:15px;padding:16px 19px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .seller-card strong{display:block;font-size:15px}.seller-card small{display:block;color:#a8c69c;font-size:12px;margin-top:2px}
 .seller-card a{text-decoration:none;background:#1da95d;border-radius:10px;padding:10px 14px;white-space:nowrap;font-size:12px;font-weight:900}
+.seller-card[hidden]{display:none!important}
 .foot{background:#070b07;color:#aeb9a7;text-align:center;padding:21px;font-size:12px}
 .foot b{color:#d0e4c6}
 .modal-root{position:fixed;inset:0;z-index:20;background:#000b;display:none;align-items:center;justify-content:center;padding:15px;backdrop-filter:blur(3px)}
@@ -114,6 +115,7 @@ button{cursor:pointer}
 .modal-info h2{letter-spacing:-.045em;margin:0 0 12px;font-size:30px;line-height:1.13}
 .modal-info .vehicle-price{margin:15px 0}
 .modal-info .actions-row{grid-template-columns:1fr;margin-top:8px}
+.vehicle-footer .actions-row{grid-template-columns:1fr}
 .modal-info .whats{font-size:13px}
 .share{margin-top:10px;border:1px solid #cbdcbe;background:#f2f8ed;color:#436427;font-weight:850;padding:10px;border-radius:9px}
 body.modal-open{overflow:hidden}
@@ -155,7 +157,7 @@ body.modal-open{overflow:hidden}
  <div class="wrap hero-inner">
    <span class="kicker">LEAL VEÍCULOS + JOKAR AUTOMÓVEIS</span>
    <h1>Seu próximo carro<br><span>está aqui.</span></h1>
-   <p>Confira nosso estoque, veja as fotos e os detalhes de cada veículo e converse diretamente com nossos vendedores pelo WhatsApp.</p>
+   <p>Confira nosso estoque, veja as fotos e os detalhes de cada veículo e fale diretamente pelo WhatsApp com a loja que anunciou o carro.</p>
    <div class="hero-highlights"><span class="hero-pill"><b>✓</b> Estoque atualizado</span><span class="hero-pill"><b>✓</b> Atendimento direto</span><span class="hero-pill"><b>✓</b> Sem intermediários</span></div>
  </div>
 </section>
@@ -173,10 +175,10 @@ body.modal-open{overflow:hidden}
   <section id="results" class="catalog-grid" aria-label="Lista de veículos"><div class="loading"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></section>
  </div>
 </main>
-<section id="atendimento" class="sellers"><div class="wrap"><p class="section-kicker" style="color:#a8ed49">Atendimento personalizado</p><h2>Gostou de algum carro?</h2><p>Nossos vendedores estão prontos para conversar sobre o veículo que chamou sua atenção.</p>
+<section id="atendimento" class="sellers"><div class="wrap"><p class="section-kicker" style="color:#a8ed49">Atendimento de cada loja</p><h2>Fale com a empresa do anúncio</h2><p>Cada veículo possui o WhatsApp da loja responsável. Se quiser atendimento geral, escolha abaixo:</p>
 <div class="seller-cards">
- <div class="seller-card"><div><strong>Felipe Karon</strong><small>Atendimento comercial</small></div><a href="https://wa.me/5562993856994?text=Ol%C3%A1%2C%20Felipe%21%20Vi%20o%20cat%C3%A1logo%20de%20ve%C3%ADculos%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
- <div class="seller-card"><div><strong>Joaquim Felipe</strong><small>Atendimento comercial</small></div><a href="https://wa.me/5562994170410?text=Ol%C3%A1%2C%20Joaquim%21%20Vi%20o%20cat%C3%A1logo%20de%20ve%C3%ADculos%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
+ <div class="seller-card" data-company-contact="jokar"><div><strong>Jokar Automóveis</strong><small>WhatsApp: (62) 99455-7101</small></div><a href="https://wa.me/5562994557101?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20os%20ve%C3%ADculos%20da%20Jokar%20Autom%C3%B3veis." target="_blank" rel="noopener noreferrer">WhatsApp Jokar ↗</a></div>
+ <div class="seller-card" data-company-contact="leal"><div><strong>Leal Veículos</strong><small>WhatsApp: (62) 98284-6430</small></div><a href="https://wa.me/5562982846430?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20os%20ve%C3%ADculos%20da%20Leal%20Ve%C3%ADculos." target="_blank" rel="noopener noreferrer">WhatsApp Leal ↗</a></div>
 </div></div></section>
 <footer class="foot"><b>LEAL VEÍCULOS + JOKAR AUTOMÓVEIS</b> · Seu próximo carro começa aqui. <span>· Valores e disponibilidade sujeitos a confirmação.</span></footer>
 <div class="modal-root" id="modalRoot" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true"><div class="modal"><div class="modal-top"><b>DETALHES DO VEÍCULO</b><button type="button" class="close-modal" id="closeModal" aria-label="Fechar detalhes">✕</button></div><div id="modalBody"></div></div></div>
@@ -186,7 +188,7 @@ body.modal-open{overflow:hidden}
 (function(){
 "use strict";
 const $=id=>document.getElementById(id);
-const VENDEDORES=[{nome:"Felipe Karon",apelido:"Felipe",whatsapp:"5562993856994"},{nome:"Joaquim Felipe",apelido:"Joaquim",whatsapp:"5562994170410"}];
+const CONTATOS_LOJAS={jokar:{nome:"Jokar Automóveis",whatsapp:"5562994557101"},leal:{nome:"Leal Veículos",whatsapp:"5562982846430"}};
 const FOTO_BUCKET="veiculos-jokar";
 const nomeLoja=id=>id==="leal"?"Leal Veículos":id==="jokar"?"Jokar Automóveis":"Nossa loja";
 const tagLoja=c=>'<span class="shop-tag shop-'+esc(c.empresa)+'">'+esc(nomeLoja(c.empresa))+'</span>';
@@ -207,11 +209,18 @@ function photosHTML(c,chosen){
 }
 function specs(c){return[years(c),c.quilometragem!==null&&c.quilometragem!==undefined?Number(c.quilometragem).toLocaleString("pt-BR")+" km":"",c.cor||""].filter(Boolean).map(x=>'<span class="spec">'+esc(x)+'</span>').join("")}
 function linkCar(c){const u=new URL("catalogo.html",document.baseURI);u.searchParams.set("veiculo",c.id);return u.href}
-function whatsappLink(c,s){
- const msg=`Olá, ${s.apelido}! Vi o ${label(c)}${years(c)?" "+years(c):""} no catálogo de ${nomeLoja(c.empresa)} e gostaria de saber mais sobre o veículo.\n\nAnúncio: ${linkCar(c)}`;
- return "https://wa.me/"+s.whatsapp+"?text="+encodeURIComponent(msg);
+function whatsappLink(c){
+ // O anúncio pertence à empresa no cadastro do veículo, independentemente de quem efetue a venda.
+ const loja=CONTATOS_LOJAS[c.empresa];
+ if(!loja)return "";
+ const msg=`Olá! Vi o ${label(c)}${years(c)?" "+years(c):""} anunciado pela ${loja.nome} e gostaria de mais informações.\n\nAnúncio: ${linkCar(c)}`;
+ return "https://wa.me/"+loja.whatsapp+"?text="+encodeURIComponent(msg);
 }
-function whatsappButtons(c){return'<div class="actions-row">'+VENDEDORES.map(v=>'<a class="whats" href="'+esc(whatsappLink(c,v))+'" target="_blank" rel="noopener noreferrer" aria-label="Conversar com '+esc(v.nome)+' pelo WhatsApp sobre '+esc(label(c))+'">'+iconWa+' <span>Falar com '+esc(v.apelido)+'</span></a>').join("")+'</div>'}
+function whatsappButtons(c){
+ const loja=CONTATOS_LOJAS[c.empresa];
+ if(!loja)return '<div class="sold-info">Atendimento indisponível: confirme a loja deste anúncio.</div>';
+ return '<div class="actions-row"><a class="whats" href="'+esc(whatsappLink(c))+'" target="_blank" rel="noopener noreferrer" aria-label="Falar com '+esc(loja.nome)+' pelo WhatsApp sobre '+esc(label(c))+'">'+iconWa+' <span>WhatsApp · '+esc(loja.nome)+'</span></a></div>';
+}
 function vehicleHTML(c){const selected=state.photos[c.id]||0,sold=c.status==="vendido";
  return '<article class="vehicle" data-vehicle-id="'+esc(c.id)+'"><div class="vehicle-image" data-image-area="'+esc(c.id)+'">'+photosHTML(c,selected)+'<span class="status '+esc(c.status)+'">'+esc(statusName(c.status))+'</span></div><div class="vehicle-body">'+tagLoja(c)+'<span class="vehicle-brand">'+esc(c.marca||"Veículo")+'</span><h3>'+esc(label(c))+'</h3><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div></div><div class="vehicle-footer"><button class="details-btn" type="button" data-detail="'+esc(c.id)+'">Ver fotos e detalhes →</button>'+(sold?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'</div></article>';
 }
@@ -224,6 +233,9 @@ function selectCars(){
  });
 }
 function render(){
+ // Com filtro de loja, exibe somente o atendimento da loja selecionada.
+ const lojaFiltrada=$('company').value;
+ document.querySelectorAll('[data-company-contact]').forEach(el=>{el.hidden=!!lojaFiltrada&&el.dataset.companyContact!==lojaFiltrada});
  const cars=selectCars();$('count').textContent=cars.length+' veículo'+(cars.length===1?'':'s');
  $('results').innerHTML=cars.length?cars.map(vehicleHTML).join(''):'<div class="empty"><h3>Nenhum carro encontrado</h3><p>Altere os filtros ou fale com nossos vendedores para conhecer as opções.</p><button class="retry" id="clearFilters" type="button">Limpar filtros</button></div>';
 }
