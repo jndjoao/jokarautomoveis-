@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Catálogo de Veículos | Jokar Automóveis</title>
+<title>Catálogo de Veículos | Leal Veículos + Jokar Automóveis</title>
 <meta name="theme-color" content="#0c110a">
-<meta name="description" content="Conheça o estoque da Jokar Automóveis. Veja preços, fotos e detalhes dos veículos e fale diretamente com Felipe Karon ou Joaquim Felipe pelo WhatsApp.">
-<meta property="og:title" content="Jokar Automóveis | Confira nosso estoque">
+<meta name="description" content="Conheça o estoque da Leal Veículos e Jokar Automóveis. Veja preços, fotos e detalhes dos veículos e fale diretamente com Felipe Karon ou Joaquim Felipe pelo WhatsApp.">
+<meta property="og:title" content="Leal Veículos + Jokar Automóveis | Confira nosso estoque">
 <meta property="og:description" content="Encontre seu próximo carro e fale diretamente com nossos vendedores.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -128,18 +128,32 @@ body.modal-open{overflow:hidden}
 }
 @media(max-width:360px){.top-links .header-cta{font-size:10px}.logo{width:142px}.actions-row{grid-template-columns:1fr}.filter-bottom{gap:7px}.chip{padding:7px 10px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Identidade compartilhada das duas concessionárias */
+.duo-brands{display:flex;align-items:center;gap:9px}
+.duo-brands .logo{height:54px;width:150px;object-fit:contain;background:#080908;border:1px solid #393c35;border-radius:9px;padding:4px}
+.logo-wrap{gap:1px}
+.logo-label{margin:0;color:#f0d496}
+.filters-top{grid-template-columns:minmax(170px,1.4fr) repeat(3,minmax(130px,.8fr))}
+.shop-tag{display:inline-flex;padding:5px 10px;margin-bottom:10px;border-radius:22px;font-size:10px;letter-spacing:.02em;font-weight:900}
+.shop-leal{background:#241a0f;color:#e8bd69}
+.shop-jokar{background:#ddf2bd;color:#315a13}
+.hero::after{content:"LEAL + JOKAR";font-size:clamp(85px,15vw,240px);right:-20px;bottom:-25px}
+@media(max-width:800px){.filters-top{grid-template-columns:1fr 1fr}.filters-top .filter-field:first-child{grid-column:1/-1}}
+@media(max-width:680px){.duo-brands .logo{width:100px;height:45px}.top-inner{height:82px}.top-links .header-cta{font-size:10px}}
+@media(max-width:360px){.duo-brands .logo{width:82px;height:40px}.filters-top{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <header class="topbar">
  <div class="wrap top-inner">
-  <a class="logo-wrap" href="catalogo.html" aria-label="Jokar Automóveis - início do catálogo"><img class="logo" src="assets/logo-jokar.png" alt="Jokar Automóveis"><span class="logo-label">CATÁLOGO DE VEÍCULOS</span></a>
+  <a class="logo-wrap" href="catalogo.html" aria-label="Leal e Jokar - catálogo unificado"><span class="duo-brands"><img class="logo" src="assets/logo-leal.png" alt="Leal Veículos"><img class="logo" src="assets/logo-jokar.png" alt="Jokar Automóveis"></span><span class="logo-label">CATÁLOGO DAS DUAS LOJAS</span></a>
   <nav class="top-links" aria-label="Navegação"><a href="#estoque">Nosso estoque</a><a href="#atendimento" class="header-cta">Falar com vendedor ↗</a></nav>
  </div>
 </header>
 <section class="hero">
  <div class="wrap hero-inner">
-   <span class="kicker">Bem-vindo à Jokar Automóveis</span>
+   <span class="kicker">LEAL VEÍCULOS + JOKAR AUTOMÓVEIS</span>
    <h1>Seu próximo carro<br><span>está aqui.</span></h1>
    <p>Confira nosso estoque, veja as fotos e os detalhes de cada veículo e converse diretamente com nossos vendedores pelo WhatsApp.</p>
    <div class="hero-highlights"><span class="hero-pill"><b>✓</b> Estoque atualizado</span><span class="hero-pill"><b>✓</b> Atendimento direto</span><span class="hero-pill"><b>✓</b> Sem intermediários</span></div>
@@ -147,11 +161,11 @@ body.modal-open{overflow:hidden}
 </section>
 <main class="main" id="estoque">
  <div class="wrap">
-  <div class="catalog-heading"><div><p class="section-kicker">Escolha seu próximo veículo</p><h2>Nosso estoque</h2><p>Veja os modelos cadastrados pela equipe Jokar.</p></div><span class="updated" id="updated" aria-live="polite">Carregando estoque...</span></div>
+  <div class="catalog-heading"><div><p class="section-kicker">Escolha seu próximo veículo</p><h2>Nosso estoque</h2><p>Veículos das duas lojas no mesmo catálogo, com informações comerciais atualizadas.</p></div><span class="updated" id="updated" aria-live="polite">Carregando estoque...</span></div>
   <div class="filters" role="search" aria-label="Buscar e filtrar carros">
    <div class="filters-top">
     <div class="filter-field"><label for="search">Qual carro você procura?</label><input id="search" type="search" placeholder="Marca, modelo, ano ou cor..." autocomplete="off"></div>
-    <div class="filter-field"><label for="brand">Marca</label><select id="brand"><option value="">Todas as marcas</option></select></div>
+    <div class="filter-field"><label for="company">Loja</label><select id="company"><option value="">As duas lojas</option><option value="leal">Leal Veículos</option><option value="jokar">Jokar Automóveis</option></select></div><div class="filter-field"><label for="brand">Marca</label><select id="brand"><option value="">Todas as marcas</option></select></div>
     <div class="filter-field"><label for="sort">Ordenar</label><select id="sort"><option value="recentes">Mais recentes</option><option value="menor">Menor preço</option><option value="maior">Maior preço</option><option value="nome">Marca / modelo</option></select></div>
    </div>
    <div class="filter-bottom"><div class="chips" role="group" aria-label="Filtrar por disponibilidade"><button class="chip" data-status="todos" aria-pressed="true">Todos</button><button class="chip" data-status="disponivel" aria-pressed="false">Disponíveis</button><button class="chip" data-status="reservado" aria-pressed="false">Reservados</button><button class="chip" data-status="vendido" aria-pressed="false">Vendidos</button></div><span id="count" class="result-count" aria-live="polite"></span></div>
@@ -161,11 +175,11 @@ body.modal-open{overflow:hidden}
 </main>
 <section id="atendimento" class="sellers"><div class="wrap"><p class="section-kicker" style="color:#a8ed49">Atendimento personalizado</p><h2>Gostou de algum carro?</h2><p>Nossos vendedores estão prontos para conversar sobre o veículo que chamou sua atenção.</p>
 <div class="seller-cards">
- <div class="seller-card"><div><strong>Felipe Karon</strong><small>Vendedor Jokar Automóveis</small></div><a href="https://wa.me/5562993856994?text=Ol%C3%A1%2C%20Felipe%21%20Vi%20o%20cat%C3%A1logo%20da%20Jokar%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
- <div class="seller-card"><div><strong>Joaquim Felipe</strong><small>Vendedor Jokar Automóveis</small></div><a href="https://wa.me/5562994170410?text=Ol%C3%A1%2C%20Joaquim%21%20Vi%20o%20cat%C3%A1logo%20da%20Jokar%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
+ <div class="seller-card"><div><strong>Felipe Karon</strong><small>Atendimento comercial</small></div><a href="https://wa.me/5562993856994?text=Ol%C3%A1%2C%20Felipe%21%20Vi%20o%20cat%C3%A1logo%20de%20ve%C3%ADculos%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
+ <div class="seller-card"><div><strong>Joaquim Felipe</strong><small>Atendimento comercial</small></div><a href="https://wa.me/5562994170410?text=Ol%C3%A1%2C%20Joaquim%21%20Vi%20o%20cat%C3%A1logo%20de%20ve%C3%ADculos%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
 </div></div></section>
-<footer class="foot"><b>JOKAR AUTOMÓVEIS</b> · Seu próximo carro começa aqui. <span>· Valores e disponibilidade sujeitos a confirmação.</span></footer>
-<div class="modal-root" id="modalRoot" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true"><div class="modal"><div class="modal-top"><b>JOKAR · DETALHES DO VEÍCULO</b><button type="button" class="close-modal" id="closeModal" aria-label="Fechar detalhes">✕</button></div><div id="modalBody"></div></div></div>
+<footer class="foot"><b>LEAL VEÍCULOS + JOKAR AUTOMÓVEIS</b> · Seu próximo carro começa aqui. <span>· Valores e disponibilidade sujeitos a confirmação.</span></footer>
+<div class="modal-root" id="modalRoot" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true"><div class="modal"><div class="modal-top"><b>DETALHES DO VEÍCULO</b><button type="button" class="close-modal" id="closeModal" aria-label="Fechar detalhes">✕</button></div><div id="modalBody"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 <script>
@@ -174,6 +188,8 @@ body.modal-open{overflow:hidden}
 const $=id=>document.getElementById(id);
 const VENDEDORES=[{nome:"Felipe Karon",apelido:"Felipe",whatsapp:"5562993856994"},{nome:"Joaquim Felipe",apelido:"Joaquim",whatsapp:"5562994170410"}];
 const FOTO_BUCKET="veiculos-jokar";
+const nomeLoja=id=>id==="leal"?"Leal Veículos":id==="jokar"?"Jokar Automóveis":"Nossa loja";
+const tagLoja=c=>'<span class="shop-tag shop-'+esc(c.empresa)+'">'+esc(nomeLoja(c.empresa))+'</span>';
 const state={cars:[],filter:"todos",images:Object.create(null),photos:Object.create(null),modalId:null,loading:false};
 const supa=window.supabase&&window.CONFIG&&CONFIG.SUPABASE_URL&&CONFIG.SUPABASE_KEY&&!CONFIG.SUPABASE_URL.includes("SEU-PROJETO")?window.supabase.createClient(CONFIG.SUPABASE_URL,CONFIG.SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}}):null;
 const esc=s=>String(s===null||s===undefined?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -190,18 +206,18 @@ function photosHTML(c,chosen){
  +(images.length>1?'<div class="photo-controls" aria-label="Selecionar foto">'+images.map((u,n)=>'<button type="button" data-photo="'+esc(c.id)+'" data-photo-index="'+n+'" aria-current="'+(i===n?'true':'false')+'" aria-label="Ver foto '+(n+1)+'">'+(n+1)+'</button>').join("")+'</div>':'');
 }
 function specs(c){return[years(c),c.quilometragem!==null&&c.quilometragem!==undefined?Number(c.quilometragem).toLocaleString("pt-BR")+" km":"",c.cor||""].filter(Boolean).map(x=>'<span class="spec">'+esc(x)+'</span>').join("")}
-function linkCar(c){const u=new URL("catalogo.html",location.href);u.searchParams.set("veiculo",c.id);return u.href}
+function linkCar(c){const u=new URL("catalogo.html",document.baseURI);u.searchParams.set("veiculo",c.id);return u.href}
 function whatsappLink(c,s){
- const msg=`Olá, ${s.apelido}! Vi o ${label(c)}${years(c)?" "+years(c):""} no catálogo da Jokar Automóveis e gostaria de saber mais sobre o veículo.\n\nAnúncio: ${linkCar(c)}`;
+ const msg=`Olá, ${s.apelido}! Vi o ${label(c)}${years(c)?" "+years(c):""} no catálogo de ${nomeLoja(c.empresa)} e gostaria de saber mais sobre o veículo.\n\nAnúncio: ${linkCar(c)}`;
  return "https://wa.me/"+s.whatsapp+"?text="+encodeURIComponent(msg);
 }
 function whatsappButtons(c){return'<div class="actions-row">'+VENDEDORES.map(v=>'<a class="whats" href="'+esc(whatsappLink(c,v))+'" target="_blank" rel="noopener noreferrer" aria-label="Conversar com '+esc(v.nome)+' pelo WhatsApp sobre '+esc(label(c))+'">'+iconWa+' <span>Falar com '+esc(v.apelido)+'</span></a>').join("")+'</div>'}
 function vehicleHTML(c){const selected=state.photos[c.id]||0,sold=c.status==="vendido";
- return '<article class="vehicle" data-vehicle-id="'+esc(c.id)+'"><div class="vehicle-image" data-image-area="'+esc(c.id)+'">'+photosHTML(c,selected)+'<span class="status '+esc(c.status)+'">'+esc(statusName(c.status))+'</span></div><div class="vehicle-body"><span class="vehicle-brand">'+esc(c.marca||"Jokar Automóveis")+'</span><h3>'+esc(label(c))+'</h3><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div></div><div class="vehicle-footer"><button class="details-btn" type="button" data-detail="'+esc(c.id)+'">Ver fotos e detalhes →</button>'+(sold?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'</div></article>';
+ return '<article class="vehicle" data-vehicle-id="'+esc(c.id)+'"><div class="vehicle-image" data-image-area="'+esc(c.id)+'">'+photosHTML(c,selected)+'<span class="status '+esc(c.status)+'">'+esc(statusName(c.status))+'</span></div><div class="vehicle-body">'+tagLoja(c)+'<span class="vehicle-brand">'+esc(c.marca||"Veículo")+'</span><h3>'+esc(label(c))+'</h3><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div></div><div class="vehicle-footer"><button class="details-btn" type="button" data-detail="'+esc(c.id)+'">Ver fotos e detalhes →</button>'+(sold?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'</div></article>';
 }
 function selectCars(){
  const q=$('search').value.toLocaleLowerCase('pt-BR').trim(),brand=$('brand').value,sort=$('sort').value;
- return state.cars.filter(c=>(state.filter==='todos'||c.status===state.filter)&&(!brand||c.marca===brand)&&(!q||[c.nome,c.marca,c.modelo,c.ano,c.cor].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR').includes(q))).sort((a,b)=>{
+ return state.cars.filter(c=>(state.filter==='todos'||c.status===state.filter)&&(!$("company").value||c.empresa===$("company").value)&&(!brand||c.marca===brand)&&(!q||[c.nome,c.marca,c.modelo,c.ano,c.cor].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR').includes(q))).sort((a,b)=>{
   if(sort==='menor'||sort==='maior'){const av=Number(a.valor),bv=Number(b.valor);const aMissing=a.valor===null,bMissing=b.valor===null;if(aMissing!==bMissing)return aMissing?1:-1;return(sort==='menor'?1:-1)*(av-bv)}
   if(sort==='nome')return label(a).localeCompare(label(b),'pt-BR');
   const rank={disponivel:0,reservado:1,vendido:2};return(rank[a.status]??3)-(rank[b.status]??3)||String(b.criado_em||'').localeCompare(String(a.criado_em||''));
@@ -218,7 +234,7 @@ async function load(){
  state.loading=true;$('updated').textContent='Atualizando estoque...';
  try{
   // SOMENTE a tabela sanitizada. Não consultar public.produtos ou public.clientes.
-  const {data,error}=await supa.from('catalogo_veiculos').select('id,nome,marca,modelo,ano,quilometragem,cor,valor,status,foto_1,foto_2,criado_em').order('criado_em',{ascending:false}).limit(1000);
+  const {data,error}=await supa.from('catalogo_veiculos').select('id,nome,marca,modelo,ano,quilometragem,cor,valor,status,foto_1,foto_2,criado_em,empresa').order('criado_em',{ascending:false}).limit(1000);
   if(error)throw error;
   state.cars=data||[];
   const paths=[...new Set(state.cars.flatMap(c=>[c.foto_1,c.foto_2]).filter(Boolean))];
@@ -240,19 +256,19 @@ async function load(){
 function drawModal(c){
  const photos=carImages(c);const n=Math.min(state.photos[c.id]||0,Math.max(0,photos.length-1));
  const visual=photos.length?'<img src="'+esc(photos[n])+'" alt="'+esc(label(c))+' · foto '+(n+1)+'">':placeholder;
- $('modalBody').innerHTML='<div class="modal-layout"><div class="modal-photos"><div class="modal-big">'+visual+'</div>'+(photos.length>1?'<div class="modal-thumbs">'+photos.map((p,i)=>'<button type="button" data-modal-photo="'+i+'" aria-current="'+(n===i)+'">Foto '+(i+1)+'</button>').join('')+'</div>':'')+'</div><div class="modal-info"><div class="vehicle-brand">'+esc(c.marca||"Jokar Automóveis")+'</div><h2 id="modalTitle">'+esc(label(c))+'</h2><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div><p style="font-size:13px;color:#647360;margin:0 0 17px">Situação: <b>'+esc(statusName(c.status))+'</b></p>'+(c.status==='vendido'?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'<button type="button" class="share" id="shareCar">Compartilhar veículo ↗</button></div></div>';
+ $('modalBody').innerHTML='<div class="modal-layout"><div class="modal-photos"><div class="modal-big">'+visual+'</div>'+(photos.length>1?'<div class="modal-thumbs">'+photos.map((p,i)=>'<button type="button" data-modal-photo="'+i+'" aria-current="'+(n===i)+'">Foto '+(i+1)+'</button>').join('')+'</div>':'')+'</div><div class="modal-info">'+tagLoja(c)+'<div class="vehicle-brand">'+esc(c.marca||"Veículo")+'</div><h2 id="modalTitle">'+esc(label(c))+'</h2><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div><p style="font-size:13px;color:#647360;margin:0 0 17px">Situação: <b>'+esc(statusName(c.status))+'</b></p>'+(c.status==='vendido'?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'<button type="button" class="share" id="shareCar">Compartilhar veículo ↗</button></div></div>';
 }
 function openModal(id){const c=state.cars.find(c=>c.id===id);if(!c)return;state.modalId=id;drawModal(c);$('modalRoot').classList.add('open');$('modalRoot').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');$('closeModal').focus()}
 function closeModal(){state.modalId=null;$('modalRoot').classList.remove('open');$('modalRoot').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')}
-async function shareCar(c){const url=linkCar(c),title=label(c)+' | Jokar Automóveis';try{if(navigator.share)await navigator.share({title,url});else if(navigator.clipboard){await navigator.clipboard.writeText(url);alert('Link do veículo copiado!')}else prompt('Copie o link:',url)}catch(e){if(e.name!=='AbortError')prompt('Copie o link:',url)}}
+async function shareCar(c){const url=linkCar(c),title=label(c)+' | '+nomeLoja(c.empresa);try{if(navigator.share)await navigator.share({title,url});else if(navigator.clipboard){await navigator.clipboard.writeText(url);alert('Link do veículo copiado!')}else prompt('Copie o link:',url)}catch(e){if(e.name!=='AbortError')prompt('Copie o link:',url)}}
 $('closeModal').addEventListener('click',closeModal);
 $('modalRoot').addEventListener('click',e=>{if(e.target===$('modalRoot'))closeModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-$('search').addEventListener('input',render);$('brand').addEventListener('change',render);$('sort').addEventListener('change',render);
+$('search').addEventListener('input',render);$('company').addEventListener('change',render);$('brand').addEventListener('change',render);$('sort').addEventListener('change',render);
 document.querySelectorAll('[data-status]').forEach(btn=>btn.addEventListener('click',()=>{state.filter=btn.dataset.status;document.querySelectorAll('[data-status]').forEach(x=>x.setAttribute('aria-pressed',String(x===btn)));render()}));
 document.addEventListener('click',e=>{
  const t=e.target.closest('button');if(!t)return;
- if(t.id==='retry'){load();return}if(t.id==='clearFilters'){$('search').value='';$('brand').value='';$('sort').value='recentes';state.filter='todos';document.querySelectorAll('[data-status]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.status==='todos')));render();return}
+ if(t.id==='retry'){load();return}if(t.id==='clearFilters'){$('search').value='';$('brand').value='';$('company').value='';$('sort').value='recentes';state.filter='todos';document.querySelectorAll('[data-status]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.status==='todos')));render();return}
  if(t.dataset.detail){openModal(t.dataset.detail);return}
  if(t.dataset.photo!==undefined){state.photos[t.dataset.photo]=Number(t.dataset.photoIndex)||0;const c=state.cars.find(x=>x.id===t.dataset.photo);const area=document.querySelector('[data-image-area="'+t.dataset.photo+'"]');if(c&&area)area.innerHTML=photosHTML(c,state.photos[c.id])+'<span class="status '+esc(c.status)+'">'+esc(statusName(c.status))+'</span>';return}
  if(t.dataset.modalPhoto!==undefined && state.modalId){state.photos[state.modalId]=Number(t.dataset.modalPhoto)||0;drawModal(state.cars.find(x=>x.id===state.modalId));return}
