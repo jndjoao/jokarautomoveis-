@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jokar Automóveis | Gestão Comercial</title>
+<meta name="theme-color" content="#0a0d08">
+<meta name="description" content="Sistema interno de gestão de veículos, clientes e vendas da Jokar Automóveis.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f5f7f3;--card:#fff;--tx:#18251b;--mut:#657166;--bd:#e0e9df;--ac:#a3eb0c;--acx:#0f1a08;--ok:#15803d;--wa:#b45309;--no:#b91c1c;--okb:#dcfce7;--wab:#fef3c7;--nob:#fee2e2}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:1100px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+h1{font-size:20px;margin:0}
+nav{display:flex;gap:6px}
+nav button,.btn{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:9px 14px;border-radius:8px;font:inherit;cursor:pointer}
+nav button.on,.btn.p{background:var(--ac);color:var(--acx);border-color:var(--ac);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px}
+.st b{display:block;font-size:26px}.st span{color:var(--mut);font-size:13px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+input,select,textarea{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:9px;width:100%}
+.bar input{flex:2;min-width:180px}.bar select{flex:1;min-width:130px}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--bd);vertical-align:middle}
+th{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+td small{color:var(--mut)}
+.tag{padding:3px 9px;border-radius:99px;font-size:12px;font-weight:600;border:0;cursor:pointer}
+.disponivel{background:var(--okb);color:var(--ok)}.reservado{background:var(--wab);color:var(--wa)}.vendido{background:var(--nob);color:var(--no)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+label{font-size:13px;color:var(--mut);display:block;margin-bottom:3px}
+h2{font-size:16px;margin:0 0 12px}
+.x{background:none;border:0;color:var(--no);cursor:pointer;font:inherit}
+.vz{text-align:center;color:var(--mut);padding:24px}
+.msg{color:var(--ok);font-size:13px;margin-left:10px}
+.hide{display:none}
+header{background:#fff;border:1px solid #e3e5ea;border-radius:12px;padding:12px 18px;box-shadow:0 1px 3px rgba(3,11,31,.08)}
+.logo{height:34px;width:auto;display:block}
+.logo.c{height:44px;margin:4px auto 0}
+nav button{background:#fff;color:#0b1b3f;border-color:#d5d9e0;font-weight:500}
+nav button.on{background:#0b1b3f;color:#fff;border-color:#0b1b3f}
+#lo{color:#6b7280}
+#lg{--bg:#f5f7f3;--card:#fff;--tx:#18251b;--mut:#657166;--bd:#e0e9df;--ac:#a3eb0c;--acx:#0f1a08;background:#fff;color:#1a1d23;padding:26px;border-radius:14px;box-shadow:0 8px 30px rgba(3,11,31,.12)}
+#lg .btn{width:100%;padding:11px}
+#lg .msg{display:block;margin:8px 0 0;text-align:center}
+.card,.st{box-shadow:0 1px 3px rgba(3,11,31,.06);border-radius:12px}
+.st{border-left:4px solid var(--ac)}
+.st:nth-child(1){border-left-color:var(--ok)}.st:nth-child(2){border-left-color:var(--wa)}.st:nth-child(3){border-left-color:var(--no)}
+.st b{font-size:28px;letter-spacing:-.02em}
+h2{font-size:15px;letter-spacing:.01em}
+th{background:rgba(127,127,127,.07);font-weight:600}
+th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0}
+tbody tr:hover{background:rgba(127,127,127,.06)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ac);border-color:transparent}
+.btn.p{padding:10px 18px}
+.foot{text-align:center;color:var(--mut);font-size:12px;padding:6px 0 18px}
+@media (max-width:520px){.logo{height:26px}header{padding:10px 12px}}
+.by{font-size:11px;color:var(--mut);opacity:.75}
+.ovl{position:fixed;inset:0;background:rgba(3,11,31,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.ovl.hide{display:none}
+body:not(.adm) .adm-only{display:none!important}
+
+/* ============ JOKAR | DESIGN SYSTEM ============ */
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#f4f6f2;--card:#ffffff;--tx:#182019;--mut:#68746a;--bd:#dfe7dd;--ac:#a4ed0a;--acx:#0b1405;--ok:#268343;--wa:#96620d;--no:#bf3942;--okb:#e6f6e9;--wab:#fff2d6;--nob:#ffe9e9}
+html{color-scheme:light;scroll-behavior:smooth}
+body{background:var(--bg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.w{max-width:1240px;padding:22px 26px;margin:auto}
+header.app-header{background:#090d08;border:1px solid #202c16;border-radius:18px;padding:10px 22px;box-shadow:0 12px 28px rgba(12,25,10,.10);margin:0 0 26px;min-height:104px;position:relative}
+.brand{display:flex;align-items:center;gap:5px;flex-direction:column;justify-content:center;min-width:190px}
+.brand .logo{display:block;width:210px;height:auto;max-height:78px;object-fit:contain}
+.brand-sub{color:#a6e94e;letter-spacing:.23em;font-size:9px;font-weight:800;margin-top:-4px}
+.header-actions{display:flex;align-items:center;gap:14px}
+.topnav{display:flex;gap:6px;align-items:center}
+.topnav button{background:transparent;border:1px solid transparent;color:#dce9d7;padding:11px 17px;font-weight:600;white-space:nowrap}
+.topnav button:hover{background:#1c2617;color:#fff}
+.topnav button.on{background:var(--ac);border-color:var(--ac);color:#122105}
+.btn,.tag,nav button{transition:background .15s,transform .15s,border .15s}
+.btn:hover,.tag:hover{filter:brightness(.96)}
+.btn:active,.tag:active,nav button:active{transform:scale(.99)}
+.logout{background:#19221a;border:1px solid #354232;color:#e2eadd;padding:11px 15px;white-space:nowrap}
+.logout:hover{background:#273426}
+.intro{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+.eyebrow{color:#56752c;font-size:11px;letter-spacing:.15em;font-weight:800}
+.intro h1{font-size:clamp(25px,3vw,34px);line-height:1.2;letter-spacing:-.04em;margin:6px 0 4px;font-weight:800}
+.intro p{margin:0;color:var(--mut);font-size:14px}
+.intro-mark{border:1px solid #c6dfae;background:#edf8db;color:#466b1c;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:.06em;padding:9px 14px;white-space:nowrap}
+.intro-mark::first-letter{color:#80bd13}
+.card,.st{border:1px solid var(--bd);border-radius:16px;box-shadow:0 5px 16px rgba(29,50,29,.045)}
+.card{padding:23px;margin-bottom:18px}
+.st{padding:17px 20px;border-left:0!important;border-top:4px solid #b6df79}
+.st:nth-child(1){border-top-color:#7fbe24}.st:nth-child(2){border-top-color:#f1b957}.st:nth-child(3){border-top-color:#ec7d7d}.st:nth-child(4){border-top-color:#94bfa0}
+.st b{font-size:30px;font-weight:800;letter-spacing:-.04em}
+.st span{font-size:12px;font-weight:600}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+h2{font-size:17px;line-height:1.25;font-weight:800;letter-spacing:-.02em;margin:0 0 16px}
+.bar{gap:11px;margin-bottom:16px}
+input,select,textarea{background:#fbfcfa;border:1px solid #d8e2d6;border-radius:10px;padding:11px 12px;min-height:44px}
+input:focus,select:focus,textarea:focus{outline:2px solid #9ddd33;outline-offset:1px;border-color:#c0e68b}
+label{color:#51624f;font-size:12px;font-weight:700;letter-spacing:.005em;margin-bottom:6px}
+.g{gap:14px 16px}
+.btn{border-radius:10px;min-height:42px;font-weight:600}
+.btn.p{background:var(--ac);color:#0c1807;border-color:#80c51b;padding:10px 19px;font-weight:800}
+nav button.on,.btn.p{box-shadow:none}
+th{background:#f2f6ef;color:#6b7867;padding:12px 10px;letter-spacing:.07em}
+td{padding:14px 10px;overflow-wrap:anywhere}
+tbody tr:hover{background:#f9fcf5}
+td b{font-weight:700}
+td small{color:#647265;line-height:1.5}
+.tag{padding:6px 10px}
+.x{font-size:13px;font-weight:700}
+.x:hover{text-decoration:underline}
+.foot{padding:8px 0 22px;letter-spacing:.02em}
+.login-card{max-width:420px;margin:clamp(24px,7vh,72px) auto!important;padding:0!important;overflow:hidden;border:1px solid #dae3d6;box-shadow:0 24px 55px rgba(17,35,12,.14)}
+.login-brand{background:#070907;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:26px 24px 22px}
+.login-brand .logo{width:min(290px,100%);max-height:none;height:auto;margin:0 auto}
+.login-brand span{font-size:10px;font-weight:800;letter-spacing:.22em;color:#c3f688;margin-top:8px}
+.login-content{padding:30px}
+.login-content h1{font-size:23px;font-weight:800;letter-spacing:-.03em;margin:0 0 6px}
+.login-content .sub{color:var(--mut);font-size:13px;margin:0 0 25px}
+#lg{--bg:#f4f6f2;--card:#fff;--tx:#182019;--mut:#68746a;--bd:#dfe7dd;--ac:#a4ed0a;--acx:#0b1405;background:#fff;color:var(--tx);padding:0}
+#lg .btn{min-height:48px}
+#lg .msg{color:var(--no);font-weight:600;line-height:1.35}
+.mobile-nav{display:none}
+.ovl{background:rgba(5,10,4,.69);backdrop-filter:blur(3px)}
+.ovl>.card{box-shadow:0 25px 70px rgba(0,0,0,.24);padding:24px}
+#lo{color:#e7efe4}
+#tb [data-sell]{color:#355f0d!important;background:#e9f8d8;border-radius:8px;padding:5px 10px;margin-right:8px!important}
+#tb [data-sell]:hover{background:#d9f4b9}
+@media (max-width:980px){.w{padding:16px}.brand .logo{width:175px}.brand{min-width:170px}.topnav button{padding:10px 12px}.header-actions{gap:5px}.stats{gap:10px}}
+@media (max-width:740px){
+  .w{padding:12px 12px calc(108px + env(safe-area-inset-bottom,0px));max-width:600px}
+  header.app-header{min-height:72px;border-radius:14px;padding:8px 13px;margin-bottom:18px;position:sticky;top:8px;z-index:20}
+  .brand{min-width:0;gap:0;align-items:flex-start}.brand .logo{width:158px;max-height:52px}.brand-sub{font-size:7px;letter-spacing:.16em;margin:0 0 0 8px}
+  .header-actions{margin-left:auto}.topnav{display:none}
+  .logout{padding:8px 12px;min-height:39px;font-size:12px}
+  .intro{margin:8px 3px 16px}.intro h1{font-size:27px}.intro p{font-size:12px;max-width:270px}.intro-mark{display:none}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:15px}
+  .st{min-width:0;padding:13px 14px}.st b{font-size:25px}.st span{font-size:11px}
+  .card{padding:17px 14px;margin-bottom:14px;border-radius:15px}
+  .bar{flex-direction:column;align-items:stretch!important;gap:9px}
+  .bar input,.bar select{width:100%;min-width:0;max-width:none!important;flex:none}
+  .bar label{align-self:flex-start}
+  .g{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px 10px}
+  input,select,textarea{width:100%;min-width:0;font-size:16px}
+  .btn.p{min-height:46px}
+  #sm,#sv,#sc{width:100%}
+  .sc{overflow-x:visible}
+  table,table[style]{min-width:0!important;width:100%;border-collapse:separate}
+  table thead{display:none}
+  table tbody{display:block}
+  table tbody tr{display:block;background:#fcfefb;border:1px solid #e0e9dd;border-radius:13px;margin-bottom:10px;padding:7px 12px;box-shadow:0 2px 8px rgba(10,30,10,.028)}
+  table tbody tr:hover{background:#fcfefb}
+  table tbody td{border-bottom:1px solid #edf1e9;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 2px;min-height:39px;font-size:13px;text-align:right}
+  table tbody td:last-child{border-bottom:none;justify-content:flex-end}
+  table tbody td:first-child{text-align:left;display:block;font-size:15px}
+  table tbody td:before{font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;color:#75816f;text-align:left;flex:0 0 30%}
+  table tbody td:first-child:before,table tbody td:last-child:before{content:none!important}
+  table tbody td.vz{display:block;text-align:center;padding:22px 5px;font-size:13px}
+  #tb td:nth-child(2):before{content:"Detalhes"}#tb td:nth-child(3):before{content:"Preço"}#tb td:nth-child(4):before{content:"Cliente"}#tb td:nth-child(5):before{content:"Status"}
+  #cl td:nth-child(2):before{content:"Estoque"}
+  #hv td:nth-child(2):before{content:"Veículo"}#hv td:nth-child(3):before{content:"Comprador"}#hv td:nth-child(4):before{content:"Pagamento"}#hv td:nth-child(5):before{content:"Valor"}#hv td:nth-child(6):before{content:"Vendedor"}
+  #mvb td:nth-child(2):before{content:"Movimento"}#mvb td:nth-child(3):before{content:"Tipo"}#mvb td:nth-child(4):before{content:"Valor"}#mvb td:nth-child(5):before{content:"Por"}
+  #tb td:first-child b,#hv td:first-child b{font-size:15px}
+  .tag{padding:6px 10px;min-height:31px}
+  .x{min-height:34px;padding:3px 8px}
+  .mobile-nav{display:flex;position:fixed;left:0;right:0;bottom:0;background:#0b1009;border-top:1px solid #34412d;z-index:30;padding:8px 8px calc(9px + env(safe-area-inset-bottom,0px));justify-content:space-around;gap:8px;box-shadow:0 -9px 23px rgba(0,0,0,.17)}
+  .mobile-nav button{border:0;border-radius:12px;min-width:0;flex:1;background:transparent;color:#c8d5c1;padding:5px 3px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:51px;font-size:11px;font-weight:700}
+  .mobile-nav button.on{background:#a4ed0a;color:#101b0b}
+  .mobile-nav .nav-glyph{font-size:22px;line-height:1.1;font-weight:600}
+  .ovl{align-items:flex-end;padding:0}
+  .ovl>.card{max-width:none!important;width:100%!important;margin:0!important;border-radius:20px 20px 0 0;padding:22px 16px calc(24px + env(safe-area-inset-bottom,0px));max-height:92dvh;overflow-y:auto}
+  .ovl .g{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .ovl .btn{flex:1}
+  .login-card{margin:7vh auto 0!important}.login-content{padding:23px}.login-brand{padding:22px 19px 18px}.login-brand .logo{max-width:270px}
+}
+@media (max-width:380px){.brand .logo{width:134px}.brand-sub{font-size:6px}.g{grid-template-columns:1fr}.ovl .g{grid-template-columns:1fr!important}.login-content{padding:20px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="w">
+<section id="lg" class="card login-card" aria-label="Acesso à gestão Jokar">
+  <div class="login-brand"><img class="logo c" src="assets/logo-jokar.png" alt="Jokar Automóveis"><span>PLATAFORMA DE GESTÃO</span></div>
+  <div class="login-content">
+    <h1>Bem-vindo à Jokar</h1><p class="sub">Acesse seu painel de veículos, clientes e vendas.</p>
+    <label for="le">E-mail</label><input id="le" type="email" placeholder="voce@jokar.com.br" autocomplete="username">
+    <label for="lp" style="margin-top:14px">Senha</label><input id="lp" type="password" placeholder="Sua senha" autocomplete="current-password">
+    <div style="margin-top:20px"><button class="btn p" id="li">Entrar no sistema</button><span class="msg" role="alert" id="lm"></span></div>
+  </div>
+</section>
+<div id="app" class="hide">
+<header class="app-header"><div class="brand"><img class="logo" src="assets/logo-jokar.png" alt="Jokar Automóveis"><span class="brand-sub">CENTRAL DE GESTÃO</span></div>
+<div class="header-actions"><nav class="topnav" aria-label="Menu principal"><button id="t1" class="on" type="button">Painel</button><button id="t2" type="button">Cadastros</button><button id="t3" type="button">Financeiro</button></nav><button id="lo" class="btn logout" type="button" title="Sair da conta">Sair</button></div></header>
+<nav class="mobile-nav" aria-label="Menu principal para celular"><button id="t1m" class="on" type="button"><span class="nav-glyph">▦</span><span>Painel</span></button><button id="t2m" type="button"><span class="nav-glyph">＋</span><span>Cadastros</span></button><button id="t3m" type="button"><span class="nav-glyph">↗</span><span id="t3ml">Financeiro</span></button></nav>
+<div class="intro"><div><span class="eyebrow">JOKAR AUTOMÓVEIS</span><h1>Gestão comercial</h1><p>Controle do estoque, clientes e movimentação de vendas.</p></div><div class="intro-mark">● <span>PAINEL INTERNO</span></div></div>
+
+<section id="v1">
+<div class="stats" id="stats"></div>
+<div class="card">
+<h2>Veículos em negociação</h2>
+<div class="bar"><input id="q" placeholder="Buscar veículo, placa ou cliente…" aria-label="Pesquisar veículos"><select id="fs" aria-label="Filtrar situação"><option value="">Todos os status</option><option value="disponivel">Disponível</option><option value="reservado">Reservado</option><option value="vendido">Vendido</option></select></div>
+<div class="sc"><table><thead><tr><th>Veículo</th><th>Detalhes</th><th>Valor</th><th>Cliente</th><th>Status</th><th></th></tr></thead><tbody id="tb"></tbody></table></div>
+</div>
+</section>
+
+<section id="v2" class="hide">
+<div class="card"><h2>Novo cliente</h2>
+<div class="g">
+<div><label>Nome *</label><input id="cn"></div><div><label>Telefone</label><input id="ct" inputmode="tel"></div>
+<div><label>E-mail</label><input id="ce" type="email"></div><div><label>Cidade</label><input id="cc"></div></div>
+<div style="margin-top:10px"><label>Observações</label><textarea id="co" rows="2"></textarea></div>
+<div style="margin-top:12px"><button class="btn p" id="sc">Salvar cliente</button><span class="msg" id="m1"></span></div>
+</div>
+
+<div class="card"><h2>Novo veículo</h2>
+<div class="g">
+<div><label>Cliente (dono) *</label><select id="vc"></select></div>
+<div><label for="vm">Marca *</label><input id="vm" placeholder="Ex.: Volkswagen" autocomplete="off"></div>
+<div><label for="vmodel">Modelo *</label><input id="vmodel" placeholder="Ex.: Gol 1.6" autocomplete="off"></div>
+<div><label for="vano">Ano / modelo</label><input id="vano" placeholder="Ex.: 2020/2021" maxlength="9"></div>
+<div><label for="vkm">Quilometragem</label><input id="vkm" type="number" min="0" inputmode="numeric" placeholder="Ex.: 56000"></div>
+<div><label for="vplaca">Placa</label><input id="vplaca" maxlength="7" placeholder="ABC1D23" autocapitalize="characters"></div>
+<div><label for="vcor">Cor</label><input id="vcor" placeholder="Ex.: Prata"></div>
+<div><label for="vv">Preço anunciado (R$)</label><input id="vv" type="number" min="0" step="0.01" inputmode="decimal"></div>
+<div><label for="vs">Situação</label><select id="vs"><option value="disponivel">Disponível</option><option value="reservado">Reservado</option><option value="vendido">Vendido</option></select></div></div>
+<div style="margin-top:10px"><label>Observações</label><textarea id="vo" rows="2"></textarea></div>
+<div style="margin-top:12px"><button class="btn p" id="sv">Salvar veículo</button><span class="msg" id="m2"></span></div>
+</div>
+
+<div class="card"><h2>Clientes cadastrados</h2><div class="sc"><table style="min-width:520px"><tbody id="cl"></tbody></table></div></div>
+</section>
+<section id="v3" class="hide">
+<div class="bar" style="align-items:center"><label style="margin:0">Período</label><select id="fm" style="max-width:220px;flex:none"></select></div>
+<div class="stats" id="fstats"></div>
+<div class="card adm-only"><h2>Vendas por vendedor</h2><div id="frank"></div></div>
+<div class="card"><h2>Histórico de vendas</h2>
+<div class="bar adm-only"><select id="fv"><option value="">Todos os vendedores</option></select></div>
+<div class="sc"><table style="min-width:660px"><thead><tr><th>Data</th><th>Veículo</th><th>Comprador</th><th>Pagamento</th><th>Valor</th><th>Vendedor</th><th></th></tr></thead><tbody id="hv"></tbody></table></div></div>
+<div class="card adm-only"><h2>Lançar movimento</h2>
+<div class="g">
+<div><label>Tipo</label><select id="mt"><option value="entrada">Entrada</option><option value="saida">Saída</option></select></div>
+<div><label>Descrição *</label><input id="mds"></div>
+<div><label>Categoria</label><input id="mc" placeholder="Ex.: Comissão, Aluguel"></div>
+<div><label>Valor (R$) *</label><input id="mv" type="number" inputmode="decimal"></div>
+<div><label>Data</label><input id="mdt" type="date"></div></div>
+<div style="margin-top:12px"><button class="btn p" id="sm">Lançar</button><span class="msg" id="m3"></span></div></div>
+<div class="card adm-only"><h2>Fluxo de caixa</h2>
+<div class="sc"><table style="min-width:640px"><thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th><th>Por</th><th></th></tr></thead><tbody id="mvb"></tbody></table></div></div>
+</section>
+<div id="ovl" class="ovl hide"><div class="card" style="width:100%;max-width:420px;margin:0">
+<h2>Registrar venda do veículo</h2><p style="margin:0 0 12px"><b id="sn"></b></p>
+<div class="g" style="grid-template-columns:1fr 1fr">
+<div><label>Valor da venda (R$) *</label><input id="sval" type="number" inputmode="decimal"></div>
+<div><label>Data</label><input id="sdt" type="date"></div>
+<div><label>Pagamento</label><select id="sfp"><option>PIX</option><option>Dinheiro</option><option>Cartão</option><option>Transferência</option><option>Financiamento</option></select></div>
+<div><label>Comprador</label><input id="scmp"></div></div>
+<div style="margin-top:14px;display:flex;gap:8px"><button class="btn p" id="sok">Confirmar venda</button><button class="btn" id="scn">Cancelar</button></div>
+</div></div>
+<div class="foot">Jokar Automóveis · Gestão Comercial</div>
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+function showErr(m){var e=document.getElementById("lm");if(e)e.textContent="Erro: "+m;console.error(m)}
+window.onerror=function(m){showErr(m)};
+window.onunhandledrejection=function(ev){showErr((ev.reason&&ev.reason.message)||ev.reason)};
+var D={clientes:[],veiculos:[],vendas:[],movs:[]},db=null,pend={};
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var ADM=false;
+function quem(e){return String(e).split("@")[0]}
+function brl(n){return n===""||n==null||isNaN(n)?"–":Number(n).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+var sb=(window.supabase && window.CONFIG && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_KEY && !CONFIG.SUPABASE_URL.includes("SEU-PROJETO"))
+  ?window.supabase.createClient(CONFIG.SUPABASE_URL,CONFIG.SUPABASE_KEY):null;
+function err(e){alert("Erro: "+((e&&e.message)||e))}
+async function load(){
+  var a=await sb.from("clientes").select("*").order("nome");
+  var b=await sb.from("produtos").select("*").order("created_at",{ascending:false});
+  var c=await sb.from("vendas").select("*");
+  var d=await sb.from("movimentos").select("*");
+  if(a.error||b.error){err(a.error||b.error);return}
+  D.clientes=a.data;D.vendas=c.data||[];D.movs=d.data||[];
+  D.veiculos=b.data.map(function(p){return{id:p.id,clienteId:p.cliente_id,nome:p.nome,marca:p.marca,modelo:p.modelo,ano:p.ano,km:p.quilometragem,placa:p.placa,cor:p.cor,preco:p.valor,obs:p.obs,status:p.status,criadoPor:p.criado_por}});
+  render();
+}
+async function put(col,obj){
+  var r;
+  if(col==="clientes"){r=await sb.from("clientes").upsert(obj)}
+  else{var o={cliente_id:obj.clienteId,nome:obj.nome,marca:obj.marca||null,modelo:obj.modelo||null,ano:obj.ano||null,quilometragem:obj.km===""?null:obj.km,placa:obj.placa||null,cor:obj.cor||null,valor:(obj.preco===""||obj.preco==null)?null:obj.preco,obs:obj.obs,status:obj.status};if(obj.id)o.id=obj.id;r=await sb.from("produtos").upsert(o)}
+  if(r.error){err(r.error);return false}
+  await load();return true;
+}
+async function del(col,id){
+  var r=await sb.from(col==="clientes"?"clientes":"produtos").delete().eq("id",id);
+  if(r.error)err(r.error);
+  await load();
+}
+function today(){return new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10)}
+function fd(d){return String(d||"").split("-").reverse().join("/")}
+async function delT(t,id){
+  var r=t==="vendas"?await sb.rpc("desfazer_venda",{p_venda_id:id}):await sb.from(t).delete().eq("id",id);
+  if(r.error){err(r.error);return}
+  await load();
+}
+function sumv(a){return a.reduce(function(t,x){return t+Number(x.valor||0)},0)}
+function byDate(a,b){return String(b.data).localeCompare(String(a.data))||String(b.created_at).localeCompare(String(a.created_at))}
+function fmOpts(){
+  var f=$("fm");if(f.options.length)return;
+  var h=new Date(),o="";
+  for(var i=0;i<24;i++){var d=new Date(h.getFullYear(),h.getMonth()-i,1),k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"),n=d.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+    o+='<option value="'+k+'">'+n.charAt(0).toUpperCase()+n.slice(1)+'</option>'}
+  f.innerHTML=o+'<option value="all">Todo o período</option>';f.value=today().slice(0,7);
+}
+function renderFin(){
+  if(!$("fm"))return;fmOpts();
+  var m=$("fm").value,inM=function(x){return m==="all"||String(x.data).slice(0,7)===m};
+  var vs=D.vendas.filter(inM),ms=D.movs.filter(inM);
+  var ent=sumv(ms.filter(function(x){return x.tipo==="entrada"})),sai=sumv(ms.filter(function(x){return x.tipo==="saida"})),sd=ent-sai;
+  $("fstats").innerHTML=[["Vendas no período",brl(sumv(vs)),""],["Nº de vendas",vs.length,""]]
+    .concat(ADM?[["Entradas",brl(ent),"var(--ok)"],["Saídas",brl(sai),"var(--no)"],["Saldo",brl(sd),sd<0?"var(--no)":"var(--ok)"]]:[])
+    .map(function(a){return '<div class="st"><b style="font-size:22px;'+(a[2]?'color:'+a[2]:'')+'">'+a[1]+'</b><span>'+a[0]+'</span></div>'}).join("");
+  var rk={};vs.forEach(function(v){var k=v.criado_por||"(sem usuário)";rk[k]=rk[k]||{t:0,n:0};rk[k].t+=Number(v.valor||0);rk[k].n++});
+  var ks=Object.keys(rk).sort(function(a,b){return rk[b].t-rk[a].t});
+  $("frank").innerHTML=ks.length?ks.map(function(k,i){return '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bd)"><span>'+(i+1)+'. <b>'+esc(quem(k))+'</b> <small style="color:var(--mut)">'+rk[k].n+' venda(s)</small></span><b>'+brl(rk[k].t)+'</b></div>'}).join(""):'<div class="vz">Nenhuma venda no período.</div>';
+  var fv=$("fv"),cur=fv.value,us=[];
+  D.vendas.forEach(function(v){if(v.criado_por&&us.indexOf(v.criado_por)<0)us.push(v.criado_por)});
+  var oh='<option value="">Todos os vendedores</option>'+us.map(function(u){return '<option value="'+esc(u)+'">'+esc(quem(u))+'</option>'}).join("");
+  if(fv.dataset.h!==oh){fv.innerHTML=oh;fv.dataset.h=oh;fv.value=cur}
+  var vf=vs.filter(function(v){return!fv.value||v.criado_por===fv.value}).sort(byDate);
+  $("hv").innerHTML=vf.length?vf.map(function(v){return '<tr><td>'+fd(v.data)+'</td><td><b>'+esc(v.produto_nome||"–")+'</b></td><td>'+esc(v.comprador||"–")+'</td><td>'+esc(v.forma||"–")+'</td><td><b>'+brl(v.valor)+'</b></td><td title="'+esc(v.criado_por||"")+'">'+esc(quem(v.criado_por||"–"))+'</td><td><button class="x adm-only" data-dsale="'+v.id+'">'+(pend[v.id]?"Confirmar?":"Excluir")+'</button></td></tr>'}).join(""):'<tr><td colspan="7" class="vz">Nenhuma venda registrada.</td></tr>';
+  $("mvb").innerHTML=ms.length?ms.slice().sort(byDate).map(function(x){var e=x.tipo==="entrada";
+    return '<tr><td>'+fd(x.data)+'</td><td><b>'+esc(x.descricao)+'</b>'+(x.categoria?'<br><small>'+esc(x.categoria)+'</small>':'')+'</td><td><span class="tag '+(e?"disponivel":"vendido")+'" style="cursor:default">'+(e?"Entrada":"Saída")+'</span></td><td style="color:'+(e?"var(--ok)":"var(--no)")+'"><b>'+(e?"+ ":"− ")+brl(x.valor)+'</b></td><td><span class="by" title="'+esc(x.criado_por||"")+'">'+esc(quem(x.criado_por||""))+'</span></td><td>'+(x.venda_id?'<small>venda</small>':'<button class="x adm-only" data-dm="'+x.id+'">'+(pend[x.id]?"Confirmar?":"Excluir")+'</button>')+'</td></tr>'}).join(""):'<tr><td colspan="6" class="vz">Nenhum lançamento no período.</td></tr>';
+}
+$("fm").onchange=render;$("fv").onchange=render;
+$("sm").onclick=async function(){
+  if(!$("mds").value.trim()){$("mds").focus();return}
+  if(!$("mv").value||Number($("mv").value)<=0){$("mv").focus();return}
+  var r=await sb.from("movimentos").insert({tipo:$("mt").value,descricao:$("mds").value.trim(),categoria:$("mc").value.trim(),valor:$("mv").value,data:$("mdt").value||today()});
+  if(r.error){err(r.error);return}
+  ["mds","mc","mv"].forEach(function(i){$(i).value=""});flash("m3");await load();
+};
+var saleId=null;
+function openSale(id){
+  var x=D.veiculos.find(function(v){return v.id===id});if(!x)return;
+  saleId=id;$("sn").textContent=x.nome||((x.marca||"")+" "+(x.modelo||""));
+  $("sval").value=x.preco||"";$("scmp").value="";$("sfp").value="PIX";$("sdt").value=today();$("ovl").classList.remove("hide");
+}
+$("scn").onclick=function(){$("ovl").classList.add("hide")};
+$("ovl").addEventListener("click",function(e){if(e.target===$("ovl"))$("ovl").classList.add("hide")});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")$("ovl").classList.add("hide")});
+$("sok").onclick=async function(){
+  var x=D.veiculos.find(function(v){return v.id===saleId});if(!x)return;
+  var val=$("sval").value;if(!val||Number(val)<=0){$("sval").focus();return}
+  var nome=x.nome||((x.marca||"")+" "+(x.modelo||"")),dt=$("sdt").value||today();
+  $("sok").disabled=true;
+  var r=await sb.rpc("registrar_venda",{p_produto_id:x.id,p_valor:Number(val),p_data:dt,p_forma:$("sfp").value,p_comprador:$("scmp").value.trim()});
+  $("sok").disabled=false;
+  if(r.error){err(r.error);return}
+  $("ovl").classList.add("hide");await load();
+};
+$("mdt").value=today();
+function cli(id){return D.clientes.find(function(c){return c.id===id})}
+var SL={disponivel:"Disponível",reservado:"Reservado",vendido:"Vendido"};
+
+function render(){
+  renderFin();
+  var v=D.veiculos,n=function(s){return v.filter(function(x){return x.status===s}).length};
+  $("stats").innerHTML=[["Disponíveis",n("disponivel")],["Reservados",n("reservado")],["Vendidos",n("vendido")],["Clientes",D.clientes.length]]
+    .map(function(a){return '<div class="st"><b>'+a[1]+'</b><span>'+a[0]+'</span></div>'}).join("");
+  var q=$("q").value.toLowerCase().trim(),fs=$("fs").value;
+  var rows=v.filter(function(x){
+    var c=cli(x.clienteId)||{},t=[x.nome,x.marca,x.modelo,x.ano,x.km,x.placa,x.cor,x.obs,c.nome].join(" ").toLowerCase();
+    return(!q||t.indexOf(q)>-1)&&(!fs||x.status===fs)
+  }).sort(function(a,b){return(a.status==="disponivel"?0:1)-(b.status==="disponivel"?0:1)||String(a.nome||a.marca).localeCompare(String(b.nome||b.marca))});
+  $("tb").innerHTML=rows.length?rows.map(function(x){
+    var c=cli(x.clienteId)||{nome:"(removido)"};
+    return '<tr><td><b>'+esc(x.nome||((x.marca||"")+" "+(x.modelo||"")))+'</b>'+(x.criadoPor?'<br><span class="by" title="'+esc(x.criadoPor)+'">por '+esc(quem(x.criadoPor))+'</span>':'')+'</td>'
+    +'<td><small>'+esc([x.ano,x.km!=null?Number(x.km).toLocaleString('pt-BR')+' km':'',x.placa,x.cor].filter(Boolean).join(' · '))+(x.obs?'<br>'+esc(x.obs):'')+'</small></td>'
+    +'<td><b>'+brl(x.preco)+'</b></td>'
+    +'<td>'+esc(c.nome)+'<br><small>'+esc(c.telefone||"")+'</small></td>'
+    +'<td>'+(x.status==="vendido"?'<span class="tag vendido">Vendido</span>':'<button class="tag '+x.status+'" data-st="'+x.id+'" title="Alternar disponível / reservado">'+SL[x.status]+'</button>')+'</td>'
+    +'<td style="white-space:nowrap">'+(x.status!=="vendido"?'<button class="x" style="color:var(--ac);margin-right:10px" data-sell="'+x.id+'">Vender</button>':'')+'<button class="x adm-only" data-dv="'+x.id+'">'+(pend[x.id]?"Confirmar?":"Excluir")+'</button></td></tr>'
+  }).join(""):'<tr><td colspan="6" class="vz">Nenhum veículo encontrado. Use Cadastros para adicionar.</td></tr>';
+  $("cl").innerHTML=D.clientes.length?D.clientes.map(function(c){
+    var k=v.filter(function(x){return x.clienteId===c.id}).length;
+    return '<tr><td><b>'+esc(c.nome)+'</b><br><small>'+esc([c.telefone,c.email,c.cidade].filter(Boolean).join(" · "))+'</small>'+(c.criado_por?'<br><span class="by" title="'+esc(c.criado_por)+'">por '+esc(quem(c.criado_por))+'</span>':'')+'</td><td><small>'+k+' veículo(s)</small></td>'
+    +'<td><button class="x adm-only" data-dc="'+c.id+'">'+(pend[c.id]?"Confirmar?":"Excluir")+'</button></td></tr>'
+  }).join(""):'<tr><td class="vz">Nenhum cliente ainda.</td></tr>';
+  var sel=$("vc"),cur=sel.value;
+  sel.innerHTML='<option value="">Selecione…</option>'+D.clientes.map(function(c){return '<option value="'+c.id+'">'+esc(c.nome)+'</option>'}).join("");
+  sel.value=cur;
+}
+function ask(id,fn){if(pend[id]){delete pend[id];fn()}else{pend[id]=1;render();setTimeout(function(){delete pend[id];render()},3000)}}
+document.addEventListener("click",function(e){
+  var t=e.target,id;
+  if(id=t.getAttribute("data-st")){var x=D.veiculos.find(function(v){return v.id===id});
+    if(x&&x.status!=="vendido")put("veiculos",Object.assign({},x,{status:x.status==="disponivel"?"reservado":"disponivel"}))}
+  else if(id=t.getAttribute("data-sell"))openSale(id);
+  else if(id=t.getAttribute("data-dsale"))ask(id,function(){delT("vendas",id)});
+  else if(id=t.getAttribute("data-dm"))ask(id,function(){delT("movimentos",id)});
+  else if(id=t.getAttribute("data-dv"))ask(id,function(){del("veiculos",id)});
+  else if(id=t.getAttribute("data-dc"))ask(id,function(){
+    del("clientes",id)});
+});
+function tab(n){[1,2,3].forEach(function(k){$("v"+k).classList.toggle("hide",n!==k);$("t"+k).classList.toggle("on",n===k);$("t"+k+"m").classList.toggle("on",n===k)});window.scrollTo({top:0,behavior:"smooth"})}
+[1,2,3].forEach(function(n){$("t"+n).onclick=function(){tab(n)};$("t"+n+"m").onclick=function(){tab(n)}});
+["q","fs"].forEach(function(i){$(i).oninput=render});
+function flash(id){$(id).textContent="✓ Salvo";setTimeout(function(){$(id).textContent=""},2500)}
+$("sc").onclick=async function(){
+  var nome=$("cn").value.trim();if(!nome){$("cn").focus();return}
+  $("sc").disabled=true;
+  var ok=await put("clientes",{nome:nome,telefone:$("ct").value.trim(),email:$("ce").value.trim(),cidade:$("cc").value.trim(),obs:$("co").value.trim()});
+  $("sc").disabled=false;
+  if(ok){["cn","ct","ce","cc","co"].forEach(function(i){$(i).value=""});flash("m1")}
+};
+$("sv").onclick=async function(){
+  if(!$("vc").value){$("vc").focus();return}
+  if(!$("vm").value.trim()){$("vm").focus();return}
+  if(!$("vmodel").value.trim()){$("vmodel").focus();return}
+  var marca=$("vm").value.trim(),modelo=$("vmodel").value.trim();
+  var placa=$("vplaca").value.trim().replace(/[^A-Za-z0-9]/g,"").toUpperCase();
+  if(placa&& !/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(placa)){alert("Informe uma placa válida com 7 caracteres.");$("vplaca").focus();return}
+  $("sv").disabled=true;
+  var ok=await put("veiculos",{clienteId:$("vc").value,nome:marca+" "+modelo,marca:marca,modelo:modelo,ano:$("vano").value.trim(),km:$("vkm").value,placa:placa,cor:$("vcor").value.trim(),obs:$("vo").value.trim(),preco:$("vv").value,status:$("vs").value});
+  $("sv").disabled=false;
+  if(ok){["vm","vmodel","vano","vkm","vplaca","vcor","vo","vv"].forEach(function(i){$(i).value=""});flash("m2")}
+};
+async function gate(){
+  if(!sb){$("lm").textContent="Configure a conexão no arquivo config.js para acessar o sistema.";return}
+  var r=await sb.auth.getSession();
+  var ss=r.data&&r.data.session,on=!!ss;
+  if(on){var a=await sb.rpc("is_admin");ADM=!!a.data}else ADM=false;
+  document.body.classList.toggle("adm",ADM);
+  $("t3").textContent=ADM?"Financeiro":"Minhas vendas";
+  $("t3ml").textContent=ADM?"Financeiro":"Vendas";
+  $("lo").textContent="Sair";
+  $("lo").title=on?(ss.user.email+(ADM?" · Administrador":" · Vendedor")):"Sair";
+  $("lg").classList.toggle("hide",on);$("app").classList.toggle("hide",!on);
+  if(on)load();
+}
+$("li").onclick=async function(){
+  if(!sb){$("lm").textContent="Configure o Supabase no arquivo config.js.";return}
+  $("lm").textContent="";
+  $("li").disabled=true;
+  var r=await sb.auth.signInWithPassword({email:$("le").value.trim(),password:$("lp").value});
+  $("li").disabled=false;
+  if(r.error){$("lm").textContent="E-mail ou senha incorretos";return}
+  $("lp").value="";gate();
+};
+$("lp").onkeydown=function(e){if(e.key==="Enter")$("li").click()};
+$("lo").onclick=async function(){await sb.auth.signOut();D={clientes:[],veiculos:[],vendas:[],movs:[]};gate()};
+setInterval(function(){if(!$("app").classList.contains("hide"))load()},30000);
+gate();
+</script>
+</body>
+</html>
