@@ -151,6 +151,11 @@ body.modal-open{overflow:hidden}
 @media(max-width:800px){.filters-top{grid-template-columns:1fr 1fr}.filters-top .filter-field:first-child{grid-column:1/-1}}
 @media(max-width:680px){.duo-brands .logo{width:100px;height:45px}.top-inner{height:82px}.top-links .header-cta{font-size:10px}}
 @media(max-width:360px){.duo-brands .logo{width:82px;height:40px}.filters-top{grid-template-columns:1fr 1fr}}
+/* V12 | 10 imagens: paginação sem cobrir a foto */
+.photo-controls{max-width:calc(100% - 24px);overflow-x:auto;bottom:8px;left:8px;gap:2px;border-radius:9px;scrollbar-width:thin}
+.photo-controls button{flex:0 0 24px;width:24px;height:24px;font-size:10px;padding:0}
+.modal-thumbs{justify-content:flex-start;overflow-x:auto;max-width:100%;scrollbar-width:thin}
+.modal-thumbs button{white-space:nowrap;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -208,7 +213,7 @@ const label=c=>[c.marca,c.modelo].filter(Boolean).join(" ").trim()||c.nome||"Ve�
 const years=c=>c.ano||"";
 const iconWa='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-12.3 7.6L3.5 20.5l1.4-4.1A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8.3 8.3c.3-.5.7-.6 1-.1l1.2 1.6c.2.3.2.5 0 .8l-.7.7c.6 1.1 1.6 2.1 2.7 2.7l.7-.7c.3-.3.5-.3.8-.1l1.6 1.2c.4.3.4.7 0 1-.9 1.1-2 1.2-3.3.6a10.3 10.3 0 0 1-4.3-4.3c-.6-1.3-.5-2.4.3-3.4Z"/></svg>';
 const placeholder='<div class="vehicle-placeholder"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 56 27 37c2-6 5-7 11-7h24c6 0 9 1 11 7l8 19 7 5v18H12V61l7-5Z"/><path d="M19 56h62M30 40h40M24 68h10M66 68h10M23 78v5M77 78v5"/></svg><span>Foto em breve</span></div>';
-function carImages(c){return[c.foto_1,c.foto_2].filter(Boolean).map(p=>state.images[p]).filter(Boolean)}
+function carImages(c){return Array.from({length:10},(_,i)=>c['foto_'+(i+1)]).filter(Boolean).map(p=>state.images[p]).filter(Boolean)}
 function photosHTML(c,chosen){
  const images=carImages(c),i=Math.min(chosen,Math.max(0,images.length-1));
  return (images.length?'<img loading="lazy" src="'+esc(images[i])+'" alt="'+esc(label(c))+' - foto '+(i+1)+'">':placeholder)
@@ -253,10 +258,10 @@ async function load(){
  state.loading=true;$('updated').textContent='Atualizando estoque...';
  try{
   // SOMENTE a tabela sanitizada. Não consultar public.produtos ou public.clientes.
-  const {data,error}=await supa.from('catalogo_veiculos').select('id,nome,marca,modelo,ano,quilometragem,cor,valor,status,foto_1,foto_2,criado_em,empresa').order('criado_em',{ascending:false}).limit(1000);
+  const {data,error}=await supa.from('catalogo_veiculos').select('id,nome,marca,modelo,ano,quilometragem,cor,valor,status,foto_1,foto_2,foto_3,foto_4,foto_5,foto_6,foto_7,foto_8,foto_9,foto_10,criado_em,empresa').order('criado_em',{ascending:false}).limit(1000);
   if(error)throw error;
   state.cars=data||[];
-  const paths=[...new Set(state.cars.flatMap(c=>[c.foto_1,c.foto_2]).filter(Boolean))];
+  const paths=[...new Set(state.cars.flatMap(c=>Array.from({length:10},(_,i)=>c['foto_'+(i+1)])).filter(Boolean))];
   state.images=Object.create(null);
   for(let i=0;i<paths.length;i+=50){
    const part=paths.slice(i,i+50);const result=await supa.storage.from(FOTO_BUCKET).createSignedUrls(part,1800);

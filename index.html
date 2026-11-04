@@ -296,6 +296,34 @@ td small{color:#647265;line-height:1.5}
 @media (max-width:740px){
   #tb td:nth-child(5),#vl td:nth-child(3){min-width:0;white-space:normal}
 }
+
+/* V12 | Estoque inteligente: 10 fotos, checklist e tempo no pátio */
+.photo-grid-ten{grid-template-columns:repeat(5,minmax(0,1fr))}
+.photo-grid-ten .photo-pick{min-height:132px}
+.photo-grid-ten .photo-pick .photo-hint{padding:7px}
+.photo-grid-ten .photo-pick .photo-hint small{font-size:10px}
+.slot-edit{min-width:0;display:flex;flex-direction:column;gap:5px}
+.slot-edit .photo-pick{width:100%}
+.slot-remove{border:1px solid #efc9c9;background:#fff7f7;color:#ad2c2c;padding:7px 5px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}
+.slot-remove:disabled{opacity:.4;cursor:not-allowed}
+.photo-more{border:1px solid #bcd7a8;background:#f1fae8;color:#37641c;border-radius:9px;padding:7px;font-size:11px;font-weight:800;cursor:pointer;align-self:stretch}
+.checklist-section{background:#f9fcf7;border:1px solid #dfead6;border-radius:13px;margin:16px 0 12px;padding:15px}
+.checklist-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.checklist-head h3{margin:0;font-size:15px}
+#checkProgress{background:#e2f6d2;color:#3f691f;padding:4px 8px;font-size:12px;border-radius:25px;font-weight:800}
+.checklist-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.checklist-grid label{display:flex;align-items:center;gap:8px;border:1px solid #e0e9d9;padding:9px 10px;background:white;border-radius:10px;cursor:pointer;font-weight:600;font-size:12px}
+.checklist-grid input{width:18px;height:18px;min-height:18px;accent-color:#7bc72a;flex:none}
+.inventory-help{color:var(--mut);font-size:11px}
+.inventory-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:-5px 0 16px}
+.inventory-stat{border:1px solid var(--bd);border-radius:12px;padding:12px;background:#fff;display:flex;flex-direction:column;gap:3px}
+.inventory-stat strong{font-size:22px}.inventory-stat span{font-size:11px;color:#667866;font-weight:650}
+.inventory-stat.old30{border-top:3px solid #f2bf64}.inventory-stat.old60{border-top:3px solid #ec8e6d}.inventory-stat.old90{border-top:3px solid #d95454}
+.inventory-badge{display:inline-block;border-radius:999px;font-size:11px;padding:3px 8px;font-weight:800;margin:5px 0 0;background:#e8f5e2;color:#3c6b30;white-space:nowrap}
+.inventory-badge.old30{background:#fff4d9;color:#8f631b}.inventory-badge.old60{background:#ffebde;color:#a54824}.inventory-badge.old90{background:#ffe7e7;color:#a52222}
+.checklist-mini{font-weight:700;color:#4c703b;font-size:11px}
+@media(max-width:940px){.photo-grid-ten{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:740px){.inventory-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.photo-grid-ten{grid-template-columns:repeat(2,minmax(0,1fr))}.checklist-grid{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="crm-v9.css?v=11">
 <link rel="stylesheet" href="gestao-v10.css?v=10">
@@ -319,9 +347,10 @@ td small{color:#647265;line-height:1.5}
 
 <section id="v1">
 <div class="stats" id="stats"></div>
+<div id="inventoryStats" class="inventory-stats" aria-live="polite"></div>
 <div class="card">
 <h2>Veículos em negociação</h2>
-<div class="bar"><input id="q" placeholder="Buscar veículo, placa ou cliente…" aria-label="Pesquisar veículos"><select id="fe" aria-label="Filtrar empresa"><option value="">Todas as empresas</option><option value="leal">Leal Veículos</option><option value="jokar">Jokar Automóveis</option></select><select id="fs" aria-label="Filtrar situação"><option value="">Todos os status</option><option value="disponivel">Disponível</option><option value="reservado">Reservado</option><option value="vendido">Vendido</option></select></div>
+<div class="bar"><input id="q" placeholder="Buscar veículo, placa ou cliente…" aria-label="Pesquisar veículos"><select id="fe" aria-label="Filtrar empresa"><option value="">Todas as empresas</option><option value="leal">Leal Veículos</option><option value="jokar">Jokar Automóveis</option></select><select id="fs" aria-label="Filtrar situação"><option value="">Todos os status</option><option value="disponivel">Disponível</option><option value="reservado">Reservado</option><option value="vendido">Vendido</option></select><select id="festoque" aria-label="Filtrar tempo em estoque"><option value="">Todos os prazos</option><option value="30">30 dias ou mais</option><option value="60">60 dias ou mais</option><option value="90">90 dias ou mais</option></select></div>
 <div class="sc"><table><thead><tr><th>Veículo</th><th>Detalhes</th><th>Valor</th><th>Cliente</th><th>Status</th><th></th></tr></thead><tbody id="tb"></tbody></table></div>
 </div>
 </section>
@@ -346,14 +375,39 @@ td small{color:#647265;line-height:1.5}
 <div><label for="vcor">Cor</label><input id="vcor" placeholder="Ex.: Prata"></div>
 <div><label for="vcusto">Custo de aquisição (R$)</label><input id="vcusto" class="moeda" type="text" inputmode="decimal" autocomplete="off" maxlength="24" placeholder="R$ 0,00" aria-label="Valor em reais"></div><div><label for="vv">Valor de venda / catálogo (R$)</label><input id="vv" class="moeda" type="text" inputmode="decimal" autocomplete="off" maxlength="24" placeholder="R$ 0,00" aria-label="Valor em reais"></div>
 <div class="currency-tip">Digite em reais com vírgula para os centavos (ex.: <b>R$ 35.900,50</b>). O ponto de milhar aparece automaticamente.</div>
+<div><label for="ventrada">Entrada no estoque *</label><input id="ventrada" type="date" required><small class="inventory-help">Use a data real de entrada do veículo.</small></div>
 <div><label for="vs">Situação</label><select id="vs"><option value="disponivel">Disponível</option><option value="reservado">Reservado</option><option value="vendido">Vendido</option></select></div></div>
 <div style="margin-top:10px"><label>Observações</label><textarea id="vo" rows="2"></textarea></div>
+<section class="checklist-section" aria-label="Checklist de preparação do veículo">
+  <div class="checklist-head"><h3>Checklist de preparação</h3><span id="checkProgress">0 de 8 concluídos</span></div>
+  <p class="photo-note">Marque as etapas concluídas. Essas informações são internas e não aparecem no catálogo.</p>
+  <div class="checklist-grid">
+    <label><input type="checkbox" data-check="documentacao"> Documentação conferida</label>
+    <label><input type="checkbox" data-check="cautelar"> Laudo cautelar</label>
+    <label><input type="checkbox" data-check="mecanica"> Mecânica revisada</label>
+    <label><input type="checkbox" data-check="pneus"> Pneus verificados</label>
+    <label><input type="checkbox" data-check="pintura"> Pintura / funilaria</label>
+    <label><input type="checkbox" data-check="limpeza"> Higienização e limpeza</label>
+    <label><input type="checkbox" data-check="fotografias"> Fotografias prontas</label>
+    <label><input type="checkbox" data-check="anuncio"> Anúncio revisado</label>
+  </div>
+  <label for="vcheckobs" style="margin-top:12px">Pendências e observações do preparo</label>
+  <textarea id="vcheckobs" rows="2" maxlength="1500" placeholder="Ex.: verificar pneus traseiros e emissão de laudo"></textarea>
+</section>
 <div class="photo-section" aria-label="Fotos do veículo">
-  <h3>Fotos do veículo <span style="font-size:12px;color:#75816e;font-weight:500">(até 2 imagens)</span></h3>
-  <p class="photo-note">Escolha uma foto principal e uma segunda foto. Você pode tirar uma foto ou selecionar imagens do celular. JPG, PNG ou WebP; o sistema otimiza as imagens automaticamente.</p>
-  <div class="photo-grid">
-    <label class="photo-pick" for="vf1"><img id="pvf1" alt="Prévia da foto principal" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 1 · Principal</b><small>Toque para escolher</small></span><input id="vf1" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Escolher foto principal"></label>
-    <label class="photo-pick" for="vf2"><img id="pvf2" alt="Prévia da segunda foto" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 2 · Adicional</b><small>Toque para escolher</small></span><input id="vf2" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Escolher segunda foto"></label>
+  <h3>Fotos do veículo <span style="font-size:12px;color:#75816e;font-weight:500">(até 10 imagens)</span></h3>
+  <p class="photo-note">Escolha a foto principal e até 9 fotos adicionais. Você pode tirar uma foto ou selecionar imagens do celular. JPG, PNG ou WebP; o sistema otimiza as imagens automaticamente.</p>
+  <div class="photo-grid photo-grid-ten">
+    <label class="photo-pick" for="vf1"><img id="pvf1" alt="Prévia da foto 1" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 1 · Principal</b><small>Toque para escolher</small></span><input id="vf1" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 1"></label>
+    <label class="photo-pick" for="vf2"><img id="pvf2" alt="Prévia da foto 2" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 2 · Adicional</b><small>Toque para escolher</small></span><input id="vf2" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 2"></label>
+    <label class="photo-pick" for="vf3"><img id="pvf3" alt="Prévia da foto 3" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 3 · Adicional</b><small>Toque para escolher</small></span><input id="vf3" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 3"></label>
+    <label class="photo-pick" for="vf4"><img id="pvf4" alt="Prévia da foto 4" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 4 · Adicional</b><small>Toque para escolher</small></span><input id="vf4" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 4"></label>
+    <label class="photo-pick" for="vf5"><img id="pvf5" alt="Prévia da foto 5" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 5 · Adicional</b><small>Toque para escolher</small></span><input id="vf5" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 5"></label>
+    <label class="photo-pick" for="vf6"><img id="pvf6" alt="Prévia da foto 6" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 6 · Adicional</b><small>Toque para escolher</small></span><input id="vf6" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 6"></label>
+    <label class="photo-pick" for="vf7"><img id="pvf7" alt="Prévia da foto 7" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 7 · Adicional</b><small>Toque para escolher</small></span><input id="vf7" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 7"></label>
+    <label class="photo-pick" for="vf8"><img id="pvf8" alt="Prévia da foto 8" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 8 · Adicional</b><small>Toque para escolher</small></span><input id="vf8" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 8"></label>
+    <label class="photo-pick" for="vf9"><img id="pvf9" alt="Prévia da foto 9" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 9 · Adicional</b><small>Toque para escolher</small></span><input id="vf9" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 9"></label>
+    <label class="photo-pick" for="vf10"><img id="pvf10" alt="Prévia da foto 10" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 10 · Adicional</b><small>Toque para escolher</small></span><input id="vf10" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 10"></label>
   </div>
 </div>
 <div class="form-actions"><button class="btn p" id="sv" type="button">Salvar veículo</button><button class="btn hide" id="cancelVehicleEdit" type="button">Cancelar edição</button><span class="msg" id="m2" role="status"></span></div>
@@ -383,10 +437,18 @@ td small{color:#647265;line-height:1.5}
 <!-- Substituir/adicionar imagens em veículos já cadastrados -->
 <div id="fedit" class="ovl hide" role="dialog" aria-modal="true" aria-labelledby="feditTitle"><div class="card" style="width:100%;max-width:600px;margin:0">
   <h2 id="feditTitle" class="photo-modal-title">Fotos do veículo</h2>
-  <p class="photo-note">Selecione apenas a foto que deseja adicionar ou substituir. As demais serão mantidas.</p>
-  <div class="photo-grid">
-    <label class="photo-pick" for="ef1"><img id="pef1" class="hide" alt="Foto 1 cadastrada"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 1 · Principal</b><small>Selecionar / substituir</small></span><input id="ef1" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Adicionar ou substituir foto principal"></label>
-    <label class="photo-pick" for="ef2"><img id="pef2" class="hide" alt="Foto 2 cadastrada"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 2 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef2" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Adicionar ou substituir segunda foto"></label>
+  <p class="photo-note">Adicione, substitua ou remova fotos individuais. As demais serão mantidas.</p>
+  <div class="photo-grid photo-grid-ten">
+    <div class="slot-edit"><label class="photo-pick" for="ef1"><img id="pef1" alt="Prévia da foto 1" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 1 · Principal</b><small>Selecionar / substituir</small></span><input id="ef1" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 1"></label><button class="slot-remove" type="button" data-remove-slot="1" aria-label="Remover foto 1">Remover foto 1</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef2"><img id="pef2" alt="Prévia da foto 2" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 2 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef2" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 2"></label><button class="slot-remove" type="button" data-remove-slot="2" aria-label="Remover foto 2">Remover foto 2</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef3"><img id="pef3" alt="Prévia da foto 3" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 3 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef3" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 3"></label><button class="slot-remove" type="button" data-remove-slot="3" aria-label="Remover foto 3">Remover foto 3</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef4"><img id="pef4" alt="Prévia da foto 4" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 4 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef4" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 4"></label><button class="slot-remove" type="button" data-remove-slot="4" aria-label="Remover foto 4">Remover foto 4</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef5"><img id="pef5" alt="Prévia da foto 5" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 5 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef5" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 5"></label><button class="slot-remove" type="button" data-remove-slot="5" aria-label="Remover foto 5">Remover foto 5</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef6"><img id="pef6" alt="Prévia da foto 6" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 6 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef6" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 6"></label><button class="slot-remove" type="button" data-remove-slot="6" aria-label="Remover foto 6">Remover foto 6</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef7"><img id="pef7" alt="Prévia da foto 7" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 7 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef7" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 7"></label><button class="slot-remove" type="button" data-remove-slot="7" aria-label="Remover foto 7">Remover foto 7</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef8"><img id="pef8" alt="Prévia da foto 8" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 8 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef8" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 8"></label><button class="slot-remove" type="button" data-remove-slot="8" aria-label="Remover foto 8">Remover foto 8</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef9"><img id="pef9" alt="Prévia da foto 9" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 9 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef9" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 9"></label><button class="slot-remove" type="button" data-remove-slot="9" aria-label="Remover foto 9">Remover foto 9</button></div>
+    <div class="slot-edit"><label class="photo-pick" for="ef10"><img id="pef10" alt="Prévia da foto 10" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 10 · Adicional</b><small>Selecionar / substituir</small></span><input id="ef10" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 10"></label><button class="slot-remove" type="button" data-remove-slot="10" aria-label="Remover foto 10">Remover foto 10</button></div>
   </div>
   <div id="feditMsg" class="photo-fail" role="status" style="margin-top:8px"></div>
   <div class="photo-modal-actions"><button class="btn p" id="savePhotos" type="button">Salvar fotos</button><button class="btn" id="cancelPhotos" type="button">Cancelar</button></div>
@@ -490,20 +552,20 @@ async function load(){
   var e=await sb.from("clientes_contatos").select("cliente_id,owner_uid,telefone,email");
   if(a.error||b.error||e.error){err(a.error||b.error||e.error);return}
   D.clientes=a.data;D.contatos=e.data||[];D.vendas=c.data||[];D.movs=d.data||[];
-  D.veiculos=b.data.map(function(p){return{id:p.id,clienteId:p.cliente_id,nome:p.nome,marca:p.marca,modelo:p.modelo,ano:p.ano,km:p.quilometragem,placa:p.placa,cor:p.cor,preco:p.valor,custo:p.custo,empresa:p.empresa||"jokar",obs:p.obs,status:p.status,criadoPor:p.criado_por,foto1:p.foto_1||null,foto2:p.foto_2||null}});
+  D.veiculos=b.data.map(function(p){return{id:p.id,clienteId:p.cliente_id,nome:p.nome,marca:p.marca,modelo:p.modelo,ano:p.ano,km:p.quilometragem,placa:p.placa,cor:p.cor,preco:p.valor,custo:p.custo,empresa:p.empresa||"jokar",obs:p.obs,status:p.status,criadoPor:p.criado_por,foto1:p.foto_1||null,foto2:p.foto_2||null,entradaEstoque:p.entrada_estoque_em||null,checklist:p.checklist_preparacao||{},fotos:Array.from({length:10},function(_,i){return p['foto_'+(i+1)]||null})}});
   await atualizarFotosAssinadas();
   render();
 }
 async function put(col,obj){
   var r;
   if(col==="clientes"){r=await sb.from("clientes").upsert(obj)}
-  else{var o={cliente_id:obj.clienteId,nome:obj.nome,marca:obj.marca||null,modelo:obj.modelo||null,ano:obj.ano||null,quilometragem:obj.km===""?null:obj.km,placa:obj.placa||null,cor:obj.cor||null,valor:(obj.preco===""||obj.preco==null)?null:obj.preco,custo:(obj.custo===""||obj.custo==null)?null:obj.custo,empresa:obj.empresa||"jokar",obs:obj.obs,status:obj.status,foto_1:obj.foto1||null,foto_2:obj.foto2||null};if(obj.id)o.id=obj.id;r=await sb.from("produtos").upsert(o)}
+  else{var o={cliente_id:obj.clienteId,nome:obj.nome,marca:obj.marca||null,modelo:obj.modelo||null,ano:obj.ano||null,quilometragem:obj.km===""?null:obj.km,placa:obj.placa||null,cor:obj.cor||null,valor:(obj.preco===""||obj.preco==null)?null:obj.preco,custo:(obj.custo===""||obj.custo==null)?null:obj.custo,empresa:obj.empresa||"jokar",obs:obj.obs,status:obj.status,foto_1:obj.foto1||null,foto_2:obj.foto2||null,entrada_estoque_em:obj.entradaEstoque||null,checklist_preparacao:obj.checklist||{}};for(var si=3;si<=10;si++)o['foto_'+si]=(obj.fotos&&obj.fotos[si-1])||null;if(obj.id)o.id=obj.id;r=await sb.from("produtos").upsert(o)}
   if(r.error){err(r.error);return false}
   await load();return true;
 }
 async function del(col,id){
-  var fotos=col==="clientes"?D.veiculos.filter(function(v){return v.clienteId===id}).flatMap(function(v){return[v.foto1,v.foto2].filter(Boolean)}):
-    D.veiculos.filter(function(v){return v.id===id}).flatMap(function(v){return[v.foto1,v.foto2].filter(Boolean)});
+  var fotos=col==="clientes"?D.veiculos.filter(function(v){return v.clienteId===id}).flatMap(function(v){return v.fotos.filter(Boolean)}):
+    D.veiculos.filter(function(v){return v.id===id}).flatMap(function(v){return v.fotos.filter(Boolean)});
   var r=await sb.from(col==="clientes"?"clientes":"produtos").delete().eq("id",id);
   if(r.error){err(r.error);return}
   if(fotos.length)await excluirArquivos(fotos);
@@ -511,7 +573,7 @@ async function del(col,id){
 }
 // Retorna URLs temporárias; o bucket é privado e nunca expõe os arquivos publicamente.
 async function atualizarFotosAssinadas(){
-  var paths=Array.from(new Set(D.veiculos.flatMap(function(v){return[v.foto1,v.foto2].filter(Boolean)})));
+  var paths=Array.from(new Set(D.veiculos.flatMap(function(v){return v.fotos.filter(Boolean)})));
   var agora=Date.now(),pendentes=paths.filter(function(p){return !fotoUrls[p]||!fotoUrlExpires[p]||fotoUrlExpires[p]<agora});
   for(var i=0;i<pendentes.length;i+=60){
     var lote=pendentes.slice(i,i+60),r=await sb.storage.from(FOTO_BUCKET).createSignedUrls(lote,3600);
@@ -521,14 +583,29 @@ async function atualizarFotosAssinadas(){
 }
 function fotoUrl(path){return path&&fotoUrls[path]||""}
 function miniaturas(v){
-  var html='<div class="vehicle-thumbs">';
-  [v.foto1,v.foto2].forEach(function(p,i){
-    var url=fotoUrl(p);
-    if(url)html+='<button type="button" class="photo-thumb" data-viewphoto="'+esc(v.id)+'" data-photoslot="'+(i+1)+'" title="Ampliar foto '+(i+1)+'"><img loading="lazy" src="'+esc(url)+'" alt="Foto '+(i+1)+' de '+esc(v.nome)+'"></button>';
-    else html+='<span class="photo-empty">'+(p?'Sem acesso':'Foto '+(i+1))+'</span>';
-  });
+  var arr=v.fotos||[],slots=arr.map(function(p,i){return p?{path:p,index:i+1}:null}).filter(Boolean);
+  if(!slots.length)return '<div class="vehicle-thumbs"><span class="photo-empty">Sem fotos</span></div>';
+  var shown=slots.slice(0,3),html='<div class="vehicle-thumbs">';
+  shown.forEach(function(a){var url=fotoUrl(a.path);html+=url?'<button type="button" class="photo-thumb" data-viewphoto="'+esc(v.id)+'" data-photoslot="'+a.index+'" title="Ampliar foto '+a.index+'"><img loading="lazy" src="'+esc(url)+'" alt="Foto '+a.index+' de '+esc(v.nome)+'"></button>':'<span class="photo-empty">Sem acesso</span>'});
+  if(slots.length>3)html+='<button type="button" class="photo-more" data-viewphoto="'+esc(v.id)+'" data-photoslot="'+slots[0].index+'">+'+(slots.length-3)+' fotos</button>';
   return html+'</div>';
 }
+function estoqueDias(v){
+  if(!v||!v.entradaEstoque)return null;
+  var d=String(v.entradaEstoque).slice(0,10),parts=d.split('-').map(Number),dia=new Date(parts[0],parts[1]-1,parts[2]);
+  if(!Number.isFinite(dia.getTime()))return null;
+  var hj=new Date();hj.setHours(0,0,0,0);
+  return Math.max(0,Math.floor((Date.UTC(hj.getFullYear(),hj.getMonth(),hj.getDate())-Date.UTC(dia.getFullYear(),dia.getMonth(),dia.getDate()))/86400000));
+}
+function estoqueSelo(v){var dias=estoqueDias(v);if(v.status==='vendido'||dias===null)return '';
+  var cor=dias>=90?'old90':dias>=60?'old60':dias>=30?'old30':'new';
+  return '<span class="inventory-badge '+cor+'" title="Entrada no estoque: '+esc(v.entradaEstoque)+'">'+dias+' dia'+(dias===1?'':'s')+' em estoque</span>';
+}
+function checklistContagem(v){var item=v.checklist||{};return ['documentacao','cautelar','mecanica','pneus','pintura','limpeza','fotografias','anuncio'].filter(function(k){return !!item[k]}).length}
+function checklistMarcacao(){var dados={};document.querySelectorAll('[data-check]').forEach(function(el){dados[el.dataset.check]=el.checked});dados.observacoes=$('vcheckobs').value.trim();return dados}
+function preencherChecklist(dados){dados=dados||{};document.querySelectorAll('[data-check]').forEach(function(el){el.checked=!!dados[el.dataset.check]});$('vcheckobs').value=dados.observacoes||'';atualizarProgressoChecklist()}
+function atualizarProgressoChecklist(){var checked=document.querySelectorAll('[data-check]:checked').length;$('checkProgress').textContent=checked+' de 8 concluídos'}
+document.querySelectorAll('[data-check]').forEach(function(el){el.addEventListener('change',atualizarProgressoChecklist)});
 function mostrarPreview(inputId,previewId,existingUrl){
   var input=$(inputId),prev=$(previewId),arquivo=input.files&&input.files[0];
   if(previewObjects[inputId]){URL.revokeObjectURL(previewObjects[inputId]);delete previewObjects[inputId]}
@@ -541,11 +618,11 @@ function mostrarPreview(inputId,previewId,existingUrl){
   prev.src=src||existingUrl||"";
   prev.classList.toggle("hide",!prev.src);
 }
-["vf1","vf2","ef1","ef2"].forEach(function(id){
+Array.from({length:10},function(_,i){return i+1}).flatMap(function(n){return ['vf'+n,'ef'+n]}).forEach(function(id){
   $(id).addEventListener("change",function(){
     var p="p"+id;
     var vehicle=D.veiculos.find(function(v){return v.id===editedPhotoId});
-    mostrarPreview(id,p, id[0]==="e"&&vehicle?fotoUrl(id==="ef1"?vehicle.foto1:vehicle.foto2):"");
+    mostrarPreview(id,p, id[0]==="e"&&vehicle?fotoUrl(vehicle.fotos[Number(id.slice(2))-1]):"");
   });
 });
 async function otimizarImagem(arquivo){
@@ -572,7 +649,7 @@ async function enviarFotos(id,inputs,enviados){
     var inp=$(inputs[n]),file=inp.files&&inp.files[0];
     if(!file)continue;
     var jpeg=await otimizarImagem(file);
-    var numero=inputs[n].endsWith("1")?1:2;
+    var numero=Number(inputs[n].replace(/[^0-9]/g,''));
     var path=user.id+"/"+id+"/foto-"+numero+"-"+crypto.randomUUID()+".jpg";
     var r=await sb.storage.from(FOTO_BUCKET).upload(path,jpeg,{contentType:"image/jpeg",cacheControl:"3600",upsert:false});
     if(r.error)throw Error("Falha ao enviar foto "+numero+": "+r.error.message+". Confira se executou atualizacao_fotos.sql no Supabase.");
@@ -585,58 +662,71 @@ async function excluirArquivos(paths){
   var r=await sb.storage.from(FOTO_BUCKET).remove(list);
   if(r.error)console.warn("Não foi possível limpar todas as fotos antigas do Storage:",r.error.message);
 }
+var removedPhotoSlots=new Set();
 function abrirEdicaoFotos(id){
   var v=D.veiculos.find(function(c){return c.id===id});if(!v)return;
-  editedPhotoId=id;
-  $("feditTitle").textContent="Fotos · "+v.nome;
-  $("feditMsg").textContent="";
-  [1,2].forEach(function(n){$("ef"+n).value="";mostrarPreview("ef"+n,"pef"+n,fotoUrl(n===1?v.foto1:v.foto2))});
-  $("fedit").classList.remove("hide");
+  editedPhotoId=id;removedPhotoSlots.clear();
+  $('feditTitle').textContent='Fotos · '+v.nome;
+  $('feditMsg').textContent='';
+  for(var n=1;n<=10;n++){$('ef'+n).value='';mostrarPreview('ef'+n,'pef'+n,fotoUrl(v.fotos[n-1]));var b=document.querySelector('[data-remove-slot="'+n+'"]');if(b)b.disabled=!v.fotos[n-1]}
+  $('fedit').classList.remove('hide');
 }
 function fecharEdicaoFotos(){
-  $("fedit").classList.add("hide");editedPhotoId=null;
-  [1,2].forEach(function(n){$("ef"+n).value="";mostrarPreview("ef"+n,"pef"+n,"")});
+  $('fedit').classList.add('hide');editedPhotoId=null;removedPhotoSlots.clear();
+  for(var n=1;n<=10;n++){$('ef'+n).value='';mostrarPreview('ef'+n,'pef'+n,'')}
 }
-$("cancelPhotos").onclick=fecharEdicaoFotos;
-$("fedit").addEventListener("click",function(e){if(e.target===$("fedit"))fecharEdicaoFotos()});
-$("savePhotos").onclick=async function(){
+$('fedit').addEventListener('click',function(e){
+  var b=e.target.closest('[data-remove-slot]');if(!b)return;
+  var slot=Number(b.dataset.removeSlot),v=D.veiculos.find(function(x){return x.id===editedPhotoId});if(!v||!v.fotos[slot-1])return;
+  if(!window.confirm('Remover a foto '+slot+' deste veículo ao salvar?'))return;
+  removedPhotoSlots.add(slot);$('ef'+slot).value='';mostrarPreview('ef'+slot,'pef'+slot,'');b.disabled=true;
+});
+$('cancelPhotos').onclick=fecharEdicaoFotos;
+$('fedit').addEventListener('click',function(e){if(e.target===$('fedit'))fecharEdicaoFotos()});
+$('savePhotos').onclick=async function(){
   var v=D.veiculos.find(function(c){return c.id===editedPhotoId});if(!v)return;
-  if(!$("ef1").files.length&&!$("ef2").files.length){$("feditMsg").textContent="Escolha ao menos uma foto para adicionar ou substituir.";return}
-  $("savePhotos").disabled=true;$("feditMsg").textContent="Enviando imagens...";
-  var enviados=[];
+  var escolhidas=Array.from({length:10},function(_,i){return 'ef'+(i+1)});
+  if(!escolhidas.some(function(id){return $(id).files.length})&&!removedPhotoSlots.size){$('feditMsg').textContent='Escolha ao menos uma foto para adicionar, substituir ou remover.';return}
+  $('savePhotos').disabled=true;$('feditMsg').textContent='Atualizando fotos...';
+  var enviados=[],gravado=false;
   try{
-    var files=await enviarFotos(v.id,["ef1","ef2"],enviados);
-    var update={},antigos=[];
-    if(files[1]){update.foto_1=files[1];if(v.foto1)antigos.push(v.foto1)}
-    if(files[2]){update.foto_2=files[2];if(v.foto2)antigos.push(v.foto2)}
-    var r=await sb.from("produtos").update(update).eq("id",v.id).select("id").single();
-    if(r.error)throw Error("Não foi possível salvar as fotos no cadastro: "+r.error.message);
-    await excluirArquivos(antigos);
-    fecharEdicaoFotos();await load();
-  }catch(e){await excluirArquivos(enviados);$("feditMsg").textContent=e.message||String(e)}
-  finally{$("savePhotos").disabled=false}
+    var files=await enviarFotos(v.id,escolhidas,enviados),update={},antigos=[];
+    for(var n=1;n<=10;n++){
+      var old=v.fotos[n-1];
+      if(files[n]){update['foto_'+n]=files[n];if(old)antigos.push(old)}
+      else if(removedPhotoSlots.has(n)){update['foto_'+n]=null;if(old)antigos.push(old)}
+    }
+    var r=await sb.from('produtos').update(update).eq('id',v.id).select('id').single();
+    if(r.error)throw Error('Não foi possível salvar as fotos: '+r.error.message);
+    gravado=true;await excluirArquivos(antigos);fecharEdicaoFotos();await load();
+  }catch(e){if(!gravado)await excluirArquivos(enviados);$('feditMsg').textContent=e.message||String(e)}
+  finally{$('savePhotos').disabled=false}
 };
 function abrirViewer(id,slot){
   var v=D.veiculos.find(function(c){return c.id===id});if(!v)return;
-  viewedPhotoId=id;viewedPhotoSlot=Number(slot)||1;
-  if(!fotoUrl(viewedPhotoSlot===1?v.foto1:v.foto2))return;
-  atualizarViewer();$("fviewer").classList.remove("hide");
+  var nums=v.fotos.map(function(p,i){return p&&fotoUrl(p)?i+1:null}).filter(Boolean);if(!nums.length)return;
+  viewedPhotoId=id;viewedPhotoSlot=nums.includes(Number(slot))?Number(slot):nums[0];
+  atualizarViewer();$('fviewer').classList.remove('hide');
 }
 function atualizarViewer(){
   var v=D.veiculos.find(function(c){return c.id===viewedPhotoId});if(!v)return;
-  var imgs=[fotoUrl(v.foto1),fotoUrl(v.foto2)],url=imgs[viewedPhotoSlot-1];
+  var nums=v.fotos.map(function(p,i){return p&&fotoUrl(p)?i+1:null}).filter(Boolean),url=fotoUrl(v.fotos[viewedPhotoSlot-1]);
   if(!url)return;
-  $("fviewerImg").src=url;$("fviewerImg").alt="Foto "+viewedPhotoSlot+" do veículo "+v.nome;
-  $("fviewerTitle").textContent=v.nome;
-  $("photoCounter").textContent="Foto "+viewedPhotoSlot+" de 2";
-  $("previousPhoto").disabled=!imgs[0]||viewedPhotoSlot===1;
-  $("nextPhoto").disabled=!imgs[1]||viewedPhotoSlot===2;
+  $('fviewerImg').src=url;$('fviewerImg').alt='Foto '+viewedPhotoSlot+' do veículo '+v.nome;
+  $('fviewerTitle').textContent=v.nome;
+  var ix=nums.indexOf(viewedPhotoSlot);$('photoCounter').textContent='Foto '+(ix+1)+' de '+nums.length;
+  $('previousPhoto').disabled=ix<=0;$('nextPhoto').disabled=ix>=nums.length-1;
+}
+function moverViewer(delta){
+  var v=D.veiculos.find(function(c){return c.id===viewedPhotoId});if(!v)return;
+  var nums=v.fotos.map(function(p,i){return p&&fotoUrl(p)?i+1:null}).filter(Boolean),ix=nums.indexOf(viewedPhotoSlot)+delta;
+  if(ix>=0&&ix<nums.length){viewedPhotoSlot=nums[ix];atualizarViewer()}
 }
 function fecharViewer(){$("fviewer").classList.add("hide");$("fviewerImg").removeAttribute("src");viewedPhotoId=null}
 $("closeViewer").onclick=fecharViewer;
 $("fviewer").addEventListener("click",function(e){if(e.target===$("fviewer"))fecharViewer()});
-$("previousPhoto").onclick=function(){viewedPhotoSlot=1;atualizarViewer()};
-$("nextPhoto").onclick=function(){viewedPhotoSlot=2;atualizarViewer()};
+$("previousPhoto").onclick=function(){moverViewer(-1)};
+$("nextPhoto").onclick=function(){moverViewer(1)};
 function today(){return new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10)}
 function fd(d){return String(d||"").split("-").reverse().join("/")}
 async function delT(t,id){
@@ -704,24 +794,27 @@ $("sok").onclick=async function(){
   if(r.error){err(r.error);return}
   $("ovl").classList.add("hide");await load();
 };
-$("mdt").value=today();
+$("mdt").value=today();$("ventrada").value=today();
 function cli(id){return D.clientes.find(function(c){return c.id===id})}
 var SL={disponivel:"Disponível",reservado:"Reservado",vendido:"Vendido"};
 
 function render(){
   renderFin();
+  var ativos=D.veiculos.filter(function(x){return x.status!=='vendido'}),comDias=ativos.filter(function(x){return estoqueDias(x)!==null});
+  var alertaN=function(n){return comDias.filter(function(x){return estoqueDias(x)>=n}).length};
+  $('inventoryStats').innerHTML=[['Ativos no estoque',ativos.length,''],['≥ 30 dias',alertaN(30),'old30'],['≥ 60 dias',alertaN(60),'old60'],['≥ 90 dias',alertaN(90),'old90']].map(function(a){return '<div class="inventory-stat '+a[2]+'"><strong>'+a[1]+'</strong><span>'+a[0]+'</span></div>'}).join('');
   var v=D.veiculos,n=function(s){return v.filter(function(x){return x.status===s}).length};
   $("stats").innerHTML=[["Disponíveis",n("disponivel")],["Reservados",n("reservado")],["Vendidos",n("vendido")],["Clientes",D.clientes.length]]
     .map(function(a){return '<div class="st"><b>'+a[1]+'</b><span>'+a[0]+'</span></div>'}).join("");
   var q=$("q").value.toLowerCase().trim(),fs=$("fs").value;
   var rows=v.filter(function(x){
     var c=cli(x.clienteId)||{},t=[x.nome,x.marca,x.modelo,x.ano,x.km,x.placa,x.cor,x.obs,c.nome].join(" ").toLowerCase();
-    return(!q||t.indexOf(q)>-1)&&(!fs||x.status===fs)&&(!$("fe").value||x.empresa===$("fe").value)
+    return(!q||t.indexOf(q)>-1)&&(!fs||x.status===fs)&&(!$('fe').value||x.empresa===$('fe').value)&&(!$('festoque').value||(x.status!=='vendido'&&estoqueDias(x)!==null&&estoqueDias(x)>=Number($('festoque').value)))
   }).sort(function(a,b){return(a.status==="disponivel"?0:1)-(b.status==="disponivel"?0:1)||String(a.nome||a.marca).localeCompare(String(b.nome||b.marca))});
   $("tb").innerHTML=rows.length?rows.map(function(x){
     var c=cli(x.clienteId)||{nome:"(removido)"};
     return '<tr><td><b>'+esc(x.nome||((x.marca||"")+" "+(x.modelo||"")))+'</b>'+(x.criadoPor?'<br><span class="by" title="'+esc(x.criadoPor)+'">por '+esc(quem(x.criadoPor))+'</span>':'')+miniaturas(x)+'</td>'
-    +'<td><small>'+empresaTag(x.empresa)+'<br>'+esc([x.ano,x.km!=null?Number(x.km).toLocaleString('pt-BR')+' km':'',x.placa,x.cor].filter(Boolean).join(' · '))+(x.obs?'<br>'+esc(x.obs):'')+'</small></td>'
+    +'<td><small>'+empresaTag(x.empresa)+'<br>'+esc([x.ano,x.km!=null?Number(x.km).toLocaleString('pt-BR')+' km':'',x.placa,x.cor].filter(Boolean).join(' · '))+(estoqueSelo(x)?'<br>'+estoqueSelo(x):'')+'<br><span class="checklist-mini">Checklist: '+checklistContagem(x)+'/8</span>'+(x.obs?'<br>'+esc(x.obs):'')+'</small></td>'
     +'<td><b>'+brl(x.preco)+'</b><br><small>Custo: '+brl(x.custo)+'</small></td>'
     +'<td>'+esc(c.nome)+(contato(c.id)?'<br><small>'+esc(contato(c.id).telefone||'')+'</small>':'<br><small class="private-placeholder">Contato restrito</small>')+'</td>'
     +'<td>'+(x.status==="vendido"?'<span class="tag vendido">Vendido</span>':'<button class="tag '+x.status+'" data-st="'+x.id+'" title="Alternar disponível / reservado">'+SL[x.status]+'</button>')+'</td>'
@@ -759,7 +852,7 @@ document.addEventListener("click",function(e){
 });
 function tab(n){[1,2,3].forEach(function(k){$("v"+k).classList.toggle("hide",n!==k);$("t"+k).classList.toggle("on",n===k);$("t"+k+"m").classList.toggle("on",n===k)});window.scrollTo({top:0,behavior:"smooth"})}
 [1,2,3].forEach(function(n){$("t"+n).onclick=function(){tab(n)};$("t"+n+"m").onclick=function(){tab(n)}});
-["q","fs","fe"].forEach(function(i){$(i).oninput=render});
+["q","fs","fe","festoque"].forEach(function(i){$(i).oninput=render});
 function flash(id){
   $(id).textContent="✓ Salvo com sucesso";
   setTimeout(function(){if($(id).textContent==="✓ Salvo com sucesso")$(id).textContent=""},2800);
@@ -792,7 +885,8 @@ function cancelarEdicaoVeiculo(){
   editingVehicleId=null;
   ["vm","vmodel","vano","vkm","vplaca","vcor","vo","vv","vcusto"].forEach(function(i){$(i).value=""});
   $("vc").value="";$("vempresa").value="leal";$("vs").value="disponivel";$("vs").disabled=false;
-  [1,2].forEach(function(n){$("vf"+n).value="";mostrarPreview("vf"+n,"pvf"+n,"")});
+  for(var n=1;n<=10;n++){$('vf'+n).value='';mostrarPreview('vf'+n,'pvf'+n,'')}
+  $('ventrada').value=today();preencherChecklist({});
   $("m2").textContent="";
   atualizarModoEdicao();
 }
@@ -821,10 +915,8 @@ function editarVeiculo(id){
   $("vv").value=exibirMoeda(v.preco);$("vcusto").value=exibirMoeda(v.custo);$("vempresa").value=v.empresa||"jokar";$("vs").value=v.status||"disponivel";
   $("vs").disabled=v.status==="vendido"; // vendas só são desfeitas pelo fluxo financeiro
   $("vo").value=v.obs||"";
-  [1,2].forEach(function(n){
-    $("vf"+n).value="";
-    mostrarPreview("vf"+n,"pvf"+n,fotoUrl(n===1?v.foto1:v.foto2));
-  });
+  for(var n=1;n<=10;n++){$('vf'+n).value='';mostrarPreview('vf'+n,'pvf'+n,fotoUrl(v.fotos[n-1]))}
+  $('ventrada').value=v.entradaEstoque||today();preencherChecklist(v.checklist);
   $("m2").textContent=v.status==="vendido"?"Veículo vendido: a situação permanece bloqueada para preservar o financeiro.":"";
   atualizarModoEdicao();irParaFormulario("vehicleForm");
 }
@@ -875,22 +967,22 @@ $("sv").onclick=async function(){
   var uploaded=[],gravado=false;
   try{
     var uid=original?original.id:crypto.randomUUID();
-    var fotos=await enviarFotos(uid,["vf1","vf2"],uploaded);
-    var novaFoto1=fotos[1]||(original&&original.foto1)||null;
-    var novaFoto2=fotos[2]||(original&&original.foto2)||null;
+    var fotos=await enviarFotos(uid,Array.from({length:10},function(_,i){return 'vf'+(i+1)}),uploaded);
+    var novasFotos=Array.from({length:10},function(_,i){return fotos[i+1]||(original&&original.fotos[i])||null});
     var status=original&&original.status==="vendido"?"vendido":$("vs").value;
     var obj={cliente_id:$("vc").value,nome:marca+" "+modelo,marca:marca,modelo:modelo,
       ano:$("vano").value.trim()||null,quilometragem:$("vkm").value===""?null:Number($("vkm").value),
       placa:placa||null,cor:$("vcor").value.trim()||null,valor:preco,
-      obs:$("vo").value.trim(),status:status,empresa:$("vempresa").value,custo:custo,foto_1:novaFoto1,foto_2:novaFoto2};
+      obs:$('vo').value.trim(),status:status,empresa:$('vempresa').value,custo:custo,
+      entrada_estoque_em:$('ventrada').value||today(),checklist_preparacao:checklistMarcacao()};
+    for(var n=1;n<=10;n++)obj['foto_'+n]=novasFotos[n-1];
     if(original){
       var r=await sb.from("produtos").update(obj).eq("id",uid).select("id").single();
       if(r.error)throw Error("Falha ao atualizar o veículo: "+r.error.message);
       gravado=true;
       // Só apaga os arquivos antigos depois que as alterações foram salvas.
       var antigos=[];
-      if(fotos[1]&&original.foto1)antigos.push(original.foto1);
-      if(fotos[2]&&original.foto2)antigos.push(original.foto2);
+      for(var n=1;n<=10;n++)if(fotos[n]&&original.fotos[n-1])antigos.push(original.fotos[n-1]);
       if(antigos.length)await excluirArquivos(antigos);
       await load();
     }else{
