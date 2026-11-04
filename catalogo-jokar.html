@@ -189,6 +189,11 @@ body.modal-open{overflow:hidden}
 @media(max-width:800px){.filters-top{grid-template-columns:1fr 1fr}.filters-top .filter-field:first-child{grid-column:1/-1}}
 @media(max-width:680px){.logo-wrap .logo{width:175px;height:57px}.top-inner{height:82px}.top-links a:not(.header-cta){display:none}}
 @media(max-width:360px){.logo-wrap .logo{width:150px;height:52px}}
+
+/* V13 — descrição comercial preenchida no cadastro do veículo. */
+.descricao-veiculo{margin:4px 0 18px;padding:15px 16px;border:1px solid var(--line);border-left:4px solid var(--lime);background:#fafcf8;border-radius:12px;max-width:100%}
+.descricao-veiculo h3{font-size:14px;font-weight:850;letter-spacing:0;margin:0 0 8px;color:var(--ink)}
+.descricao-veiculo p{margin:0;color:var(--ink);font-size:14px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal}
 </style>
 </head>
 <body>
@@ -292,7 +297,7 @@ async function load(){
  state.loading=true;$('updated').textContent='Atualizando estoque...';
  try{
   // SOMENTE a tabela sanitizada. Não consultar public.produtos ou public.clientes.
-  const {data,error}=await supa.from('catalogo_veiculos').select('id,nome,marca,modelo,ano,quilometragem,cor,valor,status,foto_1,foto_2,foto_3,foto_4,foto_5,foto_6,foto_7,foto_8,foto_9,foto_10,criado_em,empresa').eq('empresa',STORE).order('criado_em',{ascending:false}).limit(1000);
+  const {data,error}=await supa.from('catalogo_veiculos').select('id,nome,marca,modelo,ano,quilometragem,cor,valor,status,foto_1,foto_2,foto_3,foto_4,foto_5,foto_6,foto_7,foto_8,foto_9,foto_10,criado_em,empresa,descricao_publica').eq('empresa',STORE).order('criado_em',{ascending:false}).limit(1000);
   if(error)throw error;
   state.cars=(data||[]).filter(c=>c.empresa===STORE);
   const paths=[...new Set(state.cars.flatMap(c=>Array.from({length:10},(_,i)=>c['foto_'+(i+1)])).filter(Boolean))];
@@ -314,7 +319,8 @@ async function load(){
 function drawModal(c){
  const photos=carImages(c);const n=Math.min(state.photos[c.id]||0,Math.max(0,photos.length-1));
  const visual=photos.length?'<img src="'+esc(photos[n])+'" alt="'+esc(label(c))+' · foto '+(n+1)+'">':placeholder;
- $('modalBody').innerHTML='<div class="modal-layout"><div class="modal-photos"><div class="modal-big">'+visual+'</div>'+(photos.length>1?'<div class="modal-thumbs">'+photos.map((p,i)=>'<button type="button" data-modal-photo="'+i+'" aria-current="'+(n===i)+'">Foto '+(i+1)+'</button>').join('')+'</div>':'')+'</div><div class="modal-info">'+tagLoja(c)+'<div class="vehicle-brand">'+esc(c.marca||"Veículo")+'</div><h2 id="modalTitle">'+esc(label(c))+'</h2><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div><p style="font-size:13px;color:#647360;margin:0 0 17px">Situação: <b>'+esc(statusName(c.status))+'</b></p>'+(c.status==='vendido'?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'<button type="button" class="share" id="shareCar">Compartilhar veículo ↗</button></div></div>';
+  const descricao=c.descricao_publica&&String(c.descricao_publica).trim()?'<section class="descricao-veiculo"><h3>Descrição e observações do veículo</h3><p>'+esc(c.descricao_publica)+'</p></section>':'';
+ $('modalBody').innerHTML='<div class="modal-layout"><div class="modal-photos"><div class="modal-big">'+visual+'</div>'+(photos.length>1?'<div class="modal-thumbs">'+photos.map((p,i)=>'<button type="button" data-modal-photo="'+i+'" aria-current="'+(n===i)+'">Foto '+(i+1)+'</button>').join('')+'</div>':'')+'</div><div class="modal-info">'+tagLoja(c)+'<div class="vehicle-brand">'+esc(c.marca||"Veículo")+'</div><h2 id="modalTitle">'+esc(label(c))+'</h2><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div><p style="font-size:13px;color:#647360;margin:0 0 17px">Situação: <b>'+esc(statusName(c.status))+'</b></p>'+descricao+(c.status==='vendido'?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'<button type="button" class="share" id="shareCar">Compartilhar veículo ↗</button></div></div>';
 }
 function openModal(id){const c=state.cars.find(c=>c.id===id);if(!c)return;state.modalId=id;drawModal(c);$('modalRoot').classList.add('open');$('modalRoot').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');$('closeModal').focus()}
 function closeModal(){state.modalId=null;$('modalRoot').classList.remove('open');$('modalRoot').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')}
