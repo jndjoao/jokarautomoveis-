@@ -368,6 +368,15 @@ td small{color:#647265;line-height:1.5}
   #tb td:first-child .photo-thumb,#tb td:first-child .photo-empty{width:58px;height:44px;min-width:58px}
   #tb td:first-child .vehicle-thumbs{gap:5px;margin-top:7px}
 }
+
+/* Links separados para os catálogos de cada loja no painel principal */
+.intro-actions .catalogue-jokar{background:#15270e;color:#d9f9ae;border-color:#314a1f}
+.intro-actions .catalogue-leal{background:#18120b;color:#e9c780;border-color:#6c522b}
+.intro-actions .catalogue-all{background:#eff5e9;color:#345324;border-color:#d0ddc7}
+.intro-actions .catalogue-jokar:hover{background:#27441a;color:#fff}
+.intro-actions .catalogue-leal:hover{background:#2f2315;color:#fff}
+.intro-actions .catalogue-all:hover{background:#e1efd5}
+@media(max-width:740px){.intro-actions .catalogue-jokar,.intro-actions .catalogue-leal{flex:1 1 calc(50% - 6px)}.intro-actions .catalogue-all,.intro-actions #copyCatalog{flex:1 1 calc(50% - 6px)}}
 </style>
 <link rel="stylesheet" href="crm-v9.css?v=11">
 <link rel="stylesheet" href="gestao-v10.css?v=10">
@@ -387,7 +396,7 @@ td small{color:#647265;line-height:1.5}
 <header class="app-header"><div class="brand"><div class="brand-duo"><img class="logo" src="assets/logo-leal.png" alt="Leal Veículos"><img class="logo" src="assets/logo-jokar.png" alt="Jokar Automóveis"></div><span class="brand-sub">CENTRAL DE GESTÃO</span></div>
 <div class="header-actions"><nav class="topnav" aria-label="Menu principal"><button id="t1" class="on" type="button">Painel</button><button id="t2" type="button">Cadastros</button><button id="t3" type="button">Financeiro</button></nav><button id="lo" class="btn logout" type="button" title="Sair da conta">Sair</button></div></header>
 <nav class="mobile-nav" aria-label="Menu principal para celular"><button id="t1m" class="on" type="button"><span class="nav-glyph">▦</span><span>Painel</span></button><button id="t2m" type="button"><span class="nav-glyph">＋</span><span>Cadastros</span></button><button id="t3m" type="button"><span class="nav-glyph">↗</span><span id="t3ml">Financeiro</span></button></nav>
-<div class="intro"><div><span class="eyebrow">LEAL VEÍCULOS + JOKAR AUTOMÓVEIS</span><h1>Gestão unificada</h1><p>Estoque compartilhado e financeiro separado por empresa.</p></div><div class="intro-actions"><a class="catalogue-link" href="catalogo.html" target="_blank" rel="noopener">↗ Ver catálogo público</a><button class="catalogue-share" id="copyCatalog" type="button">Copiar link</button></div></div>
+<div class="intro"><div><span class="eyebrow">LEAL VEÍCULOS + JOKAR AUTOMÓVEIS</span><h1>Gestão unificada</h1><p>Estoque compartilhado e financeiro separado por empresa.</p></div><div class="intro-actions"><a class="catalogue-link catalogue-jokar" href="catalogo-jokar.html" target="_blank" rel="noopener noreferrer">↗ Catálogo Jokar</a><a class="catalogue-link catalogue-leal" href="catalogo-leal.html" target="_blank" rel="noopener noreferrer">↗ Catálogo Leal</a><a class="catalogue-link catalogue-all" href="catalogo.html" target="_blank" rel="noopener noreferrer">↗ Ver catálogos</a><button class="catalogue-share" id="copyCatalog" type="button">Copiar link</button></div></div>
 
 <section id="v1">
 <div class="stats" id="stats"></div>
