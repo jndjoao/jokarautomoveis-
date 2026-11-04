@@ -282,6 +282,20 @@ td small{color:#647265;line-height:1.5}
 .privacy-tip{padding:10px 12px;background:#f4f7f1;border:1px dashed #cbd9c1;border-radius:10px;font-size:12px;color:#53614e;margin-top:10px}
 .private-placeholder{color:#89938a;font-style:italic}
 @media(max-width:700px){.brand-duo .logo{width:96px;height:42px;padding:2px}.login-duo .logo.c{width:132px;height:66px}.brand-sub{display:none}.finance-company-tabs button{min-width:0;font-size:12px;padding:11px 8px}.login-duo{gap:7px}}
+
+/* Ajuste pontual: o status sempre cabe por inteiro no painel e nos cadastros. */
+#tb td:nth-child(5),
+#vl td:nth-child(3){min-width:128px;white-space:nowrap;overflow-wrap:normal}
+#tb td:nth-child(5) .tag,
+#vl td:nth-child(3) .tag{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:112px;padding:7px 12px;white-space:nowrap;
+  word-break:keep-all;overflow-wrap:normal;line-height:1.25;
+  flex-shrink:0;
+}
+@media (max-width:740px){
+  #tb td:nth-child(5),#vl td:nth-child(3){min-width:0;white-space:normal}
+}
 </style>
 <link rel="stylesheet" href="crm-v9.css?v=11">
 <link rel="stylesheet" href="gestao-v10.css?v=10">
