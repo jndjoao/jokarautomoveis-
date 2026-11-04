@@ -324,6 +324,50 @@ td small{color:#647265;line-height:1.5}
 .checklist-mini{font-weight:700;color:#4c703b;font-size:11px}
 @media(max-width:940px){.photo-grid-ten{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:740px){.inventory-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.photo-grid-ten{grid-template-columns:repeat(2,minmax(0,1fr))}.checklist-grid{grid-template-columns:1fr}}
+/* V12.1 | Painel compacto: leitura sem quebra de valores, telefones e status. */
+@media (min-width:741px){
+  .w{max-width:1480px;padding:16px 22px}
+  header.app-header{min-height:82px;margin-bottom:18px;padding:8px 18px}
+  .brand-duo .logo{height:50px;width:134px}
+  .intro{margin-bottom:14px}
+  #v1 .stats{gap:11px;margin-bottom:12px}
+  #v1 .st{padding:13px 16px}
+  #v1 .st b{font-size:27px}
+  #v1 .inventory-stats{gap:10px;margin:0 0 13px}
+  #v1 .inventory-stat{padding:10px 12px}
+  #v1>.card{padding:16px 20px}
+  #v1 .bar{gap:9px;margin-bottom:12px}
+  #v1 .bar input,#v1 .bar select{min-width:0;padding:9px 10px}
+  #v1 .bar input{flex:2.2}
+  #v1 .bar select{flex:1}
+  #v1 .sc{overflow-x:auto}
+  #v1 .sc>table{width:100%;min-width:1220px;table-layout:fixed}
+  #v1 .sc>table th:nth-child(1){width:15%}
+  #v1 .sc>table th:nth-child(2){width:30%}
+  #v1 .sc>table th:nth-child(3){width:13%}
+  #v1 .sc>table th:nth-child(4){width:15%}
+  #v1 .sc>table th:nth-child(5){width:11%}
+  #v1 .sc>table th:nth-child(6){width:16%}
+  #v1 .sc>table th,#v1 .sc>table td{padding:11px 8px;vertical-align:middle}
+  #tb td:nth-child(3),#tb td:nth-child(4){overflow-wrap:normal;word-break:normal}
+  #tb td:nth-child(3)>b,#tb td:nth-child(3)>small,
+  #tb td:nth-child(4)>small,#tb td:nth-child(4) .private-placeholder{
+    display:inline-block;white-space:nowrap;word-break:keep-all;overflow-wrap:normal
+  }
+  #tb td:nth-child(3)>small,#tb td:nth-child(4)>small{display:block}
+  #tb td:nth-child(5){min-width:0;white-space:nowrap;text-align:center}
+  #tb td:nth-child(5) .tag{min-width:109px;padding:7px 10px;white-space:nowrap}
+  #tb td:last-child{min-width:0!important;white-space:normal!important;text-align:left}
+  #tb td:last-child .edit-btn,#tb td:last-child .photo-action,
+  #tb td:last-child [data-sell],#tb td:last-child [data-dv]{
+    box-sizing:border-box;display:inline-flex;vertical-align:middle;
+    align-items:center;justify-content:center;min-width:0;width:calc(50% - 6px);
+    min-height:32px;margin:2px!important;padding:5px 4px!important;
+    font-size:12px;line-height:1.2;white-space:nowrap;border-radius:8px
+  }
+  #tb td:first-child .photo-thumb,#tb td:first-child .photo-empty{width:58px;height:44px;min-width:58px}
+  #tb td:first-child .vehicle-thumbs{gap:5px;margin-top:7px}
+}
 </style>
 <link rel="stylesheet" href="crm-v9.css?v=11">
 <link rel="stylesheet" href="gestao-v10.css?v=10">
