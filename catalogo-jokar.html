@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Estoque de Veículos | Jokar Automóveis</title>
+<meta name="theme-color" content="#0b1607">
+<meta name="description" content="Confira veículos à venda na Jokar Automóveis, com fotos, detalhes, preços e atendimento pelo WhatsApp (62) 99455-7101.">
+<meta property="og:title" content="Jokar Automóveis | Confira nosso estoque">
+<meta property="og:description" content="Encontre seu próximo carro e fale diretamente com nossos vendedores.">
+<meta property="og:type" content="website">
+<!-- Ícone oficial Leal + Jokar: sem alterações nas funções do sistema -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=8">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=8">
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico?v=8">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=8">
+<link rel="manifest" href="catalogo-jokar.webmanifest?v=1">
+<meta name="apple-mobile-web-app-title" content="Jokar Automóveis">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;--dark:#0d130a;--lime:#adf314;--ink:#172018;--muted:#687369;--line:#e2e8de;--surface:#f4f7f1;--white:#fff;color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--surface);color:var(--ink);font-size:15px;line-height:1.5}
+a{color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1200px,calc(100% - 44px));margin:auto}
+.topbar{background:#070b06;position:relative;z-index:5;border-bottom:1px solid #273520}
+.top-inner{height:90px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo-wrap{display:flex;flex-direction:column;align-items:flex-start;text-decoration:none;gap:0}
+.logo{width:230px;height:68px;max-width:100%;object-fit:contain;object-position:left}
+.logo-label{font-size:9px;letter-spacing:.25em;font-weight:800;color:#bdfb77;margin-top:-7px;margin-left:4px}
+.top-links{display:flex;align-items:center;gap:18px}
+.top-links a{text-decoration:none;font-weight:750;font-size:13px;color:#d3e6c6}
+.top-links a:hover{color:var(--lime)}
+.top-links .header-cta{background:var(--lime);color:#142007;padding:11px 16px;border-radius:11px}
+.hero{background:radial-gradient(circle at 85% 18%,#2d4a14 0,transparent 28%),linear-gradient(145deg,#101a0e,#090d08);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"JOKAR";font-size:clamp(150px,30vw,440px);line-height:1;font-weight:1000;letter-spacing:-.085em;position:absolute;right:-70px;bottom:-100px;opacity:.028;pointer-events:none}
+.hero-inner{padding:66px 0 67px;position:relative;z-index:1;max-width:1200px}
+.kicker{color:#d1fa98;letter-spacing:.18em;text-transform:uppercase;font-weight:850;font-size:11px;display:inline-flex;align-items:center;gap:10px}
+.kicker:before{content:"";display:block;width:25px;height:3px;background:var(--lime);border-radius:10px}
+.hero h1{font-size:clamp(38px,6vw,72px);line-height:1.045;letter-spacing:-.055em;margin:19px 0 17px;max-width:740px}
+.hero h1 span{color:var(--lime)}
+.hero p{max-width:610px;font-size:clamp(15px,1.8vw,18px);color:#c2cdbb;margin:0 0 28px}
+.hero-highlights{display:flex;flex-wrap:wrap;gap:12px}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #3b4c30;background:#1b2818;border-radius:999px;padding:9px 15px;font-size:12px;color:#e1eed5;font-weight:700}
+.hero-pill b{color:var(--lime)}
+.main{padding:45px 0 66px}
+.catalog-heading{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;flex-wrap:wrap;margin:0 0 22px}
+.section-kicker{color:#5a7e21;font-size:11px;font-weight:900;letter-spacing:.17em;text-transform:uppercase;margin:0 0 7px}
+.catalog-heading h2{font-size:clamp(26px,3.8vw,39px);letter-spacing:-.045em;margin:0;line-height:1.15}
+.catalog-heading p{color:var(--muted);font-size:13px;margin:7px 0 0}
+.updated{color:#6f796c;font-size:12px;white-space:nowrap}
+.filters{background:#fff;border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:22px;box-shadow:0 8px 30px #233b1710}
+.filters-top{display:grid;grid-template-columns:minmax(180px,1.5fr) minmax(140px,.75fr) minmax(155px,.8fr);gap:12px}
+.filter-field{display:flex;flex-direction:column;gap:6px}
+.filter-field label{font-size:10px;color:#72806e;font-weight:850;text-transform:uppercase;letter-spacing:.09em}
+.filter-field input,.filter-field select{border:1px solid #d9e2d5;background:#fafcf8;color:#1d2a1d;border-radius:10px;min-height:44px;width:100%;padding:10px 12px;outline:none;min-width:0}
+.filter-field input:focus,.filter-field select:focus{outline:3px solid #b8e77c;border-color:#89c73d}
+.filter-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid #d8e4d1;background:#f7faf4;padding:7px 13px;border-radius:999px;color:#50614a;font-size:12px;font-weight:800}
+.chip[aria-pressed="true"]{background:#162411;border-color:#162411;color:#ddfcb1}
+.result-count{color:#738073;font-size:12px;font-weight:700}
+.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;min-height:60px}
+.vehicle{background:white;border:1px solid var(--line);box-shadow:0 12px 35px rgba(22,43,18,.055);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;min-width:0;transition:transform .2s,box-shadow .2s}
+.vehicle:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(22,43,18,.09)}
+.vehicle-image{width:100%;aspect-ratio:16/10;position:relative;background:#e9eee5;overflow:hidden}
+.vehicle-image img{width:100%;height:100%;display:block;object-fit:cover}
+.vehicle-placeholder{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;background:linear-gradient(135deg,#eaf2e4,#dfe8db);color:#7d9175;text-align:center;font-weight:750;font-size:12px}
+.vehicle-placeholder svg{width:76px;height:76px;opacity:.65}
+.status{position:absolute;left:13px;top:13px;font-size:11px;font-weight:900;border-radius:999px;padding:6px 12px;line-height:1.2;box-shadow:0 2px 8px #0002}
+.status.disponivel{color:#153b12;background:#cafa9a}.status.reservado{color:#69410a;background:#ffdf9b}.status.vendido{color:#fff;background:#6e7572}
+.photo-controls{display:flex;gap:5px;position:absolute;bottom:11px;left:12px;background:#0711099e;padding:5px;border-radius:999px;backdrop-filter:blur(6px)}
+.photo-controls button{width:27px;height:24px;border:0;border-radius:20px;color:#dcefd1;background:transparent;font-size:10px;font-weight:850}
+.photo-controls button[aria-current="true"]{background:var(--lime);color:#142108}
+.vehicle-body{padding:19px 19px 15px;flex:1;display:flex;flex-direction:column}
+.vehicle-brand{font-size:11px;letter-spacing:.11em;color:#5f882c;font-weight:900;text-transform:uppercase;margin-bottom:4px}
+.vehicle h3{font-size:21px;letter-spacing:-.035em;line-height:1.17;margin:0 0 12px;overflow-wrap:anywhere}
+.vehicle-specs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+.spec{background:#f4f8f1;border:1px solid #e8f0e0;padding:5px 9px;border-radius:8px;color:#5a6759;font-weight:700;font-size:11px}
+.vehicle-price{font-size:25px;color:#1d3515;font-weight:900;letter-spacing:-.035em;margin-top:auto}
+.vehicle-price small{font-size:13px;letter-spacing:0;color:#7a8579;font-weight:650}
+.vehicle-footer{border-top:1px solid #edf1e8;padding:12px 15px 15px;display:flex;flex-direction:column;gap:9px}
+.actions-row{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.whats{background:#19a95c;color:white;text-decoration:none;border:1px solid #19a95c;border-radius:10px;padding:11px 6px;min-height:43px;display:flex;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:11px;text-align:center;line-height:1.25}
+.whats:hover{background:#0d914b}
+.whats svg{height:17px;width:17px;flex:none}
+.details-btn{display:flex;align-items:center;justify-content:center;border:1px solid #dce9d5;background:#f2f7eb;color:#476334;padding:8px 12px;min-height:38px;border-radius:9px;font-size:12px;font-weight:800}
+.details-btn:hover{background:#e4f0d4}
+.sold-info{font-size:12px;color:#778174;background:#f4f5f3;border-radius:9px;padding:11px;font-weight:700;text-align:center}
+.loading{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.skeleton{height:400px;border-radius:17px;background:linear-gradient(110deg,#e3ebdc 8%,#f9fbf7 18%,#e3ebdc 33%);background-size:250% 100%;animation:shine 1.4s linear infinite}
+@keyframes shine{to{background-position-x:-200%}}
+.empty{grid-column:1/-1;border:1px dashed #bdd0b0;border-radius:18px;background:#fff;text-align:center;padding:53px 22px;color:#65735d}
+.empty h3{font-size:22px;color:#22301b;margin:8px 0 7px}.empty p{margin:0 0 18px}
+.retry{padding:10px 17px;border:0;background:var(--lime);color:#162500;font-weight:850;border-radius:10px}
+.sellers{background:#0d150c;color:white;padding:48px 0 52px}
+.sellers h2{font-size:clamp(27px,3vw,37px);letter-spacing:-.04em;margin:0 0 7px}
+.sellers p{color:#c0d0ba;margin:0 0 21px}
+.seller-cards{display:grid;grid-template-columns:1fr 1fr;gap:13px;max-width:780px}
+.seller-card{border:1px solid #344b29;background:#1a2815;border-radius:15px;padding:16px 19px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.seller-card strong{display:block;font-size:15px}.seller-card small{display:block;color:#a8c69c;font-size:12px;margin-top:2px}
+.seller-card a{text-decoration:none;background:#1da95d;border-radius:10px;padding:10px 14px;white-space:nowrap;font-size:12px;font-weight:900}
+.seller-card[hidden]{display:none!important}
+.foot{background:#070b07;color:#aeb9a7;text-align:center;padding:21px;font-size:12px}
+.foot b{color:#d0e4c6}
+.modal-root{position:fixed;inset:0;z-index:20;background:#000b;display:none;align-items:center;justify-content:center;padding:15px;backdrop-filter:blur(3px)}
+.modal-root.open{display:flex}
+.modal{background:white;border-radius:18px;overflow:hidden;width:min(920px,100%);max-height:92dvh;overflow-y:auto;box-shadow:0 25px 75px #0005}
+.modal-top{background:#0d130a;color:white;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:13px 19px}
+.modal-top b{font-size:14px}.close-modal{background:#283823;color:white;border:1px solid #3c5534;border-radius:9px;padding:7px 12px;font-size:17px}
+.modal-layout{display:grid;grid-template-columns:1.35fr 1fr;min-height:380px}
+.modal-photos{background:#e9eee3;display:flex;flex-direction:column}
+.modal-big{position:relative;flex:1;min-height:330px}
+.modal-big img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.modal-thumbs{display:flex;gap:7px;padding:9px;justify-content:center;background:#1b2619}
+.modal-thumbs button{border:2px solid transparent;background:#3e5037;color:white;border-radius:8px;padding:5px 12px;font-weight:900}
+.modal-thumbs button[aria-current="true"]{border-color:var(--lime);color:var(--lime)}
+.modal-info{padding:27px 23px;display:flex;flex-direction:column}
+.modal-info h2{letter-spacing:-.045em;margin:0 0 12px;font-size:30px;line-height:1.13}
+.modal-info .vehicle-price{margin:15px 0}
+.modal-info .actions-row{grid-template-columns:1fr;margin-top:8px}
+.vehicle-footer .actions-row{grid-template-columns:1fr}
+.modal-info .whats{font-size:13px}
+.share{margin-top:10px;border:1px solid #cbdcbe;background:#f2f8ed;color:#436427;font-weight:850;padding:10px;border-radius:9px}
+body.modal-open{overflow:hidden}
+@media(max-width:980px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.loading{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){
+.wrap{width:calc(100% - 28px)}.top-inner{height:74px}.logo{width:174px;height:56px}.logo-label{font-size:7px}.top-links a:not(.header-cta){display:none}.top-links .header-cta{font-size:11px;padding:9px 10px}
+.hero-inner{padding:47px 0 49px}.hero h1{font-size:clamp(39px,10vw,55px)}.hero p{font-size:14px}.hero-highlights{gap:8px}.hero-pill{font-size:11px;padding:8px 11px}
+.main{padding:32px 0 49px}.catalog-heading{align-items:flex-start}.filters{padding:13px;border-radius:15px}.filters-top{grid-template-columns:1fr 1fr}.filters-top .filter-field:first-child{grid-column:1/-1}.filter-field label{font-size:10px}.filter-field input,.filter-field select{font-size:16px}
+.catalog-grid{grid-template-columns:1fr;gap:15px}.loading{grid-template-columns:1fr}.vehicle-body{padding:16px}.vehicle h3{font-size:21px}.vehicle-price{font-size:24px}
+.sellers{padding:39px 0}.seller-cards{grid-template-columns:1fr}.seller-card{padding:15px}
+.modal-root{align-items:flex-end;padding:0}.modal{width:100%;border-radius:18px 18px 0 0;max-height:93dvh}.modal-layout{grid-template-columns:1fr}.modal-big{min-height:245px;height:280px}.modal-info{padding:22px}.modal-info h2{font-size:25px}
+}
+@media(max-width:360px){.top-links .header-cta{font-size:10px}.logo{width:142px}.actions-row{grid-template-columns:1fr}.filter-bottom{gap:7px}.chip{padding:7px 10px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Identidade compartilhada das duas concessionárias */
+.duo-brands{display:flex;align-items:center;gap:9px}
+.duo-brands .logo{height:54px;width:150px;object-fit:contain;background:#080908;border:1px solid #393c35;border-radius:9px;padding:4px}
+.logo-wrap{gap:1px}
+.logo-label{margin:0;color:#f0d496}
+.filters-top{grid-template-columns:minmax(170px,1.4fr) repeat(3,minmax(130px,.8fr))}
+.shop-tag{display:inline-flex;padding:5px 10px;margin-bottom:10px;border-radius:22px;font-size:10px;letter-spacing:.02em;font-weight:900}
+.shop-leal{background:#241a0f;color:#e8bd69}
+.shop-jokar{background:#ddf2bd;color:#315a13}
+.hero::after{content:"LEAL + JOKAR";font-size:clamp(85px,15vw,240px);right:-20px;bottom:-25px}
+@media(max-width:800px){.filters-top{grid-template-columns:1fr 1fr}.filters-top .filter-field:first-child{grid-column:1/-1}}
+@media(max-width:680px){.duo-brands .logo{width:100px;height:45px}.top-inner{height:82px}.top-links .header-cta{font-size:10px}}
+@media(max-width:360px){.duo-brands .logo{width:82px;height:40px}.filters-top{grid-template-columns:1fr 1fr}}
+/* V12 | 10 imagens: paginação sem cobrir a foto */
+.photo-controls{max-width:calc(100% - 24px);overflow-x:auto;bottom:8px;left:8px;gap:2px;border-radius:9px;scrollbar-width:thin}
+.photo-controls button{flex:0 0 24px;width:24px;height:24px;font-size:10px;padding:0}
+.modal-thumbs{justify-content:flex-start;overflow-x:auto;max-width:100%;scrollbar-width:thin}
+.modal-thumbs button{white-space:nowrap;flex-shrink:0}
+
+/* Identidade exclusiva da Jokar Automóveis — somente elementos visuais do catálogo */
+:root{--lime:#b9f34e;--ink:#14220d;--surface:#f5f9f0;--line:#e2e8de;--dark:#0b1607}
+.topbar{background:#070d06;border-bottom-color:#487b16}
+.logo-wrap .logo{width:240px;height:72px;object-fit:contain;object-position:left;padding:6px 0}
+.logo-wrap .logo-label{color:#b9f34e;margin-top:-5px;margin-left:2px}
+.top-links a{color:#f2e8d4}
+.top-links a:hover{color:var(--lime)}
+.top-links .header-cta{background:var(--lime);color:#070d06}
+.hero{background:radial-gradient(circle at 82% 13%,#2d4a14 0,transparent 32%),linear-gradient(145deg,#0b1607,#070d06)}
+.hero::after{content:"JOKAR AUTOMÓVEIS";font-size:clamp(100px,19vw,290px);right:-12px;bottom:-50px}
+.kicker,.hero h1 span{color:var(--lime)}
+.kicker:before{background:var(--lime)}
+.hero-pill{border-color:#487b16;background:#1b2818}
+.hero-pill b{color:var(--lime)}
+.section-kicker,.vehicle-brand{color:#487b16}
+.vehicle-price{color:#14220d}
+.filters-top{grid-template-columns:minmax(170px,1.4fr) minmax(140px,.8fr) minmax(140px,.8fr)}
+.filter-field input:focus,.filter-field select:focus{outline-color:#b9f34e;border-color:#487b16}
+.chip[aria-pressed="true"]{background:#0b1607;color:#b9f34e;border-color:#0b1607}
+.vehicle-specs .spec{background:#f4f8f1;border-color:#e8f0e0}
+.details-btn,.share{background:#f2f7eb;border-color:#dce9d5;color:#487b16}
+.sellers{background:#0b1607}
+.sellers .section-kicker{color:var(--lime)}
+.seller-cards{grid-template-columns:1fr;max-width:760px}
+.seller-card{background:#1a2815;border-color:#487b16}
+.seller-card small{color:#d7cbb8}
+.modal-top,.foot{background:#070d06}
+.modal-thumbs button[aria-current="true"],.photo-controls button[aria-current="true"]{color:#070d06}
+.shop-tag{background:#ddf2bd;color:#315a13}
+@media(max-width:800px){.filters-top{grid-template-columns:1fr 1fr}.filters-top .filter-field:first-child{grid-column:1/-1}}
+@media(max-width:680px){.logo-wrap .logo{width:175px;height:57px}.top-inner{height:82px}.top-links a:not(.header-cta){display:none}}
+@media(max-width:360px){.logo-wrap .logo{width:150px;height:52px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+ <div class="wrap top-inner">
+  <a class="logo-wrap" href="catalogo-jokar.html" aria-label="Jokar Automóveis — catálogo"><img class="logo" src="assets/logo-jokar.png" alt="Jokar Automóveis"><span class="logo-label">ESTOQUE EXCLUSIVO DA LOJA</span></a>
+  <nav class="top-links" aria-label="Navegação"><a href="#estoque">Nosso estoque</a><a href="catalogo.html">Ver outra loja</a><a href="#atendimento" class="header-cta">Falar no WhatsApp ↗</a></nav>
+ </div>
+</header>
+<section class="hero">
+ <div class="wrap hero-inner">
+   <span class="kicker">JOKAR AUTOMÓVEIS</span>
+   <h1>Seu próximo carro<br><span>está aqui.</span></h1>
+   <p>Escolha seu próximo carro com praticidade. Veja fotos, preços e fale diretamente com a Jokar Automóveis.</p>
+   <div class="hero-highlights"><span class="hero-pill"><b>✓</b> Estoque atualizado</span><span class="hero-pill"><b>✓</b> Atendimento direto</span><span class="hero-pill"><b>✓</b> Sem intermediários</span></div>
+ </div>
+</section>
+<main class="main" id="estoque">
+ <div class="wrap">
+  <div class="catalog-heading"><div><p class="section-kicker">Escolha seu próximo veículo</p><h2>Estoque Jokar Automóveis</h2><p>Somente veículos cadastrados para a Jokar Automóveis, atualizados diretamente pela Central de Gestão.</p></div><span class="updated" id="updated" aria-live="polite">Carregando estoque...</span></div>
+  <div class="filters" role="search" aria-label="Buscar e filtrar carros">
+   <div class="filters-top">
+    <div class="filter-field"><label for="search">Qual carro você procura?</label><input id="search" type="search" placeholder="Marca, modelo, ano ou cor..." autocomplete="off"></div>
+    <div class="filter-field"><label for="brand">Marca</label><select id="brand"><option value="">Todas as marcas</option></select></div>
+    <div class="filter-field"><label for="sort">Ordenar</label><select id="sort"><option value="recentes">Mais recentes</option><option value="menor">Menor preço</option><option value="maior">Maior preço</option><option value="nome">Marca / modelo</option></select></div>
+   </div>
+   <div class="filter-bottom"><div class="chips" role="group" aria-label="Filtrar por disponibilidade"><button class="chip" data-status="todos" aria-pressed="true">Todos</button><button class="chip" data-status="disponivel" aria-pressed="false">Disponíveis</button><button class="chip" data-status="reservado" aria-pressed="false">Reservados</button><button class="chip" data-status="vendido" aria-pressed="false">Vendidos</button></div><span id="count" class="result-count" aria-live="polite"></span></div>
+  </div>
+  <section id="results" class="catalog-grid" aria-label="Lista de veículos"><div class="loading"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></section>
+ </div>
+</main>
+<section id="atendimento" class="sellers"><div class="wrap"><p class="section-kicker">ATENDIMENTO JOKAR AUTOMÓVEIS</p><h2>Fale com nossa equipe</h2><p>Encontrou um veículo de interesse? Nossa equipe está disponível pelo WhatsApp (62) 99455-7101.</p>
+<div class="seller-cards">
+ <div class="seller-card" data-company-contact="jokar"><div><strong>Jokar Automóveis</strong><small>WhatsApp: (62) 99455-7101</small></div><a href="https://wa.me/5562994557101?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20os%20ve%C3%ADculos%20da%20Jokar%20Autom%C3%B3veis." target="_blank" rel="noopener noreferrer">WhatsApp Jokar ↗</a></div>
+ 
+</div></div></section>
+<footer class="foot"><b>JOKAR AUTOMÓVEIS</b> · O próximo capítulo da sua história começa aqui. <span>· Valores e disponibilidade sujeitos a confirmação.</span> <a href="catalogo.html">Outras lojas</a></footer>
+<div class="modal-root" id="modalRoot" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true"><div class="modal"><div class="modal-top"><b>DETALHES DO VEÍCULO</b><button type="button" class="close-modal" id="closeModal" aria-label="Fechar detalhes">✕</button></div><div id="modalBody"></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const STORE="jokar";
+const CONTATOS_LOJAS={jokar:{nome:"Jokar Automóveis",whatsapp:"5562994557101"},leal:{nome:"Leal Veículos",whatsapp:"5562982846430"}};
+const FOTO_BUCKET="veiculos-jokar";
+const nomeLoja=id=>id==="leal"?"Leal Veículos":id==="jokar"?"Jokar Automóveis":"Nossa loja";
+const tagLoja=c=>'<span class="shop-tag shop-'+esc(c.empresa)+'">'+esc(nomeLoja(c.empresa))+'</span>';
+const state={cars:[],filter:"todos",images:Object.create(null),photos:Object.create(null),modalId:null,loading:false};
+const supa=window.supabase&&window.CONFIG&&CONFIG.SUPABASE_URL&&CONFIG.SUPABASE_KEY&&!CONFIG.SUPABASE_URL.includes("SEU-PROJETO")?window.supabase.createClient(CONFIG.SUPABASE_URL,CONFIG.SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}}):null;
+const esc=s=>String(s===null||s===undefined?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const brl=n=>n===null||n===""||!Number.isFinite(Number(n))?"Consulte o valor":Number(n).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const statusName=s=>({disponivel:"Disponível",reservado:"Reservado",vendido:"Vendido"}[s]||"Consulte");
+const label=c=>[c.marca,c.modelo].filter(Boolean).join(" ").trim()||c.nome||"Veículo";
+const years=c=>c.ano||"";
+const iconWa='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-12.3 7.6L3.5 20.5l1.4-4.1A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8.3 8.3c.3-.5.7-.6 1-.1l1.2 1.6c.2.3.2.5 0 .8l-.7.7c.6 1.1 1.6 2.1 2.7 2.7l.7-.7c.3-.3.5-.3.8-.1l1.6 1.2c.4.3.4.7 0 1-.9 1.1-2 1.2-3.3.6a10.3 10.3 0 0 1-4.3-4.3c-.6-1.3-.5-2.4.3-3.4Z"/></svg>';
+const placeholder='<div class="vehicle-placeholder"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 56 27 37c2-6 5-7 11-7h24c6 0 9 1 11 7l8 19 7 5v18H12V61l7-5Z"/><path d="M19 56h62M30 40h40M24 68h10M66 68h10M23 78v5M77 78v5"/></svg><span>Foto em breve</span></div>';
+function carImages(c){return Array.from({length:10},(_,i)=>c['foto_'+(i+1)]).filter(Boolean).map(p=>state.images[p]).filter(Boolean)}
+function photosHTML(c,chosen){
+ const images=carImages(c),i=Math.min(chosen,Math.max(0,images.length-1));
+ return (images.length?'<img loading="lazy" src="'+esc(images[i])+'" alt="'+esc(label(c))+' - foto '+(i+1)+'">':placeholder)
+ +(images.length>1?'<div class="photo-controls" aria-label="Selecionar foto">'+images.map((u,n)=>'<button type="button" data-photo="'+esc(c.id)+'" data-photo-index="'+n+'" aria-current="'+(i===n?'true':'false')+'" aria-label="Ver foto '+(n+1)+'">'+(n+1)+'</button>').join("")+'</div>':'');
+}
+function specs(c){return[years(c),c.quilometragem!==null&&c.quilometragem!==undefined?Number(c.quilometragem).toLocaleString("pt-BR")+" km":"",c.cor||""].filter(Boolean).map(x=>'<span class="spec">'+esc(x)+'</span>').join("")}
+function linkCar(c){const u=new URL("catalogo-jokar.html",document.baseURI);u.searchParams.set("veiculo",c.id);return u.href}
+function whatsappLink(c){
+ // O anúncio pertence à empresa no cadastro do veículo, independentemente de quem efetue a venda.
+ const loja=CONTATOS_LOJAS[c.empresa];
+ if(!loja)return "";
+ const msg=`Olá! Vi o ${label(c)}${years(c)?" "+years(c):""} anunciado pela ${loja.nome} e gostaria de mais informações.\n\nAnúncio: ${linkCar(c)}`;
+ return "https://wa.me/"+loja.whatsapp+"?text="+encodeURIComponent(msg);
+}
+function whatsappButtons(c){
+ const loja=CONTATOS_LOJAS[c.empresa];
+ if(!loja)return '<div class="sold-info">Atendimento indisponível: confirme a loja deste anúncio.</div>';
+ return '<div class="actions-row"><a class="whats" href="'+esc(whatsappLink(c))+'" target="_blank" rel="noopener noreferrer" aria-label="Falar com '+esc(loja.nome)+' pelo WhatsApp sobre '+esc(label(c))+'">'+iconWa+' <span>WhatsApp · '+esc(loja.nome)+'</span></a></div>';
+}
+function vehicleHTML(c){const selected=state.photos[c.id]||0,sold=c.status==="vendido";
+ return '<article class="vehicle" data-vehicle-id="'+esc(c.id)+'"><div class="vehicle-image" data-image-area="'+esc(c.id)+'">'+photosHTML(c,selected)+'<span class="status '+esc(c.status)+'">'+esc(statusName(c.status))+'</span></div><div class="vehicle-body">'+tagLoja(c)+'<span class="vehicle-brand">'+esc(c.marca||"Veículo")+'</span><h3>'+esc(label(c))+'</h3><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div></div><div class="vehicle-footer"><button class="details-btn" type="button" data-detail="'+esc(c.id)+'">Ver fotos e detalhes →</button>'+(sold?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'</div></article>';
+}
+function selectCars(){
+ const q=$('search').value.toLocaleLowerCase('pt-BR').trim(),brand=$('brand').value,sort=$('sort').value;
+ return state.cars.filter(c=>(state.filter==='todos'||c.status===state.filter)&&(c.empresa===STORE)&&(!brand||c.marca===brand)&&(!q||[c.nome,c.marca,c.modelo,c.ano,c.cor].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR').includes(q))).sort((a,b)=>{
+  if(sort==='menor'||sort==='maior'){const av=Number(a.valor),bv=Number(b.valor);const aMissing=a.valor===null,bMissing=b.valor===null;if(aMissing!==bMissing)return aMissing?1:-1;return(sort==='menor'?1:-1)*(av-bv)}
+  if(sort==='nome')return label(a).localeCompare(label(b),'pt-BR');
+  const rank={disponivel:0,reservado:1,vendido:2};return(rank[a.status]??3)-(rank[b.status]??3)||String(b.criado_em||'').localeCompare(String(a.criado_em||''));
+ });
+}
+function render(){
+ // Com filtro de loja, exibe somente o atendimento da loja selecionada.
+ const lojaFiltrada=STORE;
+ document.querySelectorAll('[data-company-contact]').forEach(el=>{el.hidden=!!lojaFiltrada&&el.dataset.companyContact!==lojaFiltrada});
+ const cars=selectCars();$('count').textContent=cars.length+' veículo'+(cars.length===1?'':'s');
+ $('results').innerHTML=cars.length?cars.map(vehicleHTML).join(''):'<div class="empty"><h3>Nenhum carro encontrado</h3><p>Altere os filtros ou fale com nossos vendedores para conhecer as opções.</p><button class="retry" id="clearFilters" type="button">Limpar filtros</button></div>';
+}
+function showFailure(){ $('results').innerHTML='<div class="empty"><h3>Não foi possível carregar o catálogo</h3><p>Confira a conexão e se a atualização SQL do catálogo foi executada no Supabase.</p><button class="retry" id="retry" type="button">Tentar novamente</button></div>'; $('count').textContent='';$('updated').textContent='Estoque indisponível'; }
+async function load(){
+ if(state.loading)return;
+ if(!supa){showFailure();return}
+ state.loading=true;$('updated').textContent='Atualizando estoque...';
+ try{
+  // SOMENTE a tabela sanitizada. Não consultar public.produtos ou public.clientes.
+  const {data,error}=await supa.from('catalogo_veiculos').select('id,nome,marca,modelo,ano,quilometragem,cor,valor,status,foto_1,foto_2,foto_3,foto_4,foto_5,foto_6,foto_7,foto_8,foto_9,foto_10,criado_em,empresa').eq('empresa',STORE).order('criado_em',{ascending:false}).limit(1000);
+  if(error)throw error;
+  state.cars=(data||[]).filter(c=>c.empresa===STORE);
+  const paths=[...new Set(state.cars.flatMap(c=>Array.from({length:10},(_,i)=>c['foto_'+(i+1)])).filter(Boolean))];
+  state.images=Object.create(null);
+  for(let i=0;i<paths.length;i+=50){
+   const part=paths.slice(i,i+50);const result=await supa.storage.from(FOTO_BUCKET).createSignedUrls(part,1800);
+   if(result.error){console.warn('O catálogo não conseguiu acessar as fotos:',result.error.message);continue}
+   (result.data||[]).forEach((item,index)=>{if(item&&item.signedUrl)state.images[part[index]]=item.signedUrl});
+  }
+  const brands=[...new Set(state.cars.map(c=>c.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const prev=$('brand').value;$('brand').innerHTML='<option value="">Todas as marcas</option>'+brands.map(b=>'<option value="'+esc(b)+'">'+esc(b)+'</option>').join('');if(brands.includes(prev))$('brand').value=prev;
+  render();$('updated').textContent='Atualizado às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  const requested=new URLSearchParams(location.search).get('veiculo');
+  if(requested && state.cars.some(c=>c.id===requested) && !$('modalRoot').classList.contains('open')){openModal(requested)}
+  else if(state.modalId){const current=state.cars.find(c=>c.id===state.modalId);if(current)drawModal(current);else closeModal()}
+ }catch(e){console.error('Erro catálogo:',e);showFailure()}
+ finally{state.loading=false}
+}
+function drawModal(c){
+ const photos=carImages(c);const n=Math.min(state.photos[c.id]||0,Math.max(0,photos.length-1));
+ const visual=photos.length?'<img src="'+esc(photos[n])+'" alt="'+esc(label(c))+' · foto '+(n+1)+'">':placeholder;
+ $('modalBody').innerHTML='<div class="modal-layout"><div class="modal-photos"><div class="modal-big">'+visual+'</div>'+(photos.length>1?'<div class="modal-thumbs">'+photos.map((p,i)=>'<button type="button" data-modal-photo="'+i+'" aria-current="'+(n===i)+'">Foto '+(i+1)+'</button>').join('')+'</div>':'')+'</div><div class="modal-info">'+tagLoja(c)+'<div class="vehicle-brand">'+esc(c.marca||"Veículo")+'</div><h2 id="modalTitle">'+esc(label(c))+'</h2><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div><p style="font-size:13px;color:#647360;margin:0 0 17px">Situação: <b>'+esc(statusName(c.status))+'</b></p>'+(c.status==='vendido'?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'<button type="button" class="share" id="shareCar">Compartilhar veículo ↗</button></div></div>';
+}
+function openModal(id){const c=state.cars.find(c=>c.id===id);if(!c)return;state.modalId=id;drawModal(c);$('modalRoot').classList.add('open');$('modalRoot').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');$('closeModal').focus()}
+function closeModal(){state.modalId=null;$('modalRoot').classList.remove('open');$('modalRoot').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')}
+async function shareCar(c){const url=linkCar(c),title=label(c)+' | '+nomeLoja(c.empresa);try{if(navigator.share)await navigator.share({title,url});else if(navigator.clipboard){await navigator.clipboard.writeText(url);alert('Link do veículo copiado!')}else prompt('Copie o link:',url)}catch(e){if(e.name!=='AbortError')prompt('Copie o link:',url)}}
+$('closeModal').addEventListener('click',closeModal);
+$('modalRoot').addEventListener('click',e=>{if(e.target===$('modalRoot'))closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+$('search').addEventListener('input',render);$('brand').addEventListener('change',render);$('sort').addEventListener('change',render);
+document.querySelectorAll('[data-status]').forEach(btn=>btn.addEventListener('click',()=>{state.filter=btn.dataset.status;document.querySelectorAll('[data-status]').forEach(x=>x.setAttribute('aria-pressed',String(x===btn)));render()}));
+document.addEventListener('click',e=>{
+ const t=e.target.closest('button');if(!t)return;
+ if(t.id==='retry'){load();return}if(t.id==='clearFilters'){$('search').value='';$('brand').value='';$('sort').value='recentes';state.filter='todos';document.querySelectorAll('[data-status]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.status==='todos')));render();return}
+ if(t.dataset.detail){openModal(t.dataset.detail);return}
+ if(t.dataset.photo!==undefined){state.photos[t.dataset.photo]=Number(t.dataset.photoIndex)||0;const c=state.cars.find(x=>x.id===t.dataset.photo);const area=document.querySelector('[data-image-area="'+t.dataset.photo+'"]');if(c&&area)area.innerHTML=photosHTML(c,state.photos[c.id])+'<span class="status '+esc(c.status)+'">'+esc(statusName(c.status))+'</span>';return}
+ if(t.dataset.modalPhoto!==undefined && state.modalId){state.photos[state.modalId]=Number(t.dataset.modalPhoto)||0;drawModal(state.cars.find(x=>x.id===state.modalId));return}
+ if(t.id==='shareCar'&&state.modalId){shareCar(state.cars.find(x=>x.id===state.modalId));return}
+});
+// Atualiza o estoque sem republicar o GitHub Pages.
+setInterval(()=>{if(document.visibilityState==='visible')load()},120000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')load()});
+load();
+})();
+</script>
+</body>
+</html>
