@@ -83,3 +83,75 @@
 .crm-funnel-item{display:flex;gap:3px;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #dce6d6;border-radius:11px;background:#fbfef8;padding:10px 5px;min-height:64px;cursor:pointer;color:#496044}
 .crm-funnel-item b{font-size:20px;color:#2d4c1e}.crm-funnel-item span{font-size:10px;font-weight:700;line-height:1.2}.crm-funnel-item.on{border-color:#8bcb46;background:#e3f8d2;box-shadow:inset 0 0 0 1px #8bcb46}
 @media(max-width:740px){.crm-funnel{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* ===== CRM V11: Kanban compacto. Painel de indicadores permanece acima do funil. ===== */
+.crm-root .crm-head{margin-bottom:16px}
+.crm-root .crm-metrics{margin-bottom:13px}
+.crm-root .crm-metric{padding:15px 18px;border-radius:14px}
+.crm-root .crm-metric strong{font-size:29px}
+.crm-kb-guidance{display:flex;align-items:center;gap:12px;border:1px solid #dae6d3;background:#f3f9ef;border-radius:13px;padding:11px 14px;margin-bottom:12px}
+.crm-kb-guidance-icon{font-size:24px;color:#498129;line-height:1}
+.crm-kb-guidance b{display:block;font-size:13px;color:#304b25}
+.crm-kb-guidance small{display:block;font-size:12px;color:#667863}
+.crm-kb-guidance-privacy{margin-left:auto;font-size:11px;font-weight:700;color:#55734b;white-space:nowrap}
+/* Colunas mantidas lado a lado, inclusive no celular (rolagem horizontal). */
+.crm-board{display:grid;grid-template-columns:repeat(4,minmax(226px,1fr));gap:11px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#bdcdb8 transparent;padding:2px 2px 14px;align-items:stretch}
+.crm-kb-lane{min-width:0;scroll-snap-align:start;background:#f1f4f0;border:1px solid #e0e8dd;border-radius:15px;padding:9px;min-height:320px;transition:background .15s,border-color .15s}
+.crm-kb-lane-head{display:flex;justify-content:space-between;align-items:center;gap:7px;min-height:61px;padding:8px 8px 10px;margin-bottom:9px;border-bottom:1px solid #dce6d7}
+.crm-kb-lane-title{display:flex;align-items:center;gap:6px;min-width:0}
+.crm-kb-lane-title h3{font-size:12px!important;font-weight:850;letter-spacing:-.015em;margin:0!important;color:#273d29!important;white-space:nowrap}
+.crm-kb-lane-head small{font-size:10px;color:#7a8a79;font-weight:650}
+.crm-kb-dot{width:8px;height:8px;border-radius:50%;background:#648ac6;flex:none}
+.crm-kb-visit .crm-kb-dot{background:#d99923}
+.crm-kb-proposal .crm-kb-dot{background:#9866d7}
+.crm-kb-won .crm-kb-dot{background:#29a65c}
+.crm-kb-count{border-radius:99px;min-width:24px;padding:2px 7px;text-align:center;background:#e3eae1;color:#465e43;font-size:11px;font-weight:900}
+.crm-kb-lane-total{font-size:10px;color:#7b548c;font-weight:800;text-align:right;white-space:nowrap}
+.crm-kb-lane-cards{display:flex;flex-direction:column;gap:9px;min-height:240px}
+.crm-kb-empty{border:1px dashed #d0dfca;border-radius:11px;background:#fafdfa;color:#869482;font-size:11px;text-align:center;padding:32px 10px;line-height:1.5}
+.crm-kb-card{background:#fff;border:1px solid #e1e8df;border-left:3px solid #73a6d9;border-radius:12px;padding:11px;box-shadow:0 2px 6px rgba(20,46,15,.04);min-width:0;transition:box-shadow .12s,opacity .12s}
+.crm-kb-visit .crm-kb-card{border-left-color:#e8a73a}.crm-kb-proposal .crm-kb-card{border-left-color:#a778db}.crm-kb-won .crm-kb-card{border-left-color:#41b671}
+.crm-kb-card:hover{box-shadow:0 6px 15px rgba(23,47,22,.10)}
+.crm-kb-card-head{display:flex;gap:8px;align-items:flex-start}
+.crm-kb-avatar{width:30px;height:30px;min-width:30px;display:grid;place-items:center;background:#17261b;border-radius:9px;color:#fff;font-size:13px;font-weight:900}
+.crm-kb-title{flex:1;min-width:0}
+.crm-kb-card .crm-kb-title h3{font-size:13px!important;line-height:1.2;margin:0 0 3px!important;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crm-kb-title span{display:block;font-size:10px;color:#82907c;font-weight:650}
+.crm-kb-handle{background:transparent;border:0;color:#83917e;font-weight:900;font-size:16px;cursor:grab;line-height:1.2;min-width:23px;min-height:23px;border-radius:7px;touch-action:manipulation}
+.crm-kb-handle:hover{background:#e9f3e3;color:#315326}
+.crm-kb-handle:active{cursor:grabbing}
+.crm-kb-vehicle{margin-top:11px;display:flex;align-items:flex-start;gap:5px;background:#f5f8f3;border-radius:8px;padding:7px 8px;color:#4d5e48;font-size:11px;font-weight:750;line-height:1.35;min-height:30px}
+.crm-kb-vehicle span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.crm-kb-value-row{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:7px;flex-wrap:wrap}
+.crm-kb-value{font-size:15px;color:#233f24;white-space:nowrap;letter-spacing:-.025em}
+.crm-kb-value-empty{color:#9aa498;font-size:10px}
+.crm-kb-source{background:#eef3ec;border-radius:6px;padding:3px 6px;font-size:10px;color:#60745c;font-weight:700;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crm-kb-interest{margin:8px 0 0!important;font-size:11px!important;line-height:1.35!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#647362!important}
+.crm-kb-due{margin-top:9px;padding:7px 8px;display:flex;align-items:center;gap:5px;color:#72836e;border:1px solid #e6eee2;background:#f9fcf7;border-radius:8px;font-size:10px;font-weight:800;line-height:1.25}
+.crm-kb-due.crm-due-overdue{color:#ae4134;background:#fff0ed;border-color:#f6d9d5}
+.crm-kb-due.crm-due-today{color:#9b6914;background:#fff6dd;border-color:#f5e0b3}
+.crm-kb-seller{font-size:10px;color:#758471;margin-top:8px}
+.crm-kb-seller b{color:#455e40}
+.crm-kb-stage{margin-top:10px;display:flex;gap:6px;align-items:center}
+.crm-kb-stage label{font-size:10px;color:#708069;font-weight:800;margin:0;white-space:nowrap}
+.crm-kb-stage select{flex:1;min-width:0;font-size:11px;min-height:32px;padding:4px 6px;border:1px solid #dbe6d5;border-radius:7px;background:white;color:#344f2c}
+.crm-kb-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;border-top:1px solid #edf2ea;padding-top:10px;margin-top:10px}
+.crm-kb-actions .crm-button{min-height:31px;font-size:10px;padding:6px 4px;border-radius:8px;white-space:normal}
+.crm-kb-actions .crm-kb-detail{background:#f4f9ed}
+.crm-kb-whatsapp{display:flex;align-items:center;justify-content:center;grid-column:1/-1;border-radius:8px;background:#e2f9e9;color:#176937;border:1px solid #b5eac5;min-height:31px;text-decoration:none;font-size:11px;font-weight:850}
+.crm-kb-whatsapp:hover{background:#c6f4d6}
+.crm-kb-restricted{grid-column:1/-1;font-size:10px;color:#9a7952;text-align:center;padding:6px;background:#fbf6e9;border-radius:7px}
+.crm-kb-over{background:#e8f5db;border-color:#9ccd69;outline:2px dashed #7dbd36;outline-offset:-3px}
+.crm-kb-dragging{opacity:.44}
+.crm-lost{margin-top:7px}
+.crm-kb-lost{border-radius:12px;border:1px solid #e4e9e3;background:#f8faf7;padding:10px 12px}
+.crm-kb-lost summary{cursor:pointer;font-size:12px;font-weight:850;color:#6c786a;display:flex;align-items:center;gap:10px}
+.crm-kb-lost summary b{background:#edf0ed;color:#5e6f5e;border-radius:99px;padding:3px 9px}
+.crm-kb-lost summary small{font-size:11px;color:#a0aba0;font-weight:500}
+.crm-kb-lost-cards{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.crm-kb-lost-cards .crm-kb-card{border-left-color:#aeb9a9}
+@media(max-width:1180px){.crm-board{grid-template-columns:repeat(4,minmax(225px,1fr))}.crm-kb-guidance-privacy{display:none}}
+@media(max-width:740px){.crm-root .crm-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.crm-root .crm-metric{padding:12px}.crm-root .crm-metric strong{font-size:24px}.crm-board{grid-template-columns:repeat(4,minmax(268px,268px));margin-right:-15px;scroll-padding-left:4px;padding-right:15px;gap:10px}.crm-kb-lane{min-height:350px}.crm-kb-lane-head{min-height:63px}.crm-kb-title h3{font-size:14px!important}.crm-kb-guidance{padding:9px 10px}.crm-kb-guidance-icon{display:none}.crm-kb-guidance small{font-size:11px}.crm-kb-lost-cards{grid-template-columns:1fr}}
+/* Sobrepõe as seis mini-colunas do funil antigo: agora existe uma única faixa de orientação. */
+.crm-root .crm-funnel{display:block;margin:0 0 13px}
+.crm-root .crm-kb-guidance{width:100%;min-width:0}

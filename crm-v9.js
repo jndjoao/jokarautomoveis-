@@ -1,4 +1,4 @@
-/* Central Leal + Jokar — CRM V9. Módulo isolado; estoque, vendas e catálogo permanecem intactos. */
+/* Central Leal + Jokar — CRM Kanban V11. Mantém os serviços e dados da V9 sem SQL adicional. */
 (function(){
   'use strict';
   const $c=id=>document.getElementById(id);
@@ -13,7 +13,7 @@
   oldNav.insertAdjacentHTML('beforeend','<button id="t4" type="button">CRM</button>');
   mobileNav.insertAdjacentHTML('beforeend','<button id="t4m" type="button"><span class="nav-glyph">☷</span><span>CRM</span></button>');
   v3.insertAdjacentHTML('afterend',`<section id="v4" class="hide crm-root" aria-label="CRM Comercial">
-    <div class="crm-head"><div><span class="crm-kicker">Central LJ · V9</span><h2>CRM comercial</h2><p>Acompanhe interessados, propostas e retornos de cada loja. Os contatos privados pertencem ao cadastrador.</p></div>
+    <div class="crm-head"><div><span class="crm-kicker">Central LJ · Funil comercial</span><h2>CRM comercial</h2><p>Organize oportunidades por etapa, acompanhe os próximos retornos e acesse o histórico da negociação. Contatos privados continuam acessíveis apenas a quem cadastrou.</p></div>
       <div class="crm-head-actions"><button id="crmRefresh" type="button" class="crm-button">↻ Atualizar</button><button id="crmNew" type="button" class="crm-button crm-button-primary">＋ Novo interessado</button></div></div>
     <div id="crmSetup" class="crm-setup crm-hide" role="alert"></div>
     <div id="crmMetrics" class="crm-metrics" aria-live="polite"></div><div id="crmFunnel" class="crm-funnel" aria-label="Funil por etapa"></div>
@@ -60,7 +60,7 @@
         <div><label for="crmFilterStage">Etapa</label><select id="crmFilterStage"><option value="">Todas as etapas</option>${Object.entries(STAGES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
         <div><label for="crmFilterDue">Próximo contato</label><select id="crmFilterDue"><option value="">Todos os prazos</option><option value="atrasado">Atrasados</option><option value="hoje">Para hoje</option><option value="futuro">Futuros</option><option value="sem">Sem data</option></select></div>
       </div>
-      <p id="crmListCaption" class="crm-sub" style="margin:14px 0 12px"></p><div id="crmGrid" class="crm-grid"><div class="crm-empty">Carregando interessados…</div></div>
+      <p id="crmListCaption" class="crm-sub" style="margin:14px 0 12px"></p><div id="crmGrid" class="crm-board" role="group" aria-label="Funil Kanban"><div class="crm-empty">Carregando interessados…</div></div><div id="crmLost" class="crm-lost"></div>
     </section>
   </section>`);
   const section=$c('v4');
@@ -102,33 +102,65 @@
     }catch(e){state.loaded=false;showSetup(e.message||String(e));$c('crmGrid').innerHTML='<div class="crm-empty"><b>Não foi possível carregar o CRM.</b>Confirme que o SQL da V9 foi executado no Supabase.</div>';
     }finally{state.busy=false;$c('crmRefresh').disabled=false}
   }
+  const LANES=[
+    {key:'interessados',label:'Interessados',desc:'Novos e em contato',stage:'novo',code:'new',stages:['novo','contato']},
+    {key:'visitas',label:'Visitas agendadas',desc:'Visita ou test-drive',stage:'visita',code:'visit',stages:['visita']},
+    {key:'propostas',label:'Propostas',desc:'Negociação em andamento',stage:'proposta',code:'proposal',stages:['proposta']},
+    {key:'fechados',label:'Vendas fechadas',desc:'Fechadas no CRM',stage:'ganho',code:'won',stages:['ganho']}
+  ];
+  function kanbanCard(l){
+    const mine=l.owner_uid===window.CURRENT_UID;
+    const wa=mine?waURL(l,getContact(l.id)):'';
+    const status=l.proximo_contato&&openStage(l)?dateClass(l):'';
+    const date=l.proximo_contato&&openStage(l)?`${dateLabel(l)} · ${prettyDate(l.proximo_contato)}`:!openStage(l)?'Negociação encerrada':'Sem retorno agendado';
+    const proposal=l.valor_proposta!=null?`<strong class="crm-kb-value">${safe(asBRL(l.valor_proposta))}</strong>`:'<span class="crm-kb-value-empty">Sem proposta registrada</span>';
+    const seller=(l.criado_por||'Vendedor').split('@')[0];
+    const first=String(l.nome||'?').trim().slice(0,1).toLocaleUpperCase('pt-BR');
+    return `<article class="crm-kb-card" data-crm-card="${safe(l.id)}">
+      <div class="crm-kb-card-head"><span class="crm-kb-avatar" aria-hidden="true">${safe(first)}</span><div class="crm-kb-title"><h3 title="${safe(l.nome)}">${safe(l.nome)}</h3><span>${safe(BUSINESSES[l.empresa]||'Loja')}</span></div><button class="crm-kb-handle" type="button" draggable="true" data-crm-drag="${safe(l.id)}" aria-label="Arrastar lead para outra etapa" title="Arraste para outra coluna">⋮⋮</button></div>
+      <div class="crm-kb-vehicle" title="Veículo de interesse">🚘 <span>${safe(vehicleLabel(l.produto_id))}</span></div>
+      <div class="crm-kb-value-row">${proposal}<span class="crm-kb-source">${safe(l.origem||'Origem não informada')}</span></div>
+      ${l.interesse?`<p class="crm-kb-interest" title="${safe(l.interesse)}">${safe(l.interesse)}</p>`:''}
+      <div class="crm-kb-due ${status||''}"><span aria-hidden="true">${status==='crm-due-overdue'?'⚠':status==='crm-due-today'?'●':'◷'}</span><span>${safe(date)}</span></div>
+      ${window.ADM?`<div class="crm-kb-seller" title="Responsável pelo cadastro">Vendedor: <b>${safe(seller)}</b></div>`:''}
+      <div class="crm-kb-stage"><label for="crm-stage-${safe(l.id)}">Etapa</label><select id="crm-stage-${safe(l.id)}" data-crm-stage="${safe(l.id)}" aria-label="Etapa de ${safe(l.nome)}">${Object.entries(STAGES).map(([k,v])=>`<option value="${k}" ${l.etapa===k?'selected':''}>${safe(v)}</option>`).join('')}</select></div>
+      <div class="crm-kb-actions"><button type="button" class="crm-button crm-kb-detail" data-crm-details="${safe(l.id)}">Detalhes</button><button type="button" class="crm-button" data-crm-edit="${safe(l.id)}">Editar</button>${wa?`<a class="crm-kb-whatsapp" href="${safe(wa)}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp do lead ${safe(l.nome)}">WhatsApp ↗</a>`:`<span class="crm-kb-restricted">${mine?'Sem telefone':'Contato privado'}</span>`}</div>
+    </article>`;
+  }
   function render(){
-    const now=todayStr(),companyLeads=state.leads.filter(l=>!state.company||l.empresa===state.company),open=companyLeads.filter(openStage),overdue=open.filter(l=>l.proximo_contato&&l.proximo_contato<now).length,dueToday=open.filter(l=>l.proximo_contato===now).length;
-    const metrics=[['Interessados',companyLeads.length,''],['Negociações abertas',open.length,''],['Retornos atrasados',overdue,'crm-alert'],['Retornos de hoje',dueToday,'']];
+    const now=todayStr();
+    const companyLeads=state.leads.filter(l=>!state.company||l.empresa===state.company);
+    const open=companyLeads.filter(openStage);
+    const overdue=open.filter(l=>l.proximo_contato&&l.proximo_contato<now).length;
+    const dueToday=open.filter(l=>l.proximo_contato===now).length;
+    const metrics=[['Leads cadastrados',companyLeads.length,''],['Negociações em aberto',open.length,''],['Follow-ups atrasados',overdue,'crm-alert'],['Retornos previstos hoje',dueToday,'']];
     $c('crmMetrics').innerHTML=metrics.map(([label,num,cls])=>`<div class="crm-metric ${cls}"><strong>${num}</strong><span>${label}</span></div>`).join('');
-    $c('crmFunnel').innerHTML=Object.entries(STAGES).map(([k,label])=>`<button type="button" class="crm-funnel-item ${state.stage===k?'on':''}" data-crm-filter-stage="${k}"><b>${companyLeads.filter(l=>l.etapa===k).length}</b><span>${safe(label)}</span></button>`).join('');
+    $c('crmFunnel').innerHTML='<div class="crm-kb-guidance"><span class="crm-kb-guidance-icon">▤</span><div><b>Funil Kanban</b><small>Arraste o cartão para outra etapa no computador ou use o seletor “Etapa” no celular.</small></div><span class="crm-kb-guidance-privacy">🔒 Contatos restritos ao cadastrador</span></div>';
     const q=state.search.toLocaleLowerCase('pt-BR');
     let rows=state.leads.filter(l=>{
-      if(state.company&&l.empresa!==state.company)return false;if(state.stage&&l.etapa!==state.stage)return false;
+      if(state.company&&l.empresa!==state.company)return false;
+      if(state.stage&&l.etapa!==state.stage)return false;
       if(state.due==='sem'&&l.proximo_contato)return false;
       if(state.due==='atrasado'&&(!openStage(l)||!l.proximo_contato||l.proximo_contato>=now))return false;
       if(state.due==='hoje'&&(!openStage(l)||l.proximo_contato!==now))return false;
       if(state.due==='futuro'&&(!openStage(l)||!l.proximo_contato||l.proximo_contato<=now))return false;
-      const search=[l.nome,l.origem,l.interesse,l.criado_por,vehicleLabel(l.produto_id)].join(' ').toLocaleLowerCase('pt-BR');return !q||search.includes(q)
+      const searchable=[l.nome,l.origem,l.interesse,l.criado_por,vehicleLabel(l.produto_id)].join(' ').toLocaleLowerCase('pt-BR');
+      return !q||searchable.includes(q);
     });
-    rows.sort((a,b)=>{const rank=x=>!openStage(x)?3:(!x.proximo_contato?2:x.proximo_contato<now?0:x.proximo_contato===now?1:2);return rank(a)-rank(b)||String(b.updated_at||'').localeCompare(String(a.updated_at||''))});
-    $c('crmListCaption').textContent=`${rows.length} interessado(s) exibido(s). ${window.ADM?'Administrador: todas as negociações visíveis; contatos privados somente do cadastrador.':'Você vê somente as negociações que cadastrou.'}`;
-    $c('crmGrid').innerHTML=rows.length?rows.map(l=>{
-      const contact=getContact(l.id),mine=l.owner_uid===window.CURRENT_UID,wa=mine?waURL(l,contact):'',due=l.proximo_contato&&openStage(l)?`<span class="crm-due ${dateClass(l)}">${dateLabel(l)}: ${prettyDate(l.proximo_contato)}</span>`:'',stg=STAGES[l.etapa]||l.etapa;
-      return `<article class="crm-card"><div class="crm-card-top"><div><h3>${safe(l.nome)}</h3><p>${safe(vehicleLabel(l.produto_id))}</p></div><span class="crm-chip crm-chip-${safe(l.empresa)}">${safe(BUSINESSES[l.empresa]||'Loja')}</span></div>
-        <div class="crm-card-meta"><span class="crm-status crm-status-${safe(l.etapa)}">${safe(stg)}</span>${due}</div>
-        <div class="crm-card-meta"><span class="crm-meta-item">Origem: ${safe(l.origem||'Não informada')}</span>${l.valor_proposta!=null?`<span class="crm-meta-item">Proposta: <b>${safe(asBRL(l.valor_proposta))}</b></span>`:''}</div>
-        ${l.interesse?`<p>${safe(l.interesse)}</p>`:''}
-        ${window.ADM?`<p style="font-size:11px">Cadastrado por: ${safe(l.criado_por||'Usuário')}</p>`:''}
-        <div class="crm-card-stage"><label for="crm-stage-${safe(l.id)}">Etapa</label><select id="crm-stage-${safe(l.id)}" data-crm-stage="${safe(l.id)}">${Object.entries(STAGES).map(([k,v])=>`<option value="${k}" ${l.etapa===k?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div class="crm-card-bottom"><button type="button" class="crm-button" data-crm-details="${safe(l.id)}">Histórico / proposta</button><button type="button" class="crm-button" data-crm-edit="${safe(l.id)}">Editar</button>
-          ${wa?`<a class="crm-button crm-button-primary" target="_blank" rel="noopener noreferrer" href="${safe(wa)}" style="text-decoration:none;display:inline-flex;align-items:center">WhatsApp ↗</a>`:`<span class="crm-private">${mine?'WhatsApp não informado':'Contato restrito'}</span>`}</div></article>`
-    }).join(''):'<div class="crm-empty"><b>Nenhum interessado encontrado.</b>Cadastre um novo lead ou ajuste os filtros.</div>';
+    const rank=x=>!openStage(x)?3:(!x.proximo_contato?2:x.proximo_contato<now?0:x.proximo_contato===now?1:2);
+    rows.sort((a,b)=>rank(a)-rank(b)||String(b.updated_at||'').localeCompare(String(a.updated_at||'')));
+    $c('crmListCaption').textContent=`${rows.length} lead(s) exibido(s). ${window.ADM?'Administrador: acompanha todas as negociações; contatos privados somente do cadastrador.':'Você vê as negociações que cadastrou.'}`;
+    $c('crmGrid').innerHTML=LANES.map(lane=>{
+      const leads=rows.filter(l=>lane.stages.includes(l.etapa));
+      const amount=leads.reduce((total,l)=>total+(Number(l.valor_proposta)||0),0);
+      const relevant=lane.key==='propostas'&&amount?`<span class="crm-kb-lane-total">${safe(asBRL(amount))}</span>`:'';
+      return `<section class="crm-kb-lane crm-kb-${lane.code}" data-crm-drop="${lane.stage}" aria-label="${lane.label}, ${leads.length} leads">
+        <header class="crm-kb-lane-head"><div><div class="crm-kb-lane-title"><span class="crm-kb-dot"></span><h3>${safe(lane.label)}</h3><span class="crm-kb-count">${leads.length}</span></div><small>${safe(lane.desc)}</small></div>${relevant}</header>
+        <div class="crm-kb-lane-cards">${leads.length?leads.map(kanbanCard).join(''):'<div class="crm-kb-empty">Arraste um lead para esta etapa</div>'}</div>
+      </section>`;
+    }).join('');
+    const lost=rows.filter(l=>l.etapa==='perdido');
+    $c('crmLost').innerHTML=lost.length?`<details class="crm-kb-lost"><summary>Não convertidos <b>${lost.length}</b> <small>Histórico preservado</small></summary><div class="crm-kb-lost-cards">${lost.map(kanbanCard).join('')}</div></details>`:'';
   }
   function fillVehicles(){const select=$c('crmVehicle'),selected=select.value,vs=(window.D&&D.veiculos)||[];select.innerHTML='<option value="">Interesse geral / ainda não definido</option>'+vs.slice().sort((a,b)=>String(a.marca||a.nome).localeCompare(String(b.marca||b.nome))).map(v=>`<option value="${safe(v.id)}">${safe([v.marca||v.nome,v.modelo,v.ano].filter(Boolean).join(' · '))} (${safe(BUSINESSES[v.empresa]||'Loja')}${v.status==='vendido'?' · Vendido':''})</option>`).join('');if(vs.some(v=>v.id===selected))select.value=selected}
   function formMessage(s,error=false){const x=$c('crmFormMsg');x.textContent=s;x.classList.toggle('crm-error',error)}
@@ -213,5 +245,17 @@
     if(button.dataset.crmDetails)void showDetails(id);else beginForm(id);
   });
   section.addEventListener('change',e=>{if(e.target.matches('[data-crm-stage]'))void changeStage(e.target.dataset.crmStage,e.target.value)});
+  // Kanban arrastar e soltar: um único método de mudança de etapa para seletor e drag/drop.
+  section.addEventListener('dragstart',e=>{const handle=e.target.closest('[data-crm-drag]');if(!handle)return;
+    e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',handle.dataset.crmDrag);handle.closest('.crm-kb-card')?.classList.add('crm-kb-dragging');
+  });
+  section.addEventListener('dragover',e=>{const lane=e.target.closest('[data-crm-drop]');if(!lane)return;e.preventDefault();e.dataTransfer.dropEffect='move';lane.classList.add('crm-kb-over')});
+  section.addEventListener('dragleave',e=>{const lane=e.target.closest('[data-crm-drop]');if(lane&&!lane.contains(e.relatedTarget))lane.classList.remove('crm-kb-over')});
+  section.addEventListener('dragend',()=>{section.querySelectorAll('.crm-kb-over,.crm-kb-dragging').forEach(el=>el.classList.remove('crm-kb-over','crm-kb-dragging'))});
+  section.addEventListener('drop',e=>{const lane=e.target.closest('[data-crm-drop]');if(!lane)return;e.preventDefault();
+    section.querySelectorAll('.crm-kb-over,.crm-kb-dragging').forEach(el=>el.classList.remove('crm-kb-over','crm-kb-dragging'));
+    const id=e.dataTransfer.getData('text/plain'),l=getLead(id),next=lane.dataset.crmDrop;
+    if(l&&STAGES[next]&&l.etapa!==next)void changeStage(id,next);
+  });
   console.info('Central LJ · CRM V9 carregado. Tabelas CRM são ativadas pelo SQL 01-crm-v9.sql.');
 })();
