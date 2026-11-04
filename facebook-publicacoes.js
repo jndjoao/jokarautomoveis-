@@ -11,7 +11,7 @@ const money=n=>n==null?"Preço sob consulta":Number(n).toLocaleString("pt-BR",{s
 const setStatus=(message,error=false)=>{$("status").textContent=message;$("status").className="card "+(error?"error":"")};
 function selected(){return [...document.querySelectorAll('input[data-photo]:checked')].map(x=>Number(x.value)).sort((a,b)=>a-b)}
 function captionFor(v){return ["🚗 "+[v.marca,v.modelo].filter(Boolean).join(" ") + (v.ano?" | "+v.ano:""),v.quilometragem!=null?"📍 "+Number(v.quilometragem).toLocaleString("pt-BR")+" km":"",v.cor?"🎨 Cor: "+v.cor:"","💰 "+money(v.valor),"","Confira os detalhes e fale com a "+names[v.empresa]+".", "📲 Chame nossa equipe para saber mais.","","*Disponibilidade e condições sujeitas a confirmação."].filter((x,i)=>x||i===4||i===7).join("\n")}
-function preview(){$("preview").textContent=$("caption").value+"\n\n"+selected().length+" foto(s) selecionada(s)";$("photoCount").textContent=selected().length+" foto(s) selecionada(s)";$("publish").disabled=!current||!selected().length||!$("caption").value.trim()||current.status!=="disponivel"}
+function preview(){$("preview").textContent=$("caption").value+"\n\n"+selected().length+" foto(s) selecionada(s)";$("photoCount").textContent=selected().length+" foto(s) selecionada(s)";$("shareManual").disabled=!current||!selected().length||!$("caption").value.trim();$("downloadSelected").disabled=!current||!selected().length;$("copyCaption").disabled=!$("caption").value.trim()}
 async function selectCar(){
  current=cars.find(x=>String(x.id)===$("vehicle").value)||null;
  $("photos").replaceChildren();$("result").textContent="";urls={};
@@ -49,24 +49,66 @@ async function start(){
  if(admin.error||admin.data!==true){setStatus("Somente administradores podem autorizar publicações.",true);return}
  const r=await sb.from("produtos").select("id,nome,marca,modelo,ano,quilometragem,cor,valor,status,empresa,foto_1,foto_2,foto_3,foto_4,foto_5,foto_6,foto_7,foto_8,foto_9,foto_10").order("created_at",{ascending:false});
  if(r.error){setStatus("Falha ao carregar veículos: "+r.error.message,true);return}
- cars=r.data||[];setStatus("Prévia disponível. A publicação depende da configuração da Meta e da função segura no Supabase.");
+ cars=r.data||[];setStatus("Modo manual ativo: nenhuma publicação automática será realizada. Escolha um veículo e prepare sua postagem.");
  $("editor").classList.remove("hide");fill();
 }
 $("company").onchange=fill;
 $("vehicle").onchange=selectCar;
 $("regenerate").onclick=()=>{if(current){$("caption").value=captionFor(current);preview()}};
 $("caption").oninput=preview;
-$("publish").onclick=async()=>{
- if(!current||current.status!=="disponivel"||!selected().length)return;
- const company=names[current.empresa];
- if(!confirm("Autorizar publicação de "+(current.nome||current.modelo)+" na página "+company+" com "+selected().length+" foto(s)?"))return;
- $("publish").disabled=true;$("result").textContent="Enviando publicação…";
+function result(message,error=false){$("result").className=error?"error":"success";$("result").textContent=message}
+function getFileName(slot){return "carro-"+String(current?.id||"veiculo").slice(0,8)+"-foto-"+slot+".jpg"}
+async function selectedFiles(){
+ if(!current)throw Error("Selecione um veículo.");
+ const files=[];
+ for(const slot of selected()){
+   const path=photoPaths[slot-1];
+   if(!path)throw Error("Foto "+slot+" não está disponível.");
+   // Cria URL assinada no momento da exportação para evitar links expirados.
+   const signed=await sb.storage.from(BUCKET).createSignedUrl(path,120);
+   if(signed.error||!signed.data?.signedUrl)throw Error("Não foi possível acessar foto "+slot+".");
+   const response=await fetch(signed.data.signedUrl);
+   if(!response.ok)throw Error("Falha ao obter foto "+slot+".");
+   const blob=await response.blob();
+   if(!blob.type.startsWith("image/"))throw Error("Formato de foto inválido.");
+   files.push(new File([blob],getFileName(slot),{type:blob.type||"image/jpeg"}));
+ }
+ return files;
+}
+function saveFile(file){
+ const url=URL.createObjectURL(file);
+ const a=document.createElement("a");a.href=url;a.download=file.name;document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+$("copyCaption").onclick=async()=>{
+ try{await navigator.clipboard.writeText($("caption").value);result("Legenda copiada! Cole no Facebook ao publicar.")}catch{result("Não foi possível copiar automaticamente. Selecione o texto da legenda e copie manualmente.",true)}
+};
+$("downloadSelected").onclick=async()=>{
+ if(!selected().length)return;
+ $("downloadSelected").disabled=true;result("Preparando fotos selecionadas…");
  try{
-  const r=await sb.functions.invoke("facebook-publicar",{body:{vehicle_id:current.id,photo_slots:selected(),message:$("caption").value.trim()}});
-  if(r.error)throw Error(r.error.message||"Erro ao chamar a função");
-  if(!r.data?.ok)throw Error(r.data?.error||"O Facebook não confirmou a publicação");
-  $("result").className="success";$("result").textContent="Publicado na página "+company+". ID: "+r.data.post_id;
- }catch(e){$("result").className="error";$("result").textContent="Publicação não realizada: "+e.message}
+   const files=await selectedFiles();
+   // A maioria dos navegadores restringe downloads múltiplos. Criamos um botão por foto.
+   $("downloads").replaceChildren();
+   files.forEach(file=>{
+      const button=document.createElement("button");button.type="button";button.className="secondary";button.textContent="Salvar "+file.name;
+      button.onclick=()=>saveFile(file);
+      $("downloads").append(button);
+   });
+   result(files.length+" foto(s) pronta(s). Use os botões de salvar abaixo.");
+ }catch(e){result("Erro ao preparar fotos: "+e.message,true)}
+ finally{$("downloadSelected").disabled=false}
+};
+$("shareManual").onclick=async()=>{
+ if(!current||!selected().length)return;
+ $("shareManual").disabled=true;result("Preparando compartilhamento…");
+ try{
+   const files=await selectedFiles(),message=$("caption").value.trim();
+   if(typeof navigator.share!=="function")throw Error("Compartilhamento nativo indisponível neste navegador. Use Copiar legenda e Baixar fotos.");
+   if(!navigator.canShare?.({files}))throw Error("O navegador não permite compartilhar estas fotos. Use Baixar fotos e Copiar legenda.");
+   await navigator.share({files,text:message,title:"Veículo "+(current.modelo||current.nome||"")});
+   result("Conteúdo entregue ao menu de compartilhamento. Confira a publicação no Facebook; o sistema não confirma que foi postado.");
+ }catch(e){if(e?.name==="AbortError")result("Compartilhamento cancelado.");else result(e.message||String(e),true)}
  finally{preview()}
 };
 start().catch(e=>setStatus(e.message,true));
