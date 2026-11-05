@@ -1,0 +1,55 @@
+/* Central LJ — Agenda CRM V14 | coexistência com estilo legado */
+.ag-root{scroll-margin-top:18px;--ag-ink:#182919;--ag-line:#dce8da;--ag-green:#a4ed0a;--ag-muted:#667464}
+.ag-root .ag-header{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.ag-root .ag-header h2{font-size:25px;margin:3px 0 5px}.ag-root .ag-header p{margin:0;color:#667464;font-size:13px}
+.ag-root .ag-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ag-root button.ag-btn,.ag-admin-box button.ag-btn{border:1px solid #d6e1d2;border-radius:10px;padding:10px 13px;background:#fff;color:#26401d;cursor:pointer;font:inherit;font-weight:700;min-height:40px}
+.ag-root button.ag-btn.primary{background:#a4ed0a;border-color:#82c41a;color:#132308}
+.ag-root button.ag-btn:disabled{opacity:.55;cursor:not-allowed}
+.ag-root .ag-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.ag-root .ag-stat{padding:16px;border-radius:13px;border:1px solid #dce7d8;background:white;box-shadow:0 2px 9px #1029100a}
+.ag-root .ag-stat b{font-size:26px;display:block}.ag-root .ag-stat small{font-size:12px;color:#61725f;font-weight:600}
+.ag-root .ag-stat.bad{border-top:3px solid #d74b45}.ag-root .ag-stat.today{border-top:3px solid #e7a338}.ag-root .ag-stat.next{border-top:3px solid #91bd2d}.ag-root .ag-stat.done{border-top:3px solid #348554}
+.ag-root .ag-panel{background:#fff;border:1px solid #dce7d8;border-radius:16px;padding:17px;margin-bottom:14px}
+.ag-root .ag-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:13px}
+.ag-root .ag-month-title{font-size:20px;font-weight:900;text-transform:capitalize;letter-spacing:-.025em}
+.ag-root .ag-nav{display:flex;gap:6px;align-items:center}.ag-root .ag-nav button{min-width:42px}
+.ag-root .ag-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.ag-root .ag-weekday{font-size:11px;font-weight:800;color:#75816e;text-align:center;padding:8px 1px}
+.ag-root .ag-day{min-height:90px;border:1px solid #e1e8da;background:#fafcf8;border-radius:10px;padding:7px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:4px;overflow:hidden}
+.ag-root .ag-day.out{opacity:.37;background:#f5f6f3}.ag-root .ag-day.today{border-color:#88bd25;box-shadow:inset 0 0 0 1px #88bd25}.ag-root .ag-day.selected{background:#eaf8d9;border-color:#68a816}
+.ag-root .ag-day strong{font-size:12px;color:#384e30}.ag-root .ag-day .ag-dot{display:block;padding:3px 5px;border-radius:5px;font-size:10px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;background:#e5eefc;color:#284e7c}
+.ag-root .ag-dot.followup{background:#eaf7d5;color:#3f641c}.ag-root .ag-dot.late{background:#ffe3e1;color:#a12d26}.ag-root .ag-day .ag-more{color:#60755b;font-size:10px;font-weight:700}
+.ag-root .ag-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,1fr);gap:14px;align-items:start}
+.ag-root .ag-day-header{font-size:17px;font-weight:900;margin:0 0 10px}
+.ag-root .ag-events{display:grid;gap:8px}.ag-root .ag-event{border:1px solid #dfe8d8;border-left:4px solid #8dbe27;border-radius:10px;padding:11px;background:white;display:grid;gap:5px}
+.ag-root .ag-event.overdue{border-left-color:#d64342;background:#fffafa}.ag-root .ag-event.completed{border-left-color:#3a9965;opacity:.7}
+.ag-root .ag-event-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.ag-root .ag-event-head b{font-size:13px;line-height:1.35}.ag-root .ag-event small{color:#657362;font-size:11px}
+.ag-root .ag-event .ag-event-actions{display:flex;gap:6px;flex-wrap:wrap}.ag-root .ag-event .ag-event-actions button,.ag-root .ag-event .ag-event-actions a{padding:5px 8px;min-height:0;font:inherit;font-weight:700;font-size:11px;border:1px solid #c9dbc3;background:#f6fbf0;color:#365b22;border-radius:7px;text-decoration:none;cursor:pointer}
+.ag-root .ag-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ag-root .ag-form>div.wide{grid-column:1/-1}
+.ag-root .ag-form label{display:block;font-weight:750;color:#576b4f;font-size:12px;margin-bottom:5px}
+.ag-root .ag-form input,.ag-root .ag-form select,.ag-root .ag-form textarea{width:100%;padding:10px;border:1px solid #d6e1d2;background:#fafcf8;border-radius:9px;font:inherit}
+.ag-root .ag-form-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:13px}.ag-root .ag-msg{font-size:12px;font-weight:700;color:#426d33}.ag-root .ag-msg.err{color:#ba2b28}
+.ag-root .ag-empty{padding:17px;text-align:center;border:1px dashed #c4d6bd;border-radius:10px;color:#647962;background:#fbfdf9;font-size:13px}
+.ag-root .ag-banner{background:#f3fae9;border:1px solid #d8eec2;color:#425b34;border-radius:10px;padding:11px 13px;font-size:12px;margin-bottom:14px}
+.ag-root .ag-banner.warn{background:#fff8ec;color:#835415;border-color:#ead6ae}
+.ag-admin-box{margin-top:18px;border:1px solid #dfe7d9;border-radius:15px;background:#fff;padding:16px}
+.ag-admin-box h3{margin:0 0 8px;font-size:18px}.ag-admin-box p{font-size:12px;color:#647264}
+.ag-admin-box .ag-admin-filters{display:flex;gap:10px;flex-wrap:wrap;margin:13px 0}.ag-admin-box .ag-admin-filters select,.ag-admin-box .ag-admin-filters input{min-width:160px;flex:1;max-width:320px}
+.ag-admin-box table{width:100%;min-width:670px}.ag-admin-box .ag-admin-stats{display:flex;gap:10px;flex-wrap:wrap}.ag-admin-box .ag-admin-stats span{background:#eff7e7;padding:7px 12px;border-radius:8px;font-size:12px;font-weight:700}
+.ag-crm-next{background:#f4faf0;border:1px solid #cfe8be;border-radius:12px;padding:14px;margin:12px 0}
+.ag-crm-next h4{margin:0 0 7px;font-size:14px}.ag-crm-next .ag-inline{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.ag-crm-next input{max-width:240px}.ag-crm-next .ag-action-button{border:1px solid #80c51b;background:#a4ed0a;border-radius:8px;padding:9px 12px;cursor:pointer;font-weight:800}
+.ag-admin-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.ag-admin-actions button{border:1px solid #b6d39c;background:#f1fae8;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:800;cursor:pointer;color:#35621e}
+.ag-admin-actions button.danger{border-color:#ecc5c5;background:#fff5f5;color:#ad3030}
+.ag-root .ag-hidden{display:none!important}
+@media(max-width:1000px){.ag-root .ag-layout{grid-template-columns:1fr}.ag-root .ag-day{min-height:72px;padding:5px}.ag-root .ag-dot{font-size:9px}}
+@media(max-width:740px){.ag-root .ag-stats{grid-template-columns:1fr 1fr}.ag-root .ag-panel{padding:11px}.ag-root .ag-weekday{font-size:10px}.ag-root .ag-day{min-height:59px;border-radius:7px;padding:4px}.ag-root .ag-day .ag-dot{font-size:0;height:6px;width:90%;padding:0;border-radius:99px}.ag-root .ag-day .ag-more{font-size:9px}.ag-root .ag-month-title{font-size:17px}.ag-root .ag-form{grid-template-columns:1fr}.ag-root .ag-form>div.wide{grid-column:auto}}
+/* Botão "Editar" de negociação: somente administrador confirmado no Supabase */
+.crm-root [data-crm-edit]{display:none!important}
+html.ag-admin-confirmed .crm-root [data-crm-edit]{display:inline-flex!important}
+/* Seis destinos de navegação no celular: sem texto cortado */
+@media(max-width:740px){
+  .mobile-nav{gap:3px;overflow-x:auto;justify-content:flex-start;scrollbar-width:thin}
+  .mobile-nav button{flex:1 0 auto;min-width:52px;font-size:10px;padding:5px 1px 7px}
+  .mobile-nav .nav-glyph{font-size:19px}
+}
