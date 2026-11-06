@@ -146,7 +146,8 @@ $('agAdminUser').onchange=adminRender;$('agAdminFilter').onchange=adminRender;$(
 const old=window.tab;window.tab=function(n){old(n);if(n===5)void adminLoad()};
 }
 async function checkRole(){if(!verifyAuth()){store.admin=false;return}store.admin=await adminCheck();document.documentElement.classList.toggle('ag-admin-confirmed',store.admin);if(store.admin)setupAdminBox();
-const crm=$('v4');if(crm){crm.querySelectorAll('[data-crm-edit]').forEach(b=>{b.style.display=store.admin?'':'none'})}
+// Edição de leads: vendedores podem editar os próprios. O CRM aplica a regra por owner_uid;
+// operações administrativas de excluir negociação/alterar proposta seguem restritas ao Supabase.
 }
 async function onInit(){agendaSkeleton();attachCRM();if(!verifyAuth())return;await checkRole();if(store.admin)setupAdminBox();if(isOpen())await loadData()}
 const observer=new MutationObserver(()=>{if(verifyAuth()){if(!$('v6'))agendaSkeleton();if(!$('agCrmBox'))attachCRM();if($('v5')&&!$('agAdminBox')&&store.admin)setupAdminBox()}});
