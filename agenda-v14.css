@@ -44,9 +44,9 @@
 .ag-root .ag-hidden{display:none!important}
 @media(max-width:1000px){.ag-root .ag-layout{grid-template-columns:1fr}.ag-root .ag-day{min-height:72px;padding:5px}.ag-root .ag-dot{font-size:9px}}
 @media(max-width:740px){.ag-root .ag-stats{grid-template-columns:1fr 1fr}.ag-root .ag-panel{padding:11px}.ag-root .ag-weekday{font-size:10px}.ag-root .ag-day{min-height:59px;border-radius:7px;padding:4px}.ag-root .ag-day .ag-dot{font-size:0;height:6px;width:90%;padding:0;border-radius:99px}.ag-root .ag-day .ag-more{font-size:9px}.ag-root .ag-month-title{font-size:17px}.ag-root .ag-form{grid-template-columns:1fr}.ag-root .ag-form>div.wide{grid-column:auto}}
-/* Botão "Editar" de negociação: somente administrador confirmado no Supabase */
-.crm-root [data-crm-edit]{display:none!important}
-html.ag-admin-confirmed .crm-root [data-crm-edit]{display:inline-flex!important}
+/* Editar lead: disponível ao dono do lead ou administrador; a exibição é controlada pelo CRM e a autorização pelo Supabase. */
+.crm-root .crm-kb-actions [data-crm-edit]{background:#e8f5d8;border-color:#bad9a4;color:#31581d;font-weight:800}
+.crm-root .crm-kb-actions [data-crm-edit]:hover{background:#d9edc6}
 /* Seis destinos de navegação no celular: sem texto cortado */
 @media(max-width:740px){
   .mobile-nav{gap:3px;overflow-x:auto;justify-content:flex-start;scrollbar-width:thin}
