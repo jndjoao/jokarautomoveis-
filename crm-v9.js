@@ -124,7 +124,7 @@
       <div class="crm-kb-due ${status||''}"><span aria-hidden="true">${status==='crm-due-overdue'?'⚠':status==='crm-due-today'?'●':'◷'}</span><span>${safe(date)}</span></div>
       ${window.ADM?`<div class="crm-kb-seller" title="Responsável pelo cadastro">Vendedor: <b>${safe(seller)}</b></div>`:''}
       <div class="crm-kb-stage"><label for="crm-stage-${safe(l.id)}">Etapa</label><select id="crm-stage-${safe(l.id)}" data-crm-stage="${safe(l.id)}" aria-label="Etapa de ${safe(l.nome)}">${Object.entries(STAGES).map(([k,v])=>`<option value="${k}" ${l.etapa===k?'selected':''}>${safe(v)}</option>`).join('')}</select></div>
-      <div class="crm-kb-actions"><button type="button" class="crm-button crm-kb-detail" data-crm-details="${safe(l.id)}">Detalhes</button><button type="button" class="crm-button" data-crm-edit="${safe(l.id)}">Editar</button>${wa?`<a class="crm-kb-whatsapp" href="${safe(wa)}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp do lead ${safe(l.nome)}">WhatsApp ↗</a>`:`<span class="crm-kb-restricted">${mine?'Sem telefone':'Contato privado'}</span>`}</div>
+      <div class="crm-kb-actions"><button type="button" class="crm-button crm-kb-detail" data-crm-details="${safe(l.id)}">Detalhes</button>${(mine||window.ADM)?`<button type="button" class="crm-button" data-crm-edit="${safe(l.id)}" aria-label="Editar dados do lead ${safe(l.nome)}">✎ Editar lead</button>`:""}${wa?`<a class="crm-kb-whatsapp" href="${safe(wa)}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp do lead ${safe(l.nome)}">WhatsApp ↗</a>`:`<span class="crm-kb-restricted">${mine?'Sem telefone':'Contato privado'}</span>`}</div>
     </article>`;
   }
   function render(){
@@ -166,7 +166,7 @@
   function formMessage(s,error=false){const x=$c('crmFormMsg');x.textContent=s;x.classList.toggle('crm-error',error)}
   function detailMessage(s,error=false){const x=$c('crmDetailMsg');x.textContent=s;x.classList.toggle('crm-error',error)}
   function beginForm(id){
-    const l=id?getLead(id):null;state.editingId=l?l.id:null;fillVehicles();$c('crmFormTitle').textContent=l?'Editar interessado':'Novo interessado';formMessage('');
+    const l=id?getLead(id):null;if(id&&(!l||(l.owner_uid!==window.CURRENT_UID&&!window.ADM))){alert("Você só pode editar seus próprios leads.");return}state.editingId=l?l.id:null;fillVehicles();$c('crmFormTitle').textContent=l?'Editar interessado':'Novo interessado';formMessage('');
     $c('crmName').value=l?.nome||'';$c('crmCompany').value=l?.empresa||'leal';$c('crmVehicle').value=l?.produto_id||'';$c('crmSource').value=l?.origem||'WhatsApp';$c('crmStage').value=l?.etapa||'novo';$c('crmNext').value=l?.proximo_contato||'';$c('crmInterest').value=l?.interesse||'';$c('crmNotes').value=l?.observacoes||'';
     const own=!l||l.owner_uid===window.CURRENT_UID,c=l&&own?getContact(l.id):null;
     $c('crmPhone').value=c?.telefone||'';$c('crmEmail').value=c?.email||'';$c('crmPhone').disabled=!own;$c('crmEmail').disabled=!own;
@@ -175,6 +175,7 @@
   }
   async function saveForm(){
     const nome=$c('crmName').value.trim(),empresa=$c('crmCompany').value,lead=state.editingId?getLead(state.editingId):null,own=!lead||lead.owner_uid===window.CURRENT_UID;
+    if(state.editingId&&(!lead||(!own&&!window.ADM))){formMessage("Você só pode alterar leads próprios.",true);return}
     const telefone=cleanPhone($c('crmPhone').value),email=$c('crmEmail').value.trim().toLowerCase();
     if(!nome){formMessage('Informe o nome do interessado.',true);$c('crmName').focus();return}
     if(!BUSINESSES[empresa]){formMessage('Selecione uma empresa válida.',true);return}
