@@ -3,6 +3,31 @@
 -- Requer a função public.is_admin() já usada pela Central.
 -- Pode ser executado de novo sem perder dados (idempotente).
 
+-- Se existir a tabela do protótipo antigo (colunas diferentes), ela é renomeada
+-- para facebook_publicacoes_antiga (backup, nada é apagado) e a nova é criada.
+do $$
+declare r record;
+begin
+  if to_regclass('public.facebook_publicacoes') is not null
+     and (select count(*) from information_schema.columns
+          where table_schema = 'public' and table_name = 'facebook_publicacoes'
+            and column_name in ('request_id','produto_id','foto_indices','legenda','criado_em','atualizado_em','solicitado_por')) < 7 then
+    if to_regclass('public.facebook_publicacoes_antiga') is not null then
+      raise exception 'Já existe facebook_publicacoes_antiga. Apague ou renomeie essa tabela antes de continuar.';
+    end if;
+    alter table public.facebook_publicacoes rename to facebook_publicacoes_antiga;
+    -- índices mantêm o nome antigo após renomear a tabela; renomeia para não conflitar
+    for r in select indexname from pg_indexes
+             where schemaname = 'public' and tablename = 'facebook_publicacoes_antiga'
+               and indexname like 'facebook_publicacoes%' loop
+      execute format('alter index public.%I rename to %I', r.indexname,
+                     'facebook_publicacoes_antiga' || substr(r.indexname, length('facebook_publicacoes') + 1));
+    end loop;
+    drop policy if exists "admin ve publicacoes facebook" on public.facebook_publicacoes_antiga;
+  end if;
+end $$;
+drop function if exists public.facebook_claim_publicacao(uuid, text, integer[], text);
+
 create table if not exists public.facebook_publicacoes (
   id               uuid primary key default gen_random_uuid(),
   request_id       uuid not null unique,              -- gerado pelo navegador; evita envio duplicado em caso de reenvio
