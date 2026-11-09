@@ -40,9 +40,12 @@ async function graphPost(path: string, form: FormData): Promise<string> {
   const data = await res.json().catch(() => ({}));
   if (!res.ok || !data.id) {
     const err = data?.error || {};
-    if (err.code === 190) throw new MetaError("Token da Página expirado ou inválido. Gere um novo Page Token e atualize o Secret no Supabase.");
-    if (err.code === 10 || err.code === 200) throw new MetaError("O token não tem permissão para publicar na Página (pages_manage_posts).");
-    throw new MetaError("Meta: " + (err.message || "erro HTTP " + res.status));
+    // Mensagem original da Meta (sem o token) ajuda a diagnosticar a causa exata.
+    const detalhe = " [Meta " + (err.code ?? res.status) + (err.error_subcode ? "/" + err.error_subcode : "") + ": " +
+      String(err.message || "erro HTTP " + res.status).replace(/EAA[A-Za-z0-9]+/g, "[TOKEN]").slice(0, 300) + "]";
+    if (err.code === 190) throw new MetaError("Token da Página expirado ou inválido. Gere um novo Page Token e atualize o Secret no Supabase." + detalhe);
+    if (err.code === 10 || err.code === 200) throw new MetaError("O token não tem permissão para publicar na Página (pages_manage_posts)." + detalhe);
+    throw new MetaError("Falha na Meta." + detalhe);
   }
   return String(data.id);
 }
