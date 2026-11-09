@@ -1,4 +1,4 @@
-/* Central Leal + Jokar | Facebook v15
+/* Central Leal + Jokar | Facebook v16 (arquivo mantém o nome v15)
    Publicação somente por ação explícita do admin; token Meta fica no Supabase. */
 (function () {
   'use strict';
@@ -74,13 +74,23 @@
       const sig = fingerprint(p);
       if (!attempt || attempt.sig !== sig) attempt = { sig, id: crypto.randomUUID() };
       const url = CONFIG.SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/publicar-facebook-jokar';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token, apikey: CONFIG.SUPABASE_KEY },
-        body: JSON.stringify({ ...p, request_id: attempt.id })
-      });
+      let response;
+      try {
+        response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token, apikey: CONFIG.SUPABASE_KEY },
+          body: JSON.stringify({ ...p, request_id: attempt.id })
+        });
+      } catch (netErr) {
+        // Sem resposta: o servidor pode ter publicado. Mantemos o mesmo request_id para que
+        // uma nova tentativa apenas consulte o resultado, sem publicar duas vezes.
+        throw Error('Sem resposta do servidor (conexão). Tentar de novo é seguro: o mesmo pedido não será publicado duas vezes.');
+      }
       const data = await response.json().catch(() => ({}));
-      if (!response.ok || !data.ok) throw Error(data.error || 'A função do Supabase não confirmou a publicação.');
+      if (!response.ok || !data.ok) {
+        attempt = null; // o servidor respondeu: a próxima tentativa é um pedido novo
+        throw Error(data.error || data.message || ('A função do Supabase respondeu com erro HTTP ' + response.status + '.'));
+      }
       result.replaceChildren();
       const success = document.createElement('p');
       success.className = 'success';
@@ -95,7 +105,7 @@
     } catch (e) {
       result.replaceChildren();
       const p = document.createElement('p'); p.className = 'error';
-      p.textContent = (e?.message || String(e)) + ' Confira o feed da Jokar e a tabela facebook_publicacoes antes de tentar novamente.';
+      p.textContent = e?.message || String(e);
       result.append(p);
     } finally { publishing = false; status(); }
   });
