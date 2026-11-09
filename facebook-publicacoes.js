@@ -68,7 +68,7 @@ async function start(){
  if(!session.data?.session){setStatus("Entre no sistema de gestão antes de abrir esta página.",true);return}
  const admin=await sb.rpc("is_admin");
  if(admin.error||admin.data!==true){setStatus("Somente administradores podem autorizar publicações.",true);return}
- const r=await sb.from("produtos").select("id,nome,marca,modelo,ano,quilometragem,cor,valor,status,empresa,descricao_publica,foto_1,foto_2,foto_3,foto_4,foto_5,foto_6,foto_7,foto_8,foto_9,foto_10").order("created_at",{ascending:false});
+ const r=await sb.from("produtos").select("id,nome,marca,modelo,ano,quilometragem,cor,valor,status,empresa,foto_1,foto_2,foto_3,foto_4,foto_5,foto_6,foto_7,foto_8,foto_9,foto_10").order("created_at",{ascending:false});
  if(r.error){setStatus("Falha ao carregar veículos: "+r.error.message,true);return}
  cars=r.data||[];setStatus("Escolha um veículo, revise fotos e legenda. Jokar: publicação direta na Página após sua autorização. Leal: use as ferramentas manuais.");
  $("editor").classList.remove("hide");fill();
