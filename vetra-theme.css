@@ -100,3 +100,17 @@ tbody tr:hover{background:#f8fbf9!important}
 .vt-tagline::before,.vt-tagline::after{content:"";height:2px;width:14px;border-radius:2px;background:var(--vt-600);flex:none}
 .login-brand .vt-tagline::before,.login-brand .vt-tagline::after{width:26px}
 .login-brand .vt-tagline{font-size:12px!important}
+
+/* v3 — Opção I · Degradê da marca (aprovada) */
+header.app-header{background:linear-gradient(120deg,#0b5a33 0%,#13703f 60%,#1e8a4a 100%)!important;border:0!important;box-shadow:0 6px 18px rgba(11,90,51,.18)!important}
+header.app-header .vt-wordmark{color:#fff!important}
+header.app-header .vt-tagline{color:#d5ecdd!important}
+header.app-header .vt-tagline::before,header.app-header .vt-tagline::after{background:#f2a6c3!important}
+header.app-header .vt-stores{border-left-color:rgba(255,255,255,.22)!important}
+header.app-header .logout,header.app-header #lo{background:rgba(255,255,255,.12)!important;color:#fff!important;border-color:rgba(255,255,255,.25)!important}
+header.app-header .logout:hover{background:rgba(255,255,255,.2)!important}
+header.app-header .topnav button{color:#e3f2e8!important}
+header.app-header .topnav button:hover{background:rgba(255,255,255,.12)!important;color:#fff!important}
+header.app-header .topnav button.on{background:#fff!important;border-color:#fff!important;color:#0b5a33!important}
+.intro h1{background:linear-gradient(90deg,#0b5a33,#1e8a4a);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.mobile-nav button.on{background:linear-gradient(135deg,#0b5a33,#1e8a4a)!important;color:#fff!important}
