@@ -59,7 +59,7 @@
       +'<div class="gx-field"><label for="gxPeriod">Período comercial</label><select id="gxPeriod"><option value="current">Este mês</option><option value="previous">Mês anterior</option><option value="90">Últimos 90 dias</option><option value="all">Todo o histórico</option><option value="custom">Escolher datas</option></select></div>'
       +'<div class="gx-field gx-custom"><label for="gxStart">Data inicial</label><input id="gxStart" type="date"></div>'
       +'<div class="gx-field gx-custom"><label for="gxEnd">Data final</label><input id="gxEnd" type="date"></div>'
-      +'<div class="gx-field"><label>Última leitura</label><div id="gxUpdated" style="font-size:12px;color:#637264;min-height:42px;display:flex;align-items:center">—</div></div></div>'
+      +'<div class="gx-field"><label>Última leitura</label><div id="gxUpdated" style="font-size:12px;color:#63726b;min-height:42px;display:flex;align-items:center">—</div></div></div>'
       +'<p id="gxStatus" class="gx-status" role="status">Carregando indicadores…</p>'
       +'<div class="gx-kpis" id="gxSalesKpis"></div><div class="gx-kpis" id="gxCrmKpis"></div>'
       +'<div class="gx-duo"><div class="gx-panel"><div class="gx-section-title"><h3>Funil comercial do CRM</h3><small>Etapa atual dos leads captados no período</small></div><div id="gxFunnel" class="gx-funnel"></div></div>'

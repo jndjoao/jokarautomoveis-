@@ -8,7 +8,7 @@
 
   const card = document.createElement('div');
   card.id = 'fbPublishCard';
-  card.style.cssText = 'margin:16px 0;padding:17px;border-radius:12px;background:#f0f7ec;border:1px solid #c9ddc3';
+  card.style.cssText = 'margin:16px 0;padding:17px;border-radius:12px;background:#ecf7f2;border:1px solid #c3ddd1';
   card.innerHTML = '<h3 style="margin:0 0 8px">Publicação oficial · Jokar Automóveis</h3>' +
     '<p class="muted" style="margin:0 0 12px">Esta ação publicará no feed público da Página Jokar. Confira as fotos, a descrição e o preço antes de confirmar.</p>' +
     '<label style="display:flex;align-items:flex-start;gap:10px;font-weight:650;line-height:1.4">' +

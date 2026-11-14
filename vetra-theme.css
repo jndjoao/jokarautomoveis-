@@ -1,0 +1,102 @@
+/* =========================================================
+   VetraCRM — Gestão Automotiva | identidade visual da Central
+   Carregado por último: só altera aparência (cores, tipografia, logo).
+   Catálogos das lojas NÃO usam este arquivo (mantêm identidade própria).
+   Verde = cor principal · Rosa = detalhe pontual (logo e pequenos acentos)
+   ========================================================= */
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{
+  --vt-900:#0d3a28; --vt-800:#114a33; --vt-700:#1b6446; --vt-600:#2a7d57; --vt-500:#3a9a6c;
+  --vt-100:#e3f1e9; --vt-50:#f1f7f3; --vt-pink:#d9729c; --vt-pink-soft:#f7e3ec;
+  --vt-ink:#1b2420; --vt-line:#e2e9e5;
+  --bg:#f5f7f6; --card:#ffffff; --tx:var(--vt-ink); --mut:#66726c; --bd:var(--vt-line);
+  --ac:var(--vt-700); --acx:#ffffff;
+}
+body{background:var(--bg)}
+
+/* Tipografia da marca em títulos */
+.vt-wordmark,.intro h1,.login-content h1{font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif}
+
+/* ---------- Marca VetraCRM ---------- */
+.vt-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--vt-ink);min-width:0}
+.vt-brand img{width:40px;height:32px;flex:none;display:block}
+.vt-brand-text{display:flex;flex-direction:column;line-height:1;min-width:0}
+.vt-wordmark{font-size:22px;letter-spacing:-.02em;color:var(--vt-ink);white-space:nowrap}
+.vt-wordmark b{font-weight:700}.vt-wordmark span{font-weight:400}
+.vt-tagline{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#6d7a73;margin-top:5px;white-space:nowrap}
+.vt-stores{display:flex;align-items:center;gap:6px;margin-left:14px;padding-left:14px;border-left:1px solid var(--vt-line)}
+.vt-stores img{height:30px;width:72px;object-fit:contain;background:#0b0d0c;border-radius:7px;padding:2px 4px}
+
+/* ---------- Cabeçalho: claro e minimalista ---------- */
+header.app-header{background:#fff!important;border:1px solid var(--vt-line)!important;box-shadow:0 1px 2px rgba(13,58,40,.05)!important;min-height:68px!important;padding:10px 18px!important;border-radius:14px!important}
+.brand{flex-direction:row!important;align-items:center!important;min-width:0!important;gap:0!important}
+.brand-sub{display:none!important}
+.topnav button{color:#3c4943!important;border-radius:10px}
+.topnav button:hover{background:var(--vt-50)!important;color:var(--vt-900)!important}
+.topnav button.on{background:var(--vt-800)!important;border-color:var(--vt-800)!important;color:#fff!important}
+.logout,#lo{background:#fff!important;border:1px solid var(--vt-line)!important;color:#46524c!important}
+.logout:hover{background:var(--vt-50)!important}
+
+/* Navegação inferior (celular) */
+.mobile-nav{background:#fff!important;border-top:1px solid var(--vt-line)!important;box-shadow:0 -6px 18px rgba(13,58,40,.06)!important}
+.mobile-nav button{color:#5c6a63!important}
+.mobile-nav button.on{background:var(--vt-100)!important;color:var(--vt-900)!important}
+
+/* ---------- Botões principais: verde com texto branco ---------- */
+nav button.on,.btn.p,.crm-button-primary,#v5 .gx-action.primary,
+.ag-root button.ag-btn.primary,.ag-crm-next .ag-action-button{
+  background:var(--vt-700)!important;border-color:var(--vt-700)!important;color:#fff!important}
+.btn.p:hover,.crm-button-primary:hover,#v5 .gx-action.primary:hover,.ag-root button.ag-btn.primary:hover{background:var(--vt-800)!important;filter:none}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(42,125,87,.35)!important;outline-offset:1px;border-color:var(--vt-600)!important}
+
+/* ---------- Painel ---------- */
+.eyebrow{color:var(--vt-700)!important;display:inline-flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--vt-pink)}  /* acento rosa discreto */
+.intro h1{font-weight:700;letter-spacing:-.03em}
+.st{border-top-width:3px!important}
+.st:nth-child(1){border-top-color:var(--vt-500)!important}
+.st:nth-child(4){border-top-color:#9fb8ab!important}
+th{background:var(--vt-50)!important}
+tbody tr:hover{background:#f8fbf9!important}
+
+/* Links dos catálogos: neutros, sem cores das lojas na Central */
+.intro-actions .catalogue-link,.intro-actions .catalogue-jokar,.intro-actions .catalogue-leal{background:#fff!important;color:var(--vt-800)!important;border:1px solid var(--vt-line)!important}
+.intro-actions .catalogue-link:hover,.intro-actions .catalogue-jokar:hover,.intro-actions .catalogue-leal:hover{background:var(--vt-50)!important;color:var(--vt-900)!important}
+.intro-actions .catalogue-all,.catalogue-share{background:var(--vt-50)!important;color:var(--vt-800)!important;border:1px solid var(--vt-line)!important}
+
+/* Abas financeiras por empresa */
+.finance-company-tabs button.on{background:var(--vt-800)!important;border-color:var(--vt-800)!important;color:#fff!important}
+
+/* ---------- Tela de login ---------- */
+.login-card{border:1px solid var(--vt-line)!important;box-shadow:0 18px 45px rgba(13,58,40,.10)!important}
+.login-brand{background:#fff!important;border-bottom:1px solid var(--vt-line);padding:30px 24px 22px!important}
+.login-brand .vt-brand{flex-direction:column;gap:12px}
+.login-brand .vt-brand img{width:84px;height:68px}
+.login-brand .vt-brand-text{align-items:center}
+.login-brand .vt-wordmark{font-size:32px}
+.login-brand .vt-tagline{font-size:10px}
+.login-brand>span{color:#7a8680!important;letter-spacing:.2em}
+.vt-login-stores{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.vt-login-stores img{height:34px;width:84px;object-fit:contain;background:#0b0d0c;border-radius:8px;padding:3px 5px;opacity:.95}
+
+@media (max-width:740px){
+  header.app-header{min-height:60px!important;padding:8px 12px!important}
+  .vt-brand img{width:32px;height:26px}
+  .vt-wordmark{font-size:18px}
+  .vt-tagline{font-size:7px;letter-spacing:.22em}
+  .vt-stores{display:none}
+}
+
+/* Login: neutraliza estilos antigos de "span" do bloco da marca */
+.login-brand .vt-brand span{margin:0!important;color:inherit;letter-spacing:inherit;font-size:inherit;font-weight:inherit}
+.login-brand .vt-wordmark{color:var(--vt-ink)!important;letter-spacing:-.02em!important;font-size:32px!important}
+.login-brand .vt-wordmark b{font-weight:700}
+.login-brand .vt-wordmark span{font-weight:400!important}
+.login-brand .vt-tagline{color:#6d7a73!important;letter-spacing:.28em!important;font-size:10px!important;margin-top:7px!important;font-weight:500!important}
+
+/* v2 — mais próximo do logo oficial */
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--vt-900:#073d24;--vt-800:#0b5a33;--vt-700:#13703f;--vt-600:#1e8a4a;--vt-500:#2f9a57;--vt-ink:#141414}
+.vt-wordmark{color:#141414}
+.vt-tagline{text-transform:none!important;letter-spacing:.2em!important;color:#555!important;display:flex;align-items:center;gap:7px}
+.vt-tagline::before,.vt-tagline::after{content:"";height:2px;width:14px;border-radius:2px;background:var(--vt-600);flex:none}
+.login-brand .vt-tagline::before,.login-brand .vt-tagline::after{width:26px}
+.login-brand .vt-tagline{font-size:12px!important}

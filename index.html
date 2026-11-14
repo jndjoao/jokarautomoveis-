@@ -3,20 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Leal Veículos + Jokar Automóveis | Gestão Comercial</title>
-<meta name="theme-color" content="#0a0d08">
-<meta name="description" content="Sistema interno de gestão compartilhada da Leal Veículos e Jokar Automóveis.">
-<!-- Ícones oficiais Leal + Jokar: atualização isolada, sem alteração no sistema -->
-<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=8">
-<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=8">
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico?v=8">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=8">
-<link rel="manifest" href="manifest.webmanifest?v=8">
-<meta name="apple-mobile-web-app-title" content="Central LJ">
+<title>VetraCRM | Gestão Automotiva</title>
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="VetraCRM — gestão automotiva da Leal Veículos e Jokar Automóveis.">
+<!-- Ícones VetraCRM (os catálogos mantêm os ícones das lojas em assets/) -->
+<link rel="icon" type="image/svg+xml" href="assets/vetra/vetra-mark.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/vetra/icon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/vetra/icon-192.png?v=2">
+<link rel="icon" type="image/x-icon" href="assets/vetra/favicon.ico?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/vetra/apple-touch-icon.png?v=2">
+<link rel="manifest" href="manifest.webmanifest?v=10">
+<meta name="apple-mobile-web-app-title" content="VetraCRM">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
 <meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#f5f7f3;--card:#fff;--tx:#18251b;--mut:#657166;--bd:#e0e9df;--ac:#a3eb0c;--acx:#0f1a08;--ok:#15803d;--wa:#b45309;--no:#b91c1c;--okb:#dcfce7;--wab:#fef3c7;--nob:#fee2e2}
+--bg:#f3f7f5;--card:#fff;--tx:#18251f;--mut:#657166;--bd:#dfe9e4;--ac:#2e8b61;--acx:#091912;--ok:#267350;--wa:#b45309;--no:#b91c1c;--okb:#e4f4ed;--wab:#fef3c7;--nob:#fee2e2}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -53,7 +56,7 @@ header{background:#fff;border:1px solid #e3e5ea;border-radius:12px;padding:12px 
 nav button{background:#fff;color:#0b1b3f;border-color:#d5d9e0;font-weight:500}
 nav button.on{background:#0b1b3f;color:#fff;border-color:#0b1b3f}
 #lo{color:#6b7280}
-#lg{--bg:#f5f7f3;--card:#fff;--tx:#18251b;--mut:#657166;--bd:#e0e9df;--ac:#a3eb0c;--acx:#0f1a08;background:#fff;color:#1a1d23;padding:26px;border-radius:14px;box-shadow:0 8px 30px rgba(3,11,31,.12)}
+#lg{--bg:#f3f7f5;--card:#fff;--tx:#18251f;--mut:#657166;--bd:#dfe9e4;--ac:#2e8b61;--acx:#091912;background:#fff;color:#1a1d23;padding:26px;border-radius:14px;box-shadow:0 8px 30px rgba(3,11,31,.12)}
 #lg .btn{width:100%;padding:11px}
 #lg .msg{display:block;margin:8px 0 0;text-align:center}
 .card,.st{box-shadow:0 1px 3px rgba(3,11,31,.06);border-radius:12px}
@@ -74,79 +77,79 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--ac);border-color
 body:not(.adm) .adm-only{display:none!important}
 
 /* ============ JOKAR | DESIGN SYSTEM ============ */
-:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#f4f6f2;--card:#ffffff;--tx:#182019;--mut:#68746a;--bd:#dfe7dd;--ac:#a4ed0a;--acx:#0b1405;--ok:#268343;--wa:#96620d;--no:#bf3942;--okb:#e6f6e9;--wab:#fff2d6;--nob:#ffe9e9}
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#f2f6f4;--card:#ffffff;--tx:#18201c;--mut:#68746a;--bd:#dde7e2;--ac:#2e8b61;--acx:#07120d;--ok:#267350;--wa:#96620d;--no:#bf3942;--okb:#e7f5ef;--wab:#fff2d6;--nob:#ffe9e9}
 html{color-scheme:light;scroll-behavior:smooth}
 body{background:var(--bg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
 .w{max-width:1240px;padding:22px 26px;margin:auto}
-header.app-header{background:#090d08;border:1px solid #202c16;border-radius:18px;padding:10px 22px;box-shadow:0 12px 28px rgba(12,25,10,.10);margin:0 0 26px;min-height:104px;position:relative}
+header.app-header{background:#080d0b;border:1px solid #162c22;border-radius:18px;padding:10px 22px;box-shadow:0 12px 28px rgba(10,25,18,.10);margin:0 0 26px;min-height:104px;position:relative}
 .brand{display:flex;align-items:center;gap:5px;flex-direction:column;justify-content:center;min-width:190px}
 .brand .logo{display:block;width:210px;height:auto;max-height:78px;object-fit:contain}
-.brand-sub{color:#a6e94e;letter-spacing:.23em;font-size:9px;font-weight:800;margin-top:-4px}
+.brand-sub{color:#6fc8a0;letter-spacing:.23em;font-size:9px;font-weight:800;margin-top:-4px}
 .header-actions{display:flex;align-items:center;gap:14px}
 .topnav{display:flex;gap:6px;align-items:center}
-.topnav button{background:transparent;border:1px solid transparent;color:#dce9d7;padding:11px 17px;font-weight:600;white-space:nowrap}
-.topnav button:hover{background:#1c2617;color:#fff}
-.topnav button.on{background:var(--ac);border-color:var(--ac);color:#122105}
+.topnav button{background:transparent;border:1px solid transparent;color:#d7e9e1;padding:11px 17px;font-weight:600;white-space:nowrap}
+.topnav button:hover{background:#17261f;color:#fff}
+.topnav button.on{background:var(--ac);border-color:var(--ac);color:#0a1c14}
 .btn,.tag,nav button{transition:background .15s,transform .15s,border .15s}
 .btn:hover,.tag:hover{filter:brightness(.96)}
 .btn:active,.tag:active,nav button:active{transform:scale(.99)}
-.logout{background:#19221a;border:1px solid #354232;color:#e2eadd;padding:11px 15px;white-space:nowrap}
-.logout:hover{background:#273426}
+.logout{background:#19221e;border:1px solid #32423b;color:#ddeae4;padding:11px 15px;white-space:nowrap}
+.logout:hover{background:#26342e}
 .intro{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
-.eyebrow{color:#56752c;font-size:11px;letter-spacing:.15em;font-weight:800}
+.eyebrow{color:#2c7554;font-size:11px;letter-spacing:.15em;font-weight:800}
 .intro h1{font-size:clamp(25px,3vw,34px);line-height:1.2;letter-spacing:-.04em;margin:6px 0 4px;font-weight:800}
 .intro p{margin:0;color:var(--mut);font-size:14px}
-.intro-mark{border:1px solid #c6dfae;background:#edf8db;color:#466b1c;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:.06em;padding:9px 14px;white-space:nowrap}
-.intro-mark::first-letter{color:#80bd13}
-.card,.st{border:1px solid var(--bd);border-radius:16px;box-shadow:0 5px 16px rgba(29,50,29,.045)}
+.intro-mark{border:1px solid #aedfc9;background:#e1f2ea;color:#267350;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:.06em;padding:9px 14px;white-space:nowrap}
+.intro-mark::first-letter{color:#277552}
+.card,.st{border:1px solid var(--bd);border-radius:16px;box-shadow:0 5px 16px rgba(29,50,41,.045)}
 .card{padding:23px;margin-bottom:18px}
-.st{padding:17px 20px;border-left:0!important;border-top:4px solid #b6df79}
-.st:nth-child(1){border-top-color:#7fbe24}.st:nth-child(2){border-top-color:#f1b957}.st:nth-child(3){border-top-color:#ec7d7d}.st:nth-child(4){border-top-color:#94bfa0}
+.st{padding:17px 20px;border-left:0!important;border-top:4px solid #87d1b0}
+.st:nth-child(1){border-top-color:#2a7f59}.st:nth-child(2){border-top-color:#f1b957}.st:nth-child(3){border-top-color:#ec7d7d}.st:nth-child(4){border-top-color:#94bfac}
 .st b{font-size:30px;font-weight:800;letter-spacing:-.04em}
 .st span{font-size:12px;font-weight:600}
 .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
 h2{font-size:17px;line-height:1.25;font-weight:800;letter-spacing:-.02em;margin:0 0 16px}
 .bar{gap:11px;margin-bottom:16px}
-input,select,textarea{background:#fbfcfa;border:1px solid #d8e2d6;border-radius:10px;padding:11px 12px;min-height:44px}
-input:focus,select:focus,textarea:focus{outline:2px solid #9ddd33;outline-offset:1px;border-color:#c0e68b}
+input,select,textarea{background:#fafcfb;border:1px solid #d6e2dd;border-radius:10px;padding:11px 12px;min-height:44px}
+input:focus,select:focus,textarea:focus{outline:2px solid #33996b;outline-offset:1px;border-color:#99d8bc}
 .moeda{font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:.01em}
-.currency-tip{grid-column:1/-1;font-size:12px;color:#47663b;background:#f1fae8;border:1px solid #d8eecb;border-radius:10px;padding:9px 12px}
+.currency-tip{grid-column:1/-1;font-size:12px;color:#3b6653;background:#ebf7f2;border:1px solid #cfeade;border-radius:10px;padding:9px 12px}
 .sale-observation{margin-top:13px}
 .sale-observation textarea{resize:vertical;min-height:100px}
-.sale-observation small{display:block;font-size:11px;color:#657366;margin-top:5px}
+.sale-observation small{display:block;font-size:11px;color:#65736d;margin-top:5px}
 .sale-notes-cell{max-width:240px;min-width:130px}
 .sale-notes{white-space:pre-wrap;overflow-wrap:anywhere;max-height:108px;overflow-y:auto;font-size:12px;line-height:1.5}
 #ovl>.card{max-height:calc(100dvh - 28px);overflow-y:auto}
-label{color:#51624f;font-size:12px;font-weight:700;letter-spacing:.005em;margin-bottom:6px}
+label{color:#4f6259;font-size:12px;font-weight:700;letter-spacing:.005em;margin-bottom:6px}
 .g{gap:14px 16px}
 .btn{border-radius:10px;min-height:42px;font-weight:600}
-.btn.p{background:var(--ac);color:#0c1807;border-color:#80c51b;padding:10px 19px;font-weight:800}
+.btn.p{background:var(--ac);color:#091610;border-color:#2a7e58;padding:10px 19px;font-weight:800}
 nav button.on,.btn.p{box-shadow:none}
-th{background:#f2f6ef;color:#6b7867;padding:12px 10px;letter-spacing:.07em}
+th{background:#eff6f3;color:#677870;padding:12px 10px;letter-spacing:.07em}
 td{padding:14px 10px;overflow-wrap:anywhere}
-tbody tr:hover{background:#f9fcf5}
+tbody tr:hover{background:#f6fbf9}
 td b{font-weight:700}
-td small{color:#647265;line-height:1.5}
+td small{color:#64726c;line-height:1.5}
 .tag{padding:6px 10px}
 .x{font-size:13px;font-weight:700}
 .x:hover{text-decoration:underline}
 .foot{padding:8px 0 22px;letter-spacing:.02em}
-.login-card{max-width:420px;margin:clamp(24px,7vh,72px) auto!important;padding:0!important;overflow:hidden;border:1px solid #dae3d6;box-shadow:0 24px 55px rgba(17,35,12,.14)}
-.login-brand{background:#070907;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:26px 24px 22px}
+.login-card{max-width:420px;margin:clamp(24px,7vh,72px) auto!important;padding:0!important;overflow:hidden;border:1px solid #d6e3dd;box-shadow:0 24px 55px rgba(13,34,25,.14)}
+.login-brand{background:#070908;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:26px 24px 22px}
 .login-brand .logo{width:min(290px,100%);max-height:none;height:auto;margin:0 auto}
-.login-brand span{font-size:10px;font-weight:800;letter-spacing:.22em;color:#c3f688;margin-top:8px}
+.login-brand span{font-size:10px;font-weight:800;letter-spacing:.22em;color:#a2dcc2;margin-top:8px}
 .login-content{padding:30px}
 .login-content h1{font-size:23px;font-weight:800;letter-spacing:-.03em;margin:0 0 6px}
 .login-content .sub{color:var(--mut);font-size:13px;margin:0 0 25px}
-#lg{--bg:#f4f6f2;--card:#fff;--tx:#182019;--mut:#68746a;--bd:#dfe7dd;--ac:#a4ed0a;--acx:#0b1405;background:#fff;color:var(--tx);padding:0}
+#lg{--bg:#f2f6f4;--card:#fff;--tx:#18201c;--mut:#68746a;--bd:#dde7e2;--ac:#2e8b61;--acx:#07120d;background:#fff;color:var(--tx);padding:0}
 #lg .btn{min-height:48px}
 #lg .msg{color:var(--no);font-weight:600;line-height:1.35}
 .mobile-nav{display:none}
-.ovl{background:rgba(5,10,4,.69);backdrop-filter:blur(3px)}
+.ovl{background:rgba(4,10,7,.69);backdrop-filter:blur(3px)}
 .ovl>.card{box-shadow:0 25px 70px rgba(0,0,0,.24);padding:24px}
-#lo{color:#e7efe4}
-#tb [data-sell]{color:#355f0d!important;background:#e9f8d8;border-radius:8px;padding:5px 10px;margin-right:8px!important}
-#tb [data-sell]:hover{background:#d9f4b9}
+#lo{color:#e4efea}
+#tb [data-sell]{color:#1e4e38!important;background:#dff1e9;border-radius:8px;padding:5px 10px;margin-right:8px!important}
+#tb [data-sell]:hover{background:#c6e7d8}
 @media (max-width:980px){.w{padding:16px}.brand .logo{width:175px}.brand{min-width:170px}.topnav button{padding:10px 12px}.header-actions{gap:5px}.stats{gap:10px}}
 @media (max-width:740px){
   .w{padding:12px 12px calc(108px + env(safe-area-inset-bottom,0px));max-width:600px}
@@ -169,12 +172,12 @@ td small{color:#647265;line-height:1.5}
   table,table[style]{min-width:0!important;width:100%;border-collapse:separate}
   table thead{display:none}
   table tbody{display:block}
-  table tbody tr{display:block;background:#fcfefb;border:1px solid #e0e9dd;border-radius:13px;margin-bottom:10px;padding:7px 12px;box-shadow:0 2px 8px rgba(10,30,10,.028)}
-  table tbody tr:hover{background:#fcfefb}
-  table tbody td{border-bottom:1px solid #edf1e9;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 2px;min-height:39px;font-size:13px;text-align:right}
+  table tbody tr{display:block;background:#fcfdfd;border:1px solid #dde9e4;border-radius:13px;margin-bottom:10px;padding:7px 12px;box-shadow:0 2px 8px rgba(11,29,21,.028)}
+  table tbody tr:hover{background:#fcfdfd}
+  table tbody td{border-bottom:1px solid #e9f1ed;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 2px;min-height:39px;font-size:13px;text-align:right}
   table tbody td:last-child{border-bottom:none;justify-content:flex-end}
   table tbody td:first-child{text-align:left;display:block;font-size:15px}
-  table tbody td:before{font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;color:#75816f;text-align:left;flex:0 0 30%}
+  table tbody td:before{font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;color:#6f8179;text-align:left;flex:0 0 30%}
   table tbody td:first-child:before,table tbody td:last-child:before{content:none!important}
   table tbody td.vz{display:block;text-align:center;padding:22px 5px;font-size:13px}
   #tb td:nth-child(2):before{content:"Detalhes"}#tb td:nth-child(3):before{content:"Preço"}#tb td:nth-child(4):before{content:"Cliente"}#tb td:nth-child(5):before{content:"Status"}
@@ -184,9 +187,9 @@ td small{color:#647265;line-height:1.5}
   #tb td:first-child b,#hv td:first-child b{font-size:15px}
   .tag{padding:6px 10px;min-height:31px}
   .x{min-height:34px;padding:3px 8px}
-  .mobile-nav{display:flex;position:fixed;left:0;right:0;bottom:0;background:#0b1009;border-top:1px solid #34412d;z-index:30;padding:8px 8px calc(9px + env(safe-area-inset-bottom,0px));justify-content:space-around;gap:8px;box-shadow:0 -9px 23px rgba(0,0,0,.17)}
-  .mobile-nav button{border:0;border-radius:12px;min-width:0;flex:1;background:transparent;color:#c8d5c1;padding:5px 3px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:51px;font-size:11px;font-weight:700}
-  .mobile-nav button.on{background:#a4ed0a;color:#101b0b}
+  .mobile-nav{display:flex;position:fixed;left:0;right:0;bottom:0;background:#09100d;border-top:1px solid #2d4138;z-index:30;padding:8px 8px calc(9px + env(safe-area-inset-bottom,0px));justify-content:space-around;gap:8px;box-shadow:0 -9px 23px rgba(0,0,0,.17)}
+  .mobile-nav button{border:0;border-radius:12px;min-width:0;flex:1;background:transparent;color:#c1d5cc;padding:5px 3px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:51px;font-size:11px;font-weight:700}
+  .mobile-nav button.on{background:#2e8b61;color:#0b1b14}
   .mobile-nav .nav-glyph{font-size:22px;line-height:1.1;font-weight:600}
   .ovl{align-items:flex-end;padding:0}
   .ovl>.card{max-width:none!important;width:100%!important;margin:0!important;border-radius:20px 20px 0 0;padding:22px 16px calc(24px + env(safe-area-inset-bottom,0px));max-height:92dvh;overflow-y:auto}
@@ -199,16 +202,16 @@ td small{color:#647265;line-height:1.5}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 
 /* ===== FOTOS DOS VEICULOS | JOKAR v2 ===== */
-.photo-section{margin-top:18px;padding:17px;background:#f7fbf3;border:1px solid #dcebd1;border-radius:14px}
+.photo-section{margin-top:18px;padding:17px;background:#f4faf7;border:1px solid #d1ebdf;border-radius:14px}
 .photo-section h3{margin:0 0 4px;font-size:15px;letter-spacing:-.02em}
-.photo-note{font-size:12px;color:#68776a;margin:0 0 13px;line-height:1.45}
+.photo-note{font-size:12px;color:#687770;margin:0 0 13px;line-height:1.45}
 .photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.photo-pick{border:2px dashed #bfdaaa;min-height:168px;border-radius:13px;background:white;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;cursor:pointer;text-align:center}
-.photo-pick:focus-within{outline:3px solid #8ac936;outline-offset:2px}
-.photo-pick:has(img:not(.hide)){border-style:solid;border-color:#bde58e}
+.photo-pick{border:2px dashed #aadac4;min-height:168px;border-radius:13px;background:white;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;cursor:pointer;text-align:center}
+.photo-pick:focus-within{outline:3px solid #308f64;outline-offset:2px}
+.photo-pick:has(img:not(.hide)){border-style:solid;border-color:#9ad9bd}
 .photo-pick>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.photo-pick .photo-hint{position:relative;z-index:1;color:#617651;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px}
-.photo-pick .photo-hint b{font-size:12px;color:#344e29}
+.photo-pick .photo-hint{position:relative;z-index:1;color:#517665;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px}
+.photo-pick .photo-hint b{font-size:12px;color:#294e3d}
 .photo-pick .photo-hint small{font-size:11px}
 .photo-pick .photo-glyph{font-size:26px;font-weight:300;line-height:1.1}
 .photo-pick:has(img:not(.hide)) .photo-hint{position:absolute;bottom:0;left:0;right:0;color:white;background:linear-gradient(transparent,rgba(0,0,0,.76));padding:28px 7px 7px}
@@ -216,20 +219,20 @@ td small{color:#647265;line-height:1.5}
 .photo-pick:has(img:not(.hide)) .photo-glyph{display:none}
 .photo-pick input[type=file]{cursor:pointer;position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;padding:0}
 .vehicle-thumbs{display:flex;gap:6px;align-items:center;margin-top:8px;flex-wrap:wrap}
-.photo-thumb{appearance:none;display:inline-flex;align-items:center;justify-content:center;width:73px;height:55px;border:1px solid #d8e6cf;background:#eef5e6;border-radius:9px;overflow:hidden;padding:0;cursor:pointer}
+.photo-thumb{appearance:none;display:inline-flex;align-items:center;justify-content:center;width:73px;height:55px;border:1px solid #cfe6dc;background:#e6f5ee;border-radius:9px;overflow:hidden;padding:0;cursor:pointer}
 .photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.photo-thumb:hover,.photo-thumb:focus-visible{border-color:#8fc51f;outline:2px solid #b6ea60;outline-offset:1px}
-.photo-empty{display:inline-flex;align-items:center;justify-content:center;height:55px;min-width:73px;padding:0 6px;border:1px dashed #cfddc6;border-radius:9px;color:#819278;background:#f8fbf4;font-size:10px;font-weight:700}
-.photo-action{border-radius:9px;background:#e8f6d9;color:#345b0a;border:1px solid #ceebb2;font-size:12px;font-weight:700;padding:7px 10px;cursor:pointer;margin:0 7px 5px 0}
-.photo-action:hover{background:#d8f5b7}
+.photo-thumb:hover,.photo-thumb:focus-visible{border-color:#2b805a;outline:2px solid #7ccda9;outline-offset:1px}
+.photo-empty{display:inline-flex;align-items:center;justify-content:center;height:55px;min-width:73px;padding:0 6px;border:1px dashed #c6ddd3;border-radius:9px;color:#789286;background:#f4fbf8;font-size:10px;font-weight:700}
+.photo-action{border-radius:9px;background:#def1e8;color:#1c4935;border:1px solid #bbe2d0;font-size:12px;font-weight:700;padding:7px 10px;cursor:pointer;margin:0 7px 5px 0}
+.photo-action:hover{background:#c6e6d8}
 .photo-modal-title{font-weight:800;margin:0 0 8px;font-size:18px}
 .photo-modal-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:16px}
-.photo-view-card{width:min(92vw,940px)!important;max-width:940px!important;background:#0b1109;color:white;border-color:#293b25;padding:14px!important}
-.photo-view-card img{width:100%;max-height:76dvh;min-height:140px;object-fit:contain;border-radius:9px;display:block;background:#090b09}
+.photo-view-card{width:min(92vw,940px)!important;max-width:940px!important;background:#09110d;color:white;border-color:#253b31;padding:14px!important}
+.photo-view-card img{width:100%;max-height:76dvh;min-height:140px;object-fit:contain;border-radius:9px;display:block;background:#090b0a}
 .photo-view-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .photo-view-head h2{color:white;margin:0;font-size:16px}
-.photo-close{background:#273225;color:#fff;border-color:#4d6449}
-.photo-counter{font-size:12px;color:#d9e6d3;white-space:nowrap}
+.photo-close{background:#25322c;color:#fff;border-color:#496458}
+.photo-counter{font-size:12px;color:#d3e6dd;white-space:nowrap}
 .photo-fail{color:#b91c1c;font-size:12px;line-height:1.4}
 @media (max-width:740px){
  .photo-section{padding:13px;margin-top:15px}
@@ -246,24 +249,24 @@ td small{color:#647265;line-height:1.5}
 /* Acesso rápido ao catálogo público (também no celular) */
 .intro-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
 .catalogue-link,.catalogue-share{display:inline-flex;gap:7px;align-items:center;justify-content:center;border-radius:11px;min-height:42px;padding:10px 14px;font-size:13px;font-weight:800;text-decoration:none;cursor:pointer;white-space:nowrap}
-.catalogue-link{background:#0e1a0b;color:#d7ff8b;border:1px solid #0e1a0b}
-.catalogue-link:hover{background:#233817;color:white}
-.catalogue-share{background:#edf6df;color:#315a11;border:1px solid #c6dfb4}
-.catalogue-share:hover{background:#dff0c9}
+.catalogue-link{background:#0b1a13;color:#abdfc8;border:1px solid #0b1a13}
+.catalogue-link:hover{background:#173829;color:white}
+.catalogue-share{background:#e2f3eb;color:#1d4e38;border:1px solid #b4dfcc}
+.catalogue-share:hover{background:#cfeade}
 @media(max-width:740px){.intro{flex-wrap:wrap;align-items:flex-start}.intro-actions{width:100%;margin-top:3px}.catalogue-link,.catalogue-share{flex:1;min-width:0;padding:10px 8px;font-size:12px}}
 /* JOKAR v4 — edição dos cadastros */
 .form-panel{scroll-margin-top:18px}
-.form-panel.editing{border:2px solid #94d72e;background:#fdfff9;box-shadow:0 9px 24px rgba(94,153,33,.1)}
-.form-panel.editing h2{color:#356317}
+.form-panel.editing{border:2px solid #319367;background:#fbfdfc;box-shadow:0 9px 24px rgba(38,115,80,.1)}
+.form-panel.editing h2{color:#267350}
 .form-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .form-heading h2{margin:0}
-.edit-flag{font-size:11px;font-weight:800;border-radius:99px;background:#e5f6d0;border:1px solid #b7df88;color:#35601c;padding:6px 10px}
+.edit-flag{font-size:11px;font-weight:800;border-radius:99px;background:#d8eee4;border:1px solid #92d5b7;color:#267350;padding:6px 10px}
 .form-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
 .form-actions .btn{min-width:150px}
 .form-actions .msg{margin-left:3px;max-width:100%}
-.edit-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid #9ecb80;border-radius:9px;background:#eef9e5;color:#2d5b1b;padding:7px 12px;min-height:37px;font-weight:800;font:inherit;font-size:12px;cursor:pointer;margin:0 7px 5px 0}
-.edit-btn:hover{background:#d9f1c6;border-color:#77af50}
-.edit-btn:focus-visible{outline:3px solid #a4ed0a;outline-offset:2px}
+.edit-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid #80cba9;border-radius:9px;background:#e9f5f0;color:#267350;padding:7px 12px;min-height:37px;font-weight:800;font:inherit;font-size:12px;cursor:pointer;margin:0 7px 5px 0}
+.edit-btn:hover{background:#cdeadd;border-color:#50af84}
+.edit-btn:focus-visible{outline:3px solid #2e8b61;outline-offset:2px}
 .row-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:5px}
 .catalog-vehicle-list td:first-child{min-width:190px}
 @media(max-width:740px){.form-actions{align-items:stretch}.form-actions .btn{flex:1;min-width:110px}.form-actions .msg{flex-basis:100%;margin:0}.row-actions{width:100%;justify-content:flex-end}}
@@ -275,11 +278,11 @@ td small{color:#647265;line-height:1.5}
 .login-duo .logo.c{width:180px;height:84px;margin:0}
 .emp-badge{display:inline-block;border-radius:30px;font-size:11px;font-weight:800;padding:4px 9px;margin:3px 0;white-space:nowrap}
 .emp-leal{background:#2b2417;color:#e7be6a}
-.emp-jokar{background:#e5f9ca;color:#3d6f1c}
+.emp-jokar{background:#d6ede3;color:#267350}
 .finance-company-tabs{display:flex;gap:9px;margin:0 0 15px;flex-wrap:wrap}
-.finance-company-tabs button{flex:1;min-width:180px;border:1px solid #c4cfc2;padding:14px 16px;border-radius:13px;background:white;color:#253624;font-weight:800;cursor:pointer}
-.finance-company-tabs button.on{background:#101c10;color:#f3cd82;border-color:#101c10;box-shadow:0 6px 15px #0002}
-.privacy-tip{padding:10px 12px;background:#f4f7f1;border:1px dashed #cbd9c1;border-radius:10px;font-size:12px;color:#53614e;margin-top:10px}
+.finance-company-tabs button{flex:1;min-width:180px;border:1px solid #c2cfc9;padding:14px 16px;border-radius:13px;background:white;color:#24362e;font-weight:800;cursor:pointer}
+.finance-company-tabs button.on{background:#101c17;color:#f3cd82;border-color:#101c17;box-shadow:0 6px 15px #0002}
+.privacy-tip{padding:10px 12px;background:#f1f7f4;border:1px dashed #c1d9ce;border-radius:10px;font-size:12px;color:#4e6158;margin-top:10px}
 .private-placeholder{color:#89938a;font-style:italic}
 @media(max-width:700px){.brand-duo .logo{width:96px;height:42px;padding:2px}.login-duo .logo.c{width:132px;height:66px}.brand-sub{display:none}.finance-company-tabs button{min-width:0;font-size:12px;padding:11px 8px}.login-duo{gap:7px}}
 
@@ -306,22 +309,22 @@ td small{color:#647265;line-height:1.5}
 .slot-edit .photo-pick{width:100%}
 .slot-remove{border:1px solid #efc9c9;background:#fff7f7;color:#ad2c2c;padding:7px 5px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}
 .slot-remove:disabled{opacity:.4;cursor:not-allowed}
-.photo-more{border:1px solid #bcd7a8;background:#f1fae8;color:#37641c;border-radius:9px;padding:7px;font-size:11px;font-weight:800;cursor:pointer;align-self:stretch}
-.checklist-section{background:#f9fcf7;border:1px solid #dfead6;border-radius:13px;margin:16px 0 12px;padding:15px}
+.photo-more{border:1px solid #a8d7c2;background:#ebf7f2;color:#267350;border-radius:9px;padding:7px;font-size:11px;font-weight:800;cursor:pointer;align-self:stretch}
+.checklist-section{background:#f7fcfa;border:1px solid #d6eae1;border-radius:13px;margin:16px 0 12px;padding:15px}
 .checklist-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .checklist-head h3{margin:0;font-size:15px}
-#checkProgress{background:#e2f6d2;color:#3f691f;padding:4px 8px;font-size:12px;border-radius:25px;font-weight:800}
+#checkProgress{background:#d9efe5;color:#267350;padding:4px 8px;font-size:12px;border-radius:25px;font-weight:800}
 .checklist-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.checklist-grid label{display:flex;align-items:center;gap:8px;border:1px solid #e0e9d9;padding:9px 10px;background:white;border-radius:10px;cursor:pointer;font-weight:600;font-size:12px}
-.checklist-grid input{width:18px;height:18px;min-height:18px;accent-color:#7bc72a;flex:none}
+.checklist-grid label{display:flex;align-items:center;gap:8px;border:1px solid #d9e9e2;padding:9px 10px;background:white;border-radius:10px;cursor:pointer;font-weight:600;font-size:12px}
+.checklist-grid input{width:18px;height:18px;min-height:18px;accent-color:#2d885f;flex:none}
 .inventory-help{color:var(--mut);font-size:11px}
 .inventory-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:-5px 0 16px}
 .inventory-stat{border:1px solid var(--bd);border-radius:12px;padding:12px;background:#fff;display:flex;flex-direction:column;gap:3px}
-.inventory-stat strong{font-size:22px}.inventory-stat span{font-size:11px;color:#667866;font-weight:650}
+.inventory-stat strong{font-size:22px}.inventory-stat span{font-size:11px;color:#667870;font-weight:650}
 .inventory-stat.old30{border-top:3px solid #f2bf64}.inventory-stat.old60{border-top:3px solid #ec8e6d}.inventory-stat.old90{border-top:3px solid #d95454}
-.inventory-badge{display:inline-block;border-radius:999px;font-size:11px;padding:3px 8px;font-weight:800;margin:5px 0 0;background:#e8f5e2;color:#3c6b30;white-space:nowrap}
+.inventory-badge{display:inline-block;border-radius:999px;font-size:11px;padding:3px 8px;font-weight:800;margin:5px 0 0;background:#e4f3ec;color:#306b50;white-space:nowrap}
 .inventory-badge.old30{background:#fff4d9;color:#8f631b}.inventory-badge.old60{background:#ffebde;color:#a54824}.inventory-badge.old90{background:#ffe7e7;color:#a52222}
-.checklist-mini{font-weight:700;color:#4c703b;font-size:11px}
+.checklist-mini{font-weight:700;color:#3b7058;font-size:11px}
 @media(max-width:940px){.photo-grid-ten{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:740px){.inventory-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.photo-grid-ten{grid-template-columns:repeat(2,minmax(0,1fr))}.checklist-grid{grid-template-columns:1fr}}
 /* V12.1 | Painel compacto: leitura sem quebra de valores, telefones e status. */
@@ -370,22 +373,23 @@ td small{color:#647265;line-height:1.5}
 }
 
 /* Links separados para os catálogos de cada loja no painel principal */
-.intro-actions .catalogue-jokar{background:#15270e;color:#d9f9ae;border-color:#314a1f}
+.intro-actions .catalogue-jokar{background:#0f261c;color:#c2e5d5;border-color:#1f4a37}
 .intro-actions .catalogue-leal{background:#18120b;color:#e9c780;border-color:#6c522b}
-.intro-actions .catalogue-all{background:#eff5e9;color:#345324;border-color:#d0ddc7}
-.intro-actions .catalogue-jokar:hover{background:#27441a;color:#fff}
+.intro-actions .catalogue-all{background:#e9f5f0;color:#24533e;border-color:#c7ddd3}
+.intro-actions .catalogue-jokar:hover{background:#1a4431;color:#fff}
 .intro-actions .catalogue-leal:hover{background:#2f2315;color:#fff}
-.intro-actions .catalogue-all:hover{background:#e1efd5}
+.intro-actions .catalogue-all:hover{background:#d6eee3}
 @media(max-width:740px){.intro-actions .catalogue-jokar,.intro-actions .catalogue-leal{flex:1 1 calc(50% - 6px)}.intro-actions .catalogue-all,.intro-actions #copyCatalog{flex:1 1 calc(50% - 6px)}}
 </style>
-<link rel="stylesheet" href="crm-v9.css?v=11">
-<link rel="stylesheet" href="gestao-v10.css?v=10">
-<link rel="stylesheet" href="agenda-v14.css?v=15">
+<link rel="stylesheet" href="crm-v9.css?v=12">
+<link rel="stylesheet" href="gestao-v10.css?v=11">
+<link rel="stylesheet" href="agenda-v14.css?v=16">
+<link rel="stylesheet" href="vetra-theme.css?v=2">
 </head>
 <body>
 <div class="w">
 <section id="lg" class="card login-card" aria-label="Acesso à central de gestão">
-  <div class="login-brand"><div class="brand-duo login-duo"><img class="logo c" src="assets/logo-leal.png" alt="Leal Veículos"><img class="logo c" src="assets/logo-jokar.png" alt="Jokar Automóveis"></div><span>PLATAFORMA DE GESTÃO UNIFICADA</span></div>
+  <div class="login-brand"><span class="vt-brand"><img src="assets/vetra/vetra-mark.svg?v=2" alt="" aria-hidden="true"><span class="vt-brand-text"><span class="vt-wordmark"><b>Vetra</b><span>CRM</span></span><span class="vt-tagline">Gestão Automotiva</span></span></span><div class="vt-login-stores"><img src="assets/logo-leal.png" alt="Leal Veículos"><img src="assets/logo-jokar.png" alt="Jokar Automóveis"></div></div>
   <div class="login-content">
     <h1>Central de gestão</h1><p class="sub">Leal Veículos e Jokar Automóveis — um só acesso, dois resultados.</p>
     <label for="le">E-mail</label><input id="le" type="email" placeholder="seuemail@exemplo.com" autocomplete="username">
@@ -394,7 +398,7 @@ td small{color:#647265;line-height:1.5}
   </div>
 </section>
 <div id="app" class="hide">
-<header class="app-header"><div class="brand"><div class="brand-duo"><img class="logo" src="assets/logo-leal.png" alt="Leal Veículos"><img class="logo" src="assets/logo-jokar.png" alt="Jokar Automóveis"></div><span class="brand-sub">CENTRAL DE GESTÃO</span></div>
+<header class="app-header"><div class="brand"><span class="vt-brand" aria-label="VetraCRM — Gestão Automotiva"><img src="assets/vetra/vetra-mark.svg?v=2" alt="" aria-hidden="true"><span class="vt-brand-text"><span class="vt-wordmark"><b>Vetra</b><span>CRM</span></span><span class="vt-tagline">Gestão Automotiva</span></span></span><span class="vt-stores"><img src="assets/logo-leal.png" alt="Leal Veículos"><img src="assets/logo-jokar.png" alt="Jokar Automóveis"></span></div>
 <div class="header-actions"><nav class="topnav" aria-label="Menu principal"><button id="t1" class="on" type="button">Painel</button><button id="t2" type="button">Cadastros</button><button id="t3" type="button">Financeiro</button></nav><button id="lo" class="btn logout" type="button" title="Sair da conta">Sair</button></div></header>
 <nav class="mobile-nav" aria-label="Menu principal para celular"><button id="t1m" class="on" type="button"><span class="nav-glyph">▦</span><span>Painel</span></button><button id="t2m" type="button"><span class="nav-glyph">＋</span><span>Cadastros</span></button><button id="t3m" type="button"><span class="nav-glyph">↗</span><span id="t3ml">Financeiro</span></button></nav>
 <div class="intro"><div><span class="eyebrow">LEAL VEÍCULOS + JOKAR AUTOMÓVEIS</span><h1>Gestão unificada</h1><p>Estoque compartilhado e financeiro separado por empresa.</p></div><div class="intro-actions"><a class="catalogue-link catalogue-jokar" href="catalogo-jokar.html" target="_blank" rel="noopener noreferrer">↗ Catálogo Jokar</a><a class="catalogue-link catalogue-leal" href="catalogo-leal.html" target="_blank" rel="noopener noreferrer">↗ Catálogo Leal</a><a class="catalogue-link catalogue-all" href="catalogo.html" target="_blank" rel="noopener noreferrer">↗ Ver catálogos</a><button class="catalogue-share" id="copyCatalog" type="button">Copiar link</button><a class="catalogue-link" href="facebook-publicacoes.html" title="Preparar fotos e legendas e publicar na Página Jokar com autorização do administrador">↗ Publicações Facebook</a></div></div>
@@ -449,7 +453,7 @@ td small{color:#647265;line-height:1.5}
   <textarea id="vcheckobs" rows="2" maxlength="1500" placeholder="Ex.: verificar pneus traseiros e emissão de laudo"></textarea>
 </section>
 <div class="photo-section" aria-label="Fotos do veículo">
-  <h3>Fotos do veículo <span style="font-size:12px;color:#75816e;font-weight:500">(até 10 imagens)</span></h3>
+  <h3>Fotos do veículo <span style="font-size:12px;color:#6e8178;font-weight:500">(até 10 imagens)</span></h3>
   <p class="photo-note">Escolha a foto principal e até 9 fotos adicionais. Você pode tirar uma foto ou selecionar imagens do celular. JPG, PNG ou WebP; o sistema otimiza as imagens automaticamente.</p>
   <div class="photo-grid photo-grid-ten">
     <label class="photo-pick" for="vf1"><img id="pvf1" alt="Prévia da foto 1" class="hide"><span class="photo-hint"><span class="photo-glyph">＋</span><b>Foto 1 · Principal</b><small>Toque para escolher</small></span><input id="vf1" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto 1"></label>
@@ -872,7 +876,7 @@ function render(){
     +'<td><b>'+brl(x.preco)+'</b><br><small>Custo: '+brl(x.custo)+'</small></td>'
     +'<td>'+esc(c.nome)+(contato(c.id)?'<br><small>'+esc(contato(c.id).telefone||'')+'</small>':'<br><small class="private-placeholder">Contato restrito</small>')+'</td>'
     +'<td>'+(x.status==="vendido"?'<span class="tag vendido">Vendido</span>':'<button class="tag '+x.status+'" data-st="'+x.id+'" title="Alternar disponível / reservado">'+SL[x.status]+'</button>')+'</td>'
-    +'<td style="white-space:normal;min-width:135px"><button class="edit-btn" data-editvehicle="'+esc(x.id)+'" type="button">✎ Editar</button><button class="photo-action" data-editphotos="'+esc(x.id)+'" type="button">📷 Fotos</button>'+(x.status!=="vendido"?'<button class="x" style="color:#3c6b1e;margin-right:10px" data-sell="'+x.id+'">Vender</button>':'')+'<button class="x adm-only" data-dv="'+x.id+'">'+(pend[x.id]?"Confirmar?":"Excluir")+'</button></td></tr>'
+    +'<td style="white-space:normal;min-width:135px"><button class="edit-btn" data-editvehicle="'+esc(x.id)+'" type="button">✎ Editar</button><button class="photo-action" data-editphotos="'+esc(x.id)+'" type="button">📷 Fotos</button>'+(x.status!=="vendido"?'<button class="x" style="color:#267350;margin-right:10px" data-sell="'+x.id+'">Vender</button>':'')+'<button class="x adm-only" data-dv="'+x.id+'">'+(pend[x.id]?"Confirmar?":"Excluir")+'</button></td></tr>'
   }).join(""):'<tr><td colspan="6" class="vz">Nenhum veículo encontrado. Use Cadastros para adicionar.</td></tr>';
   $("cl").innerHTML=D.clientes.length?D.clientes.map(function(c){
     var k=v.filter(function(x){return x.clienteId===c.id}).length;
@@ -1080,8 +1084,8 @@ $("lo").onclick=async function(){await sb.auth.signOut();D={clientes:[],contatos
 setInterval(function(){if(!$("app").classList.contains("hide"))load()},30000);
 gate();
 </script>
-<script src="crm-v9.js?v=15"></script>
-<script src="gestao-v10.js?v=10"></script>
-<script src="agenda-v14.js?v=15"></script>
+<script src="crm-v9.js?v=16"></script>
+<script src="gestao-v10.js?v=11"></script>
+<script src="agenda-v14.js?v=16"></script>
 </body>
 </html>

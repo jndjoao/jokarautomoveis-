@@ -13,7 +13,7 @@
   oldNav.insertAdjacentHTML('beforeend','<button id="t4" type="button">CRM</button>');
   mobileNav.insertAdjacentHTML('beforeend','<button id="t4m" type="button"><span class="nav-glyph">☷</span><span>CRM</span></button>');
   v3.insertAdjacentHTML('afterend',`<section id="v4" class="hide crm-root" aria-label="CRM Comercial">
-    <div class="crm-head"><div><span class="crm-kicker">Central LJ · Funil comercial</span><h2>CRM comercial</h2><p>Organize oportunidades por etapa, acompanhe os próximos retornos e acesse o histórico da negociação. Contatos privados continuam acessíveis apenas a quem cadastrou.</p></div>
+    <div class="crm-head"><div><span class="crm-kicker">VetraCRM · Funil comercial</span><h2>CRM comercial</h2><p>Organize oportunidades por etapa, acompanhe os próximos retornos e acesse o histórico da negociação. Contatos privados continuam acessíveis apenas a quem cadastrou.</p></div>
       <div class="crm-head-actions"><button id="crmRefresh" type="button" class="crm-button">↻ Atualizar</button><button id="crmNew" type="button" class="crm-button crm-button-primary">＋ Novo interessado</button></div></div>
     <div id="crmSetup" class="crm-setup crm-hide" role="alert"></div>
     <div id="crmMetrics" class="crm-metrics" aria-live="polite"></div><div id="crmFunnel" class="crm-funnel" aria-label="Funil por etapa"></div>
@@ -215,7 +215,7 @@
     $c('crmProposal').value=l.valor_proposta!=null?exibirMoeda(l.valor_proposta):'';$c('crmProposalNotes').value='';
     const r=await sb.from('crm_interacoes').select('id,tipo,descricao,valor,created_at').eq('lead_id',id).order('created_at',{ascending:false}).limit(100);
     if(r.error){$c('crmTimeline').textContent='Não foi possível carregar o histórico: '+r.error.message;return}
-    $c('crmTimeline').innerHTML=(r.data||[]).length?(r.data||[]).map(a=>`<div class="crm-activity"><b>${safe(({contato:'Contato',visita:'Visita / test-drive',nota:'Nota interna',proposta:'Proposta',etapa:'Mudança de etapa'})[a.tipo]||a.tipo)}${a.valor!=null?' · '+safe(asBRL(a.valor)):''}</b><time>${safe(new Date(a.created_at).toLocaleString('pt-BR'))}</time><p>${safe(a.descricao||'—')}</p></div>`).join(''):'<p style="font-size:12px;color:#687967">Ainda não há atendimentos registrados.</p>';
+    $c('crmTimeline').innerHTML=(r.data||[]).length?(r.data||[]).map(a=>`<div class="crm-activity"><b>${safe(({contato:'Contato',visita:'Visita / test-drive',nota:'Nota interna',proposta:'Proposta',etapa:'Mudança de etapa'})[a.tipo]||a.tipo)}${a.valor!=null?' · '+safe(asBRL(a.valor)):''}</b><time>${safe(new Date(a.created_at).toLocaleString('pt-BR'))}</time><p>${safe(a.descricao||'—')}</p></div>`).join(''):'<p style="font-size:12px;color:#677971">Ainda não há atendimentos registrados.</p>';
   }
   async function showDetails(id){await loadDetails(id);$c('crmDetails').scrollIntoView({behavior:'smooth',block:'start'})}
   async function addActivity(){

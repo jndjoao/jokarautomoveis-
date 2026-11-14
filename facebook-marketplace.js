@@ -80,7 +80,7 @@
     const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:8px;align-items:center';
     const out = document.createElement('input'); out.readOnly = true; out.value = value || '';
     out.placeholder = 'não cadastrado';
-    out.style.cssText = 'flex:1;min-width:0;padding:10px;border:1px solid #becbbc;border-radius:8px;background:#f7f9f6';
+    out.style.cssText = 'flex:1;min-width:0;padding:10px;border:1px solid #bccbc4;border-radius:8px;background:#f6f9f8';
     const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'secondary'; btn.textContent = 'Copiar';
     btn.disabled = !value;
     btn.onclick = () => copy(value, label);
