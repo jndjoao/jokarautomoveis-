@@ -92,3 +92,34 @@ from public.facebook_publicacoes order by criado_em desc limit 50;
 ```
 
 Logs da função: Supabase → Edge Functions → `publicar-facebook-jokar` → **Logs**.
+
+---
+
+# Instagram — Jokar
+
+Na mesma tela (**Publicações Facebook e Instagram**) o admin marca **Facebook**, **Instagram** ou os dois.
+A autorização é a mesma: caixa "Revisei e autorizo" + confirmação. Cada rede tem sua própria trava contra duplicidade.
+
+O Instagram só aceita JPEG com proporção entre 4:5 e 1,91:1. O **navegador do admin** prepara as fotos
+(converte para JPEG e completa com bordas brancas, sem cortar o carro; no carrossel todas ficam na proporção da primeira)
+e envia para a Edge Function `publicar-instagram-jokar`, que hospeda as fotos temporariamente no Storage
+(`veiculos-jokar/instagram-tmp/…`, apagadas logo depois), cria o post e publica.
+Legenda do Instagram: até **2.200** caracteres.
+
+## Configuração (uma vez)
+
+1. **Instagram profissional ligado à Página:** no app do Instagram da Jokar, Configurações → Tipo de conta →
+   conta profissional (Empresa). Depois, ligue a conta à Página "Jokar automóveis" (Central de Contas).
+2. **SQL:** rode `supabase/migrations/20261114000000_instagram_publicacoes.sql` no SQL Editor.
+3. **Token novo com permissões do Instagram:** no Graph API Explorer, além de `pages_show_list`,
+   `pages_read_engagement` e `pages_manage_posts`, adicione **`instagram_basic`** e **`instagram_content_publish`**
+   (se pedir, também `business_management`). Gere, estenda, chame `me/accounts` e copie o `access_token` da Jokar.
+   Atualize o Secret `META_JOKAR_PAGE_TOKEN` (o mesmo token serve para Facebook e Instagram).
+4. **ID do Instagram:** no Explorer, com o token da Página, consulte
+   `1482972468226501?fields=instagram_business_account` e copie o `id`.
+   Crie o Secret **`META_JOKAR_IG_ID`** com esse número.
+5. **Função:** Edge Functions → Deploy a new function → Via Editor → nome **`publicar-instagram-jokar`** →
+   cole `supabase/functions/publicar-instagram-jokar/index.ts` → Deploy (Verify JWT ligado).
+6. **Teste:** marque só Instagram, 1 foto, autorize e confirme.
+
+Envio em revisão no Instagram resolve-se com a mesma função `facebook_resolver_revisao` (o histórico mostra a coluna `plataforma`).
