@@ -380,6 +380,38 @@ td small{color:#64726c;line-height:1.5}
 .intro-actions .catalogue-leal:hover{background:#2f2315;color:#fff}
 .intro-actions .catalogue-all:hover{background:#d6eee3}
 @media(max-width:740px){.intro-actions .catalogue-jokar,.intro-actions .catalogue-leal{flex:1 1 calc(50% - 6px)}.intro-actions .catalogue-all,.intro-actions #copyCatalog{flex:1 1 calc(50% - 6px)}}
+/* Cadastros resumidos: lista compacta + pesquisa */
+.cad-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.cad-head h2{margin:0}
+.cad-count{display:inline-block;margin-left:6px;font-size:12px;font-weight:700;color:var(--mut);background:#f1f5f3;border-radius:99px;padding:2px 9px;vertical-align:middle}
+.cad-search{max-width:360px;min-height:40px!important;padding:8px 12px!important}
+.cad-list{display:flex;flex-direction:column;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.cad-row{display:flex;align-items:center;gap:12px;padding:8px 12px;border-bottom:1px solid var(--bd);min-height:52px;background:#fff}
+.cad-row:last-child{border-bottom:0}
+.cad-row:hover{background:#f8fbf9}
+.cad-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.cad-name{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cad-meta{font-size:12px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cad-meta .emp-badge{margin:0 4px 0 0;padding:2px 7px;font-size:10px}
+.cad-meta .by{font-size:11px}
+.cad-pill{font-size:11px;font-weight:700;color:#3f5a4b;background:#eef5f1;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.cad-price{display:flex;flex-direction:column;align-items:flex-end;min-width:118px;font-size:13px;white-space:nowrap}
+.cad-price small{font-size:11px;color:var(--mut)}
+.cad-row .tag{min-width:96px;text-align:center;padding:4px 9px;cursor:default}
+.cad-actions{display:flex;align-items:center;gap:4px;flex:none}
+.cad-actions .edit-btn,.cad-actions .photo-action{min-height:32px;padding:5px 10px;margin:0}
+.cad-actions .x{min-height:32px;padding:3px 8px}
+.cad-list .vz{padding:18px}
+.cad-more{display:block;width:100%;margin-top:10px;border:1px dashed var(--bd);background:transparent;border-radius:10px;padding:9px;font:inherit;font-size:13px;font-weight:700;color:#3f5a4b;cursor:pointer}
+.cad-more:hover{background:#f1f5f3}
+@media (max-width:740px){
+  .cad-search{max-width:none;width:100%}
+  .cad-row{flex-wrap:wrap;gap:6px 10px;padding:10px 12px}
+  .cad-main{flex:1 1 100%}
+  .cad-name,.cad-meta{white-space:normal}
+  .cad-price{align-items:flex-start;min-width:0;flex-direction:row;gap:6px;align-items:baseline}
+  .cad-actions{margin-left:auto}
+}
 </style>
 <link rel="stylesheet" href="crm-v9.css?v=12">
 <link rel="stylesheet" href="gestao-v10.css?v=11">
@@ -471,8 +503,8 @@ td small{color:#64726c;line-height:1.5}
 <div class="form-actions"><button class="btn p" id="sv" type="button">Salvar veículo</button><button class="btn hide" id="cancelVehicleEdit" type="button">Cancelar edição</button><span class="msg" id="m2" role="status"></span></div>
 </div>
 
-<div class="card"><h2>Clientes cadastrados</h2><div class="sc"><table style="min-width:520px"><tbody id="cl"></tbody></table></div></div>
-<div class="card"><h2>Veículos cadastrados</h2><p class="photo-note">Para alterar marca, modelo, ano, quilometragem, placa, preço, situação e fotos, clique em <b>Editar</b> no veículo desejado.</p><div class="sc"><table class="catalog-vehicle-list" style="min-width:620px"><thead><tr><th>Veículo</th><th>Preço</th><th>Situação</th><th>Ações</th></tr></thead><tbody id="vl"></tbody></table></div></div>
+<div class="card cad-card"><div class="cad-head"><h2>Clientes cadastrados <span class="cad-count" id="clCount"></span></h2><input id="clq" class="cad-search" type="search" placeholder="🔍 Nome, cidade ou telefone" aria-label="Pesquisar cliente" autocomplete="off"></div><div id="cl" class="cad-list" role="list"></div><button type="button" class="cad-more hide" id="clMore"></button></div>
+<div class="card cad-card"><div class="cad-head"><h2>Veículos cadastrados <span class="cad-count" id="vlCount"></span></h2><input id="vlq" class="cad-search" type="search" placeholder="🔍 Modelo, marca, placa, ano ou cor" aria-label="Pesquisar veículo" autocomplete="off"></div><div id="vl" class="cad-list" role="list"></div><button type="button" class="cad-more hide" id="vlMore"></button></div>
 </section>
 <section id="v3" class="hide">
 <div class="finance-company-tabs" aria-label="Financeiro por empresa"><button class="on" type="button" data-fin-company="leal">Leal Veículos</button><button type="button" data-fin-company="jokar">Jokar Automóveis</button></div><div class="bar" style="align-items:center"><label style="margin:0">Período</label><select id="fm" style="max-width:220px;flex:none"></select></div>
@@ -878,19 +910,52 @@ function render(){
     +'<td>'+(x.status==="vendido"?'<span class="tag vendido">Vendido</span>':'<button class="tag '+x.status+'" data-st="'+x.id+'" title="Alternar disponível / reservado">'+SL[x.status]+'</button>')+'</td>'
     +'<td style="white-space:normal;min-width:135px"><button class="edit-btn" data-editvehicle="'+esc(x.id)+'" type="button">✎ Editar</button><button class="photo-action" data-editphotos="'+esc(x.id)+'" type="button">📷 Fotos</button>'+(x.status!=="vendido"?'<button class="x" style="color:#267350;margin-right:10px" data-sell="'+x.id+'">Vender</button>':'')+'<button class="x adm-only" data-dv="'+x.id+'">'+(pend[x.id]?"Confirmar?":"Excluir")+'</button></td></tr>'
   }).join(""):'<tr><td colspan="6" class="vz">Nenhum veículo encontrado. Use Cadastros para adicionar.</td></tr>';
-  $("cl").innerHTML=D.clientes.length?D.clientes.map(function(c){
-    var k=v.filter(function(x){return x.clienteId===c.id}).length;
-    var priv=contato(c.id);return '<tr><td><b>'+esc(c.nome)+'</b><br><small>'+esc([priv&&priv.telefone,priv&&priv.email,c.cidade].filter(Boolean).join(' · '))+'</small>'+(!priv?'<br><small class="private-placeholder">Contato restrito ao cadastrador</small>':'')+(c.criado_por?'<br><span class="by" title="'+esc(c.criado_por)+'">por '+esc(quem(c.criado_por))+'</span>':'')+'</td><td><small>'+k+' veículo(s)</small></td>'
-    +'<td><div class="row-actions"><button class="edit-btn" data-editclient="'+esc(c.id)+'" type="button">✎ Editar</button><button class="x adm-only" data-dc="'+c.id+'">'+(pend[c.id]?"Confirmar?":"Excluir")+'</button></div></td></tr>'
-  }).join(""):'<tr><td class="vz">Nenhum cliente ainda.</td></tr>';
-  $("vl").innerHTML=v.length?v.slice().sort(function(a,b){return String(a.nome).localeCompare(String(b.nome))}).map(function(x){
-    return '<tr><td><b>'+esc(x.nome)+'</b><br>'+empresaTag(x.empresa)+'<br><small>'+esc([x.ano,x.placa].filter(Boolean).join(' · '))+'</small></td><td><b>'+brl(x.preco)+'</b><br><small>Custo: '+brl(x.custo)+'</small></td><td><span class="tag '+esc(x.status)+'">'+esc(SL[x.status]||x.status)+'</span></td>'
-    +'<td><div class="row-actions"><button class="edit-btn" type="button" data-editvehicle="'+esc(x.id)+'">✎ Editar</button><button class="photo-action" type="button" data-editphotos="'+esc(x.id)+'">📷 Fotos</button></div></td></tr>';
-  }).join(""):'<tr><td colspan="4" class="vz">Ainda não existem veículos cadastrados.</td></tr>';
+  renderCadastros();
   var sel=$("vc"),cur=sel.value;
   sel.innerHTML='<option value="">Selecione…</option>'+D.clientes.map(function(c){return '<option value="'+c.id+'">'+esc(c.nome)+'</option>'}).join("");
   sel.value=cur;
 }
+/* Cadastros resumidos: listas compactas com pesquisa (só aparência e filtro local). */
+var CAD_LIMITE=15,cadMostrar={cl:CAD_LIMITE,vl:CAD_LIMITE};
+function semAcento(t){return String(t==null?"":t).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()}
+function cadMais(id,total,vistos){var b=$(id+"More");if(!b)return;if(total>vistos){b.textContent="Mostrar mais ("+(total-vistos)+" restantes)";b.classList.remove("hide")}else b.classList.add("hide")}
+function renderCadastros(){
+  if(!$("cl")||!$("vl"))return;
+  var v=D.veiculos;
+  var qc=semAcento($("clq").value.trim()),qv=semAcento($("vlq").value.trim());
+  var clientes=D.clientes.slice().sort(function(a,b){return String(a.nome).localeCompare(String(b.nome),"pt-BR")}).filter(function(c){
+    var priv=contato(c.id);
+    return !qc||semAcento([c.nome,c.cidade,priv&&priv.telefone,priv&&priv.email,c.criado_por&&quem(c.criado_por)].join(" ")).indexOf(qc)>-1});
+  $("clCount").textContent=qc?clientes.length+" de "+D.clientes.length:String(D.clientes.length);
+  $("cl").innerHTML=clientes.length?clientes.slice(0,cadMostrar.cl).map(function(c){
+    var k=v.filter(function(x){return x.clienteId===c.id}).length,priv=contato(c.id);
+    var info=[priv&&priv.telefone,c.cidade].filter(Boolean).join(" · ");
+    return '<div class="cad-row" role="listitem"><div class="cad-main"><b class="cad-name">'+esc(c.nome)+'</b>'
+      +'<span class="cad-meta">'+(info?esc(info):'')+(!priv?(info?' · ':'')+'<span class="private-placeholder" title="Contato restrito ao cadastrador">🔒 restrito</span>':'')
+      +(c.criado_por?' · <span class="by" title="'+esc(c.criado_por)+'">por '+esc(quem(c.criado_por))+'</span>':'')+'</span></div>'
+      +'<span class="cad-pill" title="Veículos vinculados">'+k+' veíc.</span>'
+      +'<div class="cad-actions"><button class="edit-btn" data-editclient="'+esc(c.id)+'" type="button">✎ Editar</button><button class="x adm-only" data-dc="'+c.id+'">'+(pend[c.id]?"Confirmar?":"Excluir")+'</button></div></div>'
+  }).join(""):'<div class="vz">'+(qc?'Nenhum cliente encontrado para essa pesquisa.':'Nenhum cliente ainda.')+'</div>';
+  cadMais("cl",clientes.length,cadMostrar.cl);
+  var veics=v.slice().sort(function(a,b){return String(a.nome).localeCompare(String(b.nome),"pt-BR")}).filter(function(x){
+    return !qv||semAcento([x.nome,x.marca,x.modelo,x.ano,x.placa,x.cor,nomeEmpresa(x.empresa),SL[x.status]].join(" ")).indexOf(qv)>-1});
+  $("vlCount").textContent=qv?veics.length+" de "+v.length:String(v.length);
+  $("vl").innerHTML=veics.length?veics.slice(0,cadMostrar.vl).map(function(x){
+    return '<div class="cad-row" role="listitem"><div class="cad-main"><b class="cad-name">'+esc(x.nome)+'</b>'
+      +'<span class="cad-meta">'+empresaTag(x.empresa)+' '+esc([x.ano,x.placa].filter(Boolean).join(' · '))+'</span></div>'
+      +'<div class="cad-price"><b>'+brl(x.preco)+'</b><small>Custo: '+brl(x.custo)+'</small></div>'
+      +'<span class="tag '+esc(x.status)+'">'+esc(SL[x.status]||x.status)+'</span>'
+      +'<div class="cad-actions"><button class="edit-btn" type="button" data-editvehicle="'+esc(x.id)+'">✎ Editar</button><button class="photo-action" type="button" data-editphotos="'+esc(x.id)+'">📷 Fotos</button></div></div>'
+  }).join(""):'<div class="vz">'+(qv?'Nenhum veículo encontrado para essa pesquisa.':'Ainda não existem veículos cadastrados.')+'</div>';
+  cadMais("vl",veics.length,cadMostrar.vl);
+}
+(function(){
+  ["cl","vl"].forEach(function(id){
+    var q=$(id+"q"),m=$(id+"More");
+    if(q)q.addEventListener("input",function(){cadMostrar[id]=CAD_LIMITE;renderCadastros()});
+    if(m)m.addEventListener("click",function(){cadMostrar[id]+=CAD_LIMITE;renderCadastros()});
+  });
+})();
 function ask(id,fn){if(pend[id]){delete pend[id];fn()}else{pend[id]=1;render();setTimeout(function(){delete pend[id];render()},3000)}}
 document.addEventListener("click",function(e){
   var t=e.target.closest("button");if(!t)return;
