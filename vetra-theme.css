@@ -92,3 +92,11 @@ tbody tr:hover{background:#f8fbf9!important}
 .login-brand .vt-wordmark b{font-weight:700}
 .login-brand .vt-wordmark span{font-weight:400!important}
 .login-brand .vt-tagline{color:#6d7a73!important;letter-spacing:.28em!important;font-size:10px!important;margin-top:7px!important;font-weight:500!important}
+
+/* v2 — mais próximo do logo oficial */
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--vt-900:#073d24;--vt-800:#0b5a33;--vt-700:#13703f;--vt-600:#1e8a4a;--vt-500:#2f9a57;--vt-ink:#141414}
+.vt-wordmark{color:#141414}
+.vt-tagline{text-transform:none!important;letter-spacing:.2em!important;color:#555!important;display:flex;align-items:center;gap:7px}
+.vt-tagline::before,.vt-tagline::after{content:"";height:2px;width:14px;border-radius:2px;background:var(--vt-600);flex:none}
+.login-brand .vt-tagline::before,.login-brand .vt-tagline::after{width:26px}
+.login-brand .vt-tagline{font-size:12px!important}

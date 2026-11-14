@@ -1,16 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 96" role="img" aria-label="VetraCRM">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122 98">
   <defs>
-    <linearGradient id="vp" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#D9668F"/><stop offset="1" stop-color="#F2A6C3"/>
-    </linearGradient>
-    <linearGradient id="vg" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3E9A6C"/><stop offset="1" stop-color="#2A7A53"/>
-    </linearGradient>
-    <linearGradient id="vl" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4FAE7B"/><stop offset="1" stop-color="#8FD3A8"/>
-    </linearGradient>
+    <linearGradient id="vp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8338A"/><stop offset=".55" stop-color="#F06AA4"/><stop offset="1" stop-color="#FAA7C8"/></linearGradient>
+    <linearGradient id="vg" x1=".9" y1="0" x2=".2" y2="1"><stop offset="0" stop-color="#3DB56B"/><stop offset="1" stop-color="#1E8A4A"/></linearGradient>
+    <linearGradient id="vl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6CCB8F"/><stop offset="1" stop-color="#3FA867"/></linearGradient>
   </defs>
-  <path d="M6 22 Q3 16 10 16 H36 Q41 16 43 20 L66 74 Q69 82 61 86 L58 87 Q52 89 49 83 Z" fill="url(#vp)"/>
-  <path d="M84 6 Q86 3 91 3 H112 Q118 3 115 9 L74 84 Q71 90 64 90 L58 90 Z" fill="url(#vg)"/>
-  <path d="M73.5 40 H98 L74 84 Q71 90 64 90 L58 90 Z" fill="url(#vl)"/>
+  <path d="M77 7 Q80 1 88 1 H119 Q122 1 120.5 4 L75 93 L52 50 Z" fill="url(#vg)"/>
+  <path d="M56.5 57.5 Q86 59 95.5 49.5 L75 93 Z" fill="url(#vl)"/>
+  <path d="M3 28 H31 Q40 28 45.5 36 L75.5 92 Q73 97 66 97 H45 Q38 97 34.5 90.5 L1.5 31 Q0.5 28 3 28 Z" fill="url(#vp)"/>
 </svg>
