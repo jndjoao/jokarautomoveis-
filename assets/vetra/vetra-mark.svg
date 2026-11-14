@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 96" role="img" aria-label="VetraCRM">
+  <defs>
+    <linearGradient id="vp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D9668F"/><stop offset="1" stop-color="#F2A6C3"/>
+    </linearGradient>
+    <linearGradient id="vg" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1F6B48"/><stop offset="1" stop-color="#0E4A31"/>
+    </linearGradient>
+    <linearGradient id="vl" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4FAE7B"/><stop offset="1" stop-color="#8FD3A8"/>
+    </linearGradient>
+  </defs>
+  <path d="M6 22 Q3 16 10 16 H36 Q41 16 43 20 L66 74 Q69 82 61 86 L58 87 Q52 89 49 83 Z" fill="url(#vp)"/>
+  <path d="M84 6 Q86 3 91 3 H112 Q118 3 115 9 L74 84 Q71 90 64 90 L58 90 Z" fill="url(#vg)"/>
+  <path d="M73.5 40 H98 L74 84 Q71 90 64 90 L58 90 Z" fill="url(#vl)"/>
+</svg>
