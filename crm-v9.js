@@ -14,7 +14,7 @@
   mobileNav.insertAdjacentHTML('beforeend','<button id="t4m" type="button"><span class="nav-glyph">☷</span><span>CRM</span></button>');
   v3.insertAdjacentHTML('afterend',`<section id="v4" class="hide crm-root" aria-label="CRM Comercial">
     <div class="crm-head"><div><span class="crm-kicker">VetraCRM · Funil comercial</span><h2>CRM comercial</h2><p>Organize oportunidades por etapa, acompanhe os próximos retornos e acesse o histórico da negociação. Contatos privados continuam acessíveis apenas a quem cadastrou.</p></div>
-      <div class="crm-head-actions"><button id="crmRefresh" type="button" class="crm-button">↻ Atualizar</button><button id="crmNew" type="button" class="crm-button crm-button-primary">＋ Novo interessado</button></div></div>
+      <div class="crm-head-actions"><button id="crmRefresh" type="button" class="crm-button">↻ Atualizar</button><button id="crmQuick" type="button" class="crm-button crm-button-primary crm-quick-btn">⚡ Lead rápido</button><button id="crmNew" type="button" class="crm-button crm-button-primary">＋ Novo interessado</button></div></div>
     <div id="crmSetup" class="crm-setup crm-hide" role="alert"></div>
     <div id="crmMetrics" class="crm-metrics" aria-live="polite"></div><div id="crmFunnel" class="crm-funnel" aria-label="Funil por etapa"></div>
     <section id="crmForm" class="crm-panel crm-form hide" aria-label="Cadastro de interessado">
@@ -118,6 +118,7 @@
     const first=String(l.nome||'?').trim().slice(0,1).toLocaleUpperCase('pt-BR');
     return `<article class="crm-kb-card" data-crm-card="${safe(l.id)}">
       <div class="crm-kb-card-head"><span class="crm-kb-avatar" aria-hidden="true">${safe(first)}</span><div class="crm-kb-title"><h3 title="${safe(l.nome)}">${safe(l.nome)}</h3><span>${safe(BUSINESSES[l.empresa]||'Loja')}</span></div><button class="crm-kb-handle" type="button" draggable="true" data-crm-drag="${safe(l.id)}" aria-label="Arrastar lead para outra etapa" title="Arraste para outra coluna">⋮⋮</button></div>
+      ${quickBadges(l)}
       <div class="crm-kb-vehicle" title="Veículo de interesse">🚘 <span>${safe(vehicleLabel(l.produto_id))}</span></div>
       <div class="crm-kb-value-row">${proposal}<span class="crm-kb-source">${safe(l.origem||'Origem não informada')}</span></div>
       ${l.interesse?`<p class="crm-kb-interest" title="${safe(l.interesse)}">${safe(l.interesse)}</p>`:''}
@@ -230,6 +231,60 @@
     try{const id=state.detailId;const r=await sb.rpc('crm_registrar_proposta',{p_lead_id:id,p_valor:value,p_descricao:$c('crmProposalNotes').value.trim()});if(r.error)throw r.error;await reload();detailMessage('Proposta registrada e etapa atualizada. Não houve lançamento financeiro.')}
     catch(e){detailMessage('Erro ao registrar proposta: '+(e.message||e),true)}finally{$c('crmAddProposal').disabled=false}
   }
+  /* ---------- Lead rápido: só nome + telefone; o resto se completa depois ---------- */
+  function quickBadges(l){
+    const b=[];
+    if(/whats/i.test(l.origem||''))b.push('<span class="crm-badge crm-badge-wa">● WhatsApp</span>');
+    else if(/cat[aá]logo/i.test(l.origem||''))b.push('<span class="crm-badge crm-badge-cat">● Catálogo</span>');
+    if(openStage(l)&&!l.proximo_contato&&!l.produto_id&&!l.interesse)b.push('<span class="crm-badge crm-badge-todo">Completar cadastro</span>');
+    return b.length?`<div class="crm-badges">${b.join('')}</div>`:'';
+  }
+  let quickEmpresa='jokar';try{quickEmpresa=localStorage.getItem('crmQuickEmpresa')||'jokar'}catch(e){}
+  document.body.insertAdjacentHTML('beforeend',`<div id="crmQuickOvl" class="crm-quick-ovl hide" role="dialog" aria-modal="true" aria-labelledby="crmQuickTitle">
+    <div class="crm-quick-card"><button type="button" class="crm-quick-x" id="crmQuickClose" aria-label="Fechar">✕</button>
+    <h3 id="crmQuickTitle">⚡ Lead rápido</h3><p class="crm-quick-sub">Só o essencial agora. O resto você completa depois no lead.</p>
+    <label for="crmQuickName">Nome do cliente *</label><input id="crmQuickName" type="text" maxlength="80" autocomplete="off" placeholder="Ex.: Carlos Henrique">
+    <label for="crmQuickPhone">WhatsApp / telefone *</label><input id="crmQuickPhone" type="tel" inputmode="tel" maxlength="20" autocomplete="off" placeholder="(62) 9 9999-9999">
+    <div class="crm-quick-chips"><span class="crm-quick-chip">Etapa: Interessados</span><span class="crm-quick-chip">Origem: WhatsApp</span>
+      <span class="crm-quick-seg" role="group" aria-label="Loja"><button type="button" data-quick-emp="jokar">Jokar</button><button type="button" data-quick-emp="leal">Leal</button></span></div>
+    <p id="crmQuickMsg" class="crm-quick-msg" role="status"></p>
+    <div class="crm-quick-actions"><button type="button" id="crmQuickSave" class="crm-quick-save">Salvar lead</button><button type="button" id="crmQuickWa" class="crm-quick-wa">Salvar e abrir WhatsApp</button></div></div></div>`);
+  function quickSeg(){document.querySelectorAll('[data-quick-emp]').forEach(b=>b.classList.toggle('on',b.dataset.quickEmp===quickEmpresa))}
+  function quickMsg(t,err){const m=$c('crmQuickMsg');m.textContent=t||'';m.classList.toggle('err',!!err)}
+  function openQuick(){$c('crmQuickName').value='';$c('crmQuickPhone').value='';quickMsg('');quickSeg();$c('crmQuickOvl').classList.remove('hide');setTimeout(()=>$c('crmQuickName').focus(),30)}
+  function closeQuick(){$c('crmQuickOvl').classList.add('hide')}
+  function maskPhone(v){let d=cleanPhone(v);if(d.startsWith('55')&&d.length>11)d=d.slice(2);d=d.slice(0,11);
+    if(d.length<=2)return d;if(d.length<=6)return `(${d.slice(0,2)}) ${d.slice(2)}`;
+    if(d.length<=10)return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;return `(${d.slice(0,2)}) ${d.slice(2,3)} ${d.slice(3,7)}-${d.slice(7)}`}
+  async function saveQuick(abrirWa){
+    const nome=$c('crmQuickName').value.trim().replace(/\s+/g,' ');let tel=cleanPhone($c('crmQuickPhone').value);
+    if(tel.startsWith('55')&&(tel.length===12||tel.length===13))tel=tel.slice(2);
+    if(nome.length<2){quickMsg('Informe o nome do cliente.',true);$c('crmQuickName').focus();return}
+    if(tel.length!==10&&tel.length!==11){quickMsg('Informe o telefone com DDD (10 ou 11 dígitos).',true);$c('crmQuickPhone').focus();return}
+    // Abre a aba já no clique (evita bloqueio de pop-up) e só depois aponta para o WhatsApp.
+    const win=abrirWa?window.open('about:blank','_blank'):null;
+    $c('crmQuickSave').disabled=$c('crmQuickWa').disabled=true;quickMsg('Salvando…');
+    try{
+      const r=await sb.from('crm_leads').insert({nome,empresa:quickEmpresa,produto_id:null,origem:'WhatsApp',interesse:null,etapa:'novo',proximo_contato:null,observacoes:null}).select('id').single();
+      if(r.error)throw r.error;
+      const c=await sb.from('crm_contatos_privados').upsert({lead_id:r.data.id,telefone:tel,email:null},{onConflict:'lead_id'});
+      if(c.error)throw Error('Lead criado, mas o telefone não foi salvo: '+c.error.message);
+      try{localStorage.setItem('crmQuickEmpresa',quickEmpresa)}catch(e){}
+      if(win){const msg=`Olá, ${nome}! Aqui é da ${BUSINESSES[quickEmpresa]}. Como posso te ajudar?`;win.location.href='https://wa.me/55'+tel+'?text='+encodeURIComponent(msg)}
+      closeQuick();await reload();
+    }catch(e){if(win)win.close();quickMsg('Não foi possível salvar: '+(e.message||String(e)),true)}
+    finally{$c('crmQuickSave').disabled=$c('crmQuickWa').disabled=false}
+  }
+  $c('crmQuick').addEventListener('click',openQuick);
+  $c('crmQuickClose').onclick=closeQuick;
+  $c('crmQuickOvl').addEventListener('click',e=>{if(e.target.id==='crmQuickOvl')closeQuick()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$c('crmQuickOvl').classList.contains('hide'))closeQuick()});
+  document.querySelectorAll('[data-quick-emp]').forEach(b=>b.addEventListener('click',()=>{quickEmpresa=b.dataset.quickEmp;quickSeg()}));
+  $c('crmQuickPhone').addEventListener('input',e=>{e.target.value=maskPhone(e.target.value)});
+  $c('crmQuickName').addEventListener('input',()=>quickMsg(''));$c('crmQuickPhone').addEventListener('input',()=>quickMsg(''));
+  $c('crmQuickSave').onclick=()=>void saveQuick(false);$c('crmQuickWa').onclick=()=>void saveQuick(true);
+  $c('crmQuickName').addEventListener('keydown',e=>{if(e.key==='Enter')$c('crmQuickPhone').focus()});
+  $c('crmQuickPhone').addEventListener('keydown',e=>{if(e.key==='Enter')void saveQuick(false)});
   $c('crmNew').addEventListener('click',()=>beginForm(null));$c('crmCancel').onclick=()=>{$c('crmForm').classList.add('hide');state.editingId=null};
   $c('crmSave').onclick=()=>void saveForm();$c('crmRefresh').onclick=()=>void reload();
   $c('crmCloseDetails').onclick=closeDetails;$c('crmAddActivity').onclick=()=>void addActivity();$c('crmAddProposal').onclick=()=>void addProposal();

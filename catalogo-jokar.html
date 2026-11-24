@@ -270,7 +270,7 @@ function whatsappLink(c){
 function whatsappButtons(c){
  const loja=CONTATOS_LOJAS[c.empresa];
  if(!loja)return '<div class="sold-info">Atendimento indisponível: confirme a loja deste anúncio.</div>';
- return '<div class="actions-row"><a class="whats" href="'+esc(whatsappLink(c))+'" target="_blank" rel="noopener noreferrer" aria-label="Falar com '+esc(loja.nome)+' pelo WhatsApp sobre '+esc(label(c))+'">'+iconWa+' <span>WhatsApp · '+esc(loja.nome)+'</span></a></div>';
+ return '<div class="actions-row"><a class="whats" data-lead-car="'+esc(c.id)+'" data-lead-empresa="'+esc(c.empresa)+'" data-lead-nome="'+esc(label(c))+'" data-lead-info="'+esc([years(c),brl(c.valor)].filter(Boolean).join(' · '))+'" href="'+esc(whatsappLink(c))+'" target="_blank" rel="noopener noreferrer" aria-label="Falar com '+esc(loja.nome)+' pelo WhatsApp sobre '+esc(label(c))+'">'+iconWa+' <span>WhatsApp · '+esc(loja.nome)+'</span></a></div>';
 }
 function vehicleHTML(c){const selected=state.photos[c.id]||0,sold=c.status==="vendido";
  return '<article class="vehicle" data-vehicle-id="'+esc(c.id)+'"><div class="vehicle-image" data-image-area="'+esc(c.id)+'">'+photosHTML(c,selected)+'<span class="status '+esc(c.status)+'">'+esc(statusName(c.status))+'</span></div><div class="vehicle-body">'+tagLoja(c)+'<span class="vehicle-brand">'+esc(c.marca||"Veículo")+'</span><h3>'+esc(label(c))+'</h3><div class="vehicle-specs">'+specs(c)+'</div><div class="vehicle-price">'+esc(brl(c.valor))+'</div></div><div class="vehicle-footer"><button class="details-btn" type="button" data-detail="'+esc(c.id)+'">Ver fotos e detalhes →</button>'+(sold?'<div class="sold-info">Este veículo já foi vendido.</div>':whatsappButtons(c))+'</div></article>';
@@ -344,5 +344,6 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 load();
 })();
 </script>
+<script src="catalogo-lead.js?v=1"></script>
 </body>
 </html>

@@ -155,3 +155,26 @@
 /* Sobrepõe as seis mini-colunas do funil antigo: agora existe uma única faixa de orientação. */
 .crm-root .crm-funnel{display:block;margin:0 0 13px}
 .crm-root .crm-kb-guidance{width:100%;min-width:0}
+
+/* Lead rápido + etiquetas do cartão */
+.crm-badges{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+.crm-badge{font-size:10.5px;font-weight:800;border-radius:99px;padding:3px 8px;white-space:nowrap}
+.crm-badge-wa{background:#dcf8e7;color:#0f7a3f}.crm-badge-cat{background:#e7f0fb;color:#24508a}.crm-badge-todo{background:#fff1d6;color:#8a5a0b}
+.crm-quick-ovl{position:fixed;inset:0;background:rgba(5,20,12,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:80;padding:16px}
+.crm-quick-ovl.hide{display:none}
+.crm-quick-card{background:#fff;border-radius:20px;width:100%;max-width:420px;padding:22px;box-shadow:0 25px 60px rgba(0,0,0,.25);position:relative}
+.crm-quick-card h3{margin:0 0 4px;font-size:20px}.crm-quick-sub{margin:0 0 10px;color:#66726c;font-size:13px}
+.crm-quick-card label{display:block;font-size:12px;font-weight:700;color:#51624f;margin:12px 0 6px}
+.crm-quick-card input{width:100%;min-height:46px;font-size:16px}
+.crm-quick-x{position:absolute;top:16px;right:16px;border:0;background:#f1f5f3;border-radius:10px;width:34px;height:34px;font-size:15px;cursor:pointer}
+.crm-quick-chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center}
+.crm-quick-chip{font-size:11px;font-weight:700;border-radius:99px;padding:5px 10px;background:#eef6f1;color:#0b5a33}
+.crm-quick-seg{display:inline-flex;border:1px solid #cfe3d6;border-radius:99px;overflow:hidden}
+.crm-quick-seg button{border:0;background:#fff;color:#3f5a4b;font:inherit;font-size:11px;font-weight:800;padding:5px 12px;cursor:pointer}
+.crm-quick-seg button.on{background:#13703f;color:#fff}
+.crm-quick-msg{min-height:18px;margin:10px 0 0;font-size:12.5px;color:#3f5a4b}.crm-quick-msg.err{color:#b42323}
+.crm-quick-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.crm-quick-actions button{flex:1;min-height:46px;border-radius:12px;font:inherit;font-weight:800;cursor:pointer}
+.crm-quick-actions button:disabled{opacity:.6;cursor:wait}
+.crm-quick-save{background:#13703f;color:#fff;border:0}.crm-quick-wa{background:#fff;color:#128c4a;border:1px solid #bfe3cd}
+@media (max-width:740px){.crm-quick-ovl{align-items:flex-end;padding:0}.crm-quick-card{border-radius:22px 22px 0 0;max-width:none;padding:22px 18px calc(24px + env(safe-area-inset-bottom,0px))}}
