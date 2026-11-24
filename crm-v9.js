@@ -97,7 +97,7 @@
         sb.from('crm_contatos_privados').select('lead_id,owner_uid,telefone,email')
       ]);
       if(a.error||b.error)throw (a.error||b.error);
-      state.leads=a.data||[];state.contacts=b.data||[];state.loaded=true;clearSetup();render();fillVehicles();
+      state.leads=a.data||[];state.contacts=b.data||[];state.loaded=true;clearSetup();render();fillVehicles();void catalogLeadsBox();
       if(state.detailId){if(getLead(state.detailId))await loadDetails(state.detailId);else closeDetails()}
     }catch(e){state.loaded=false;showSetup(e.message||String(e));$c('crmGrid').innerHTML='<div class="crm-empty"><b>Não foi possível carregar o CRM.</b>Confirme que o SQL da V9 foi executado no Supabase.</div>';
     }finally{state.busy=false;$c('crmRefresh').disabled=false}
@@ -274,6 +274,26 @@
       closeQuick();await reload();
     }catch(e){if(win)win.close();quickMsg('Não foi possível salvar: '+(e.message||String(e)),true)}
     finally{$c('crmQuickSave').disabled=$c('crmQuickWa').disabled=false}
+  }
+  /* Admin: define quem recebe os leads do catálogo (sem e-mail escrito no código). */
+  async function catalogLeadsBox(){
+    if(!window.ADM||document.getElementById('crmCatalogOwner'))return;
+    const anchor=$c('crmGrid');if(!anchor)return;
+    anchor.insertAdjacentHTML('beforebegin','<div id="crmCatalogOwner" class="crm-catalog-owner" role="status"></div>');
+    const box=$c('crmCatalogOwner');
+    const show=st=>{
+      if(st&&st.sou_eu){box.innerHTML='<span>✓ Os leads do <b>catálogo</b> (botão WhatsApp dos veículos) chegam nesta conta.</span>';return}
+      box.innerHTML='<span>'+(st&&st.configurado?'Os leads do <b>catálogo</b> estão indo para outro administrador.':'Os leads do <b>catálogo</b> ainda não têm um responsável.')+'</span><button type="button" class="crm-button" id="crmCatalogOwnerBtn">Receber leads do catálogo nesta conta</button>';
+      $c('crmCatalogOwnerBtn').onclick=async()=>{
+        if(!window.confirm('A partir de agora, todo lead vindo do catálogo será criado nesta conta. Confirma?'))return;
+        const r=await sb.rpc('crm_receber_leads_catalogo');
+        if(r.error){box.insertAdjacentHTML('beforeend','<small class="crm-catalog-owner-err">Não foi possível salvar: '+safe(r.error.message)+'</small>');return}
+        show(r.data);
+      };
+    };
+    const r=await sb.rpc('crm_leads_catalogo_status');
+    if(r.error){box.remove();return} // SQL do catálogo ainda não instalado: não mostra nada
+    show(r.data);
   }
   $c('crmQuick').addEventListener('click',openQuick);
   $c('crmQuickClose').onclick=closeQuick;

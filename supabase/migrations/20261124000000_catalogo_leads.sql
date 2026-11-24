@@ -2,8 +2,8 @@
 -- Execute uma vez no Supabase: SQL Editor > New query > colar tudo > Run.
 -- Pode ser executado de novo sem erro (idempotente). Não apaga dados.
 --
--- ANTES DE RODAR: troque  COLOQUE_O_EMAIL_DO_ADMIN_AQUI  (no fim do arquivo)
--- pelo e-mail de login do administrador que vai receber esses leads.
+-- Depois de rodar: o administrador que vai receber os leads entra no CRM e clica
+-- em "Receber leads do catálogo nesta conta" (nenhum e-mail fica escrito aqui).
 
 -- 1. Configurações do CRM (ex.: quem recebe os leads do catálogo)
 create table if not exists public.crm_configuracoes (
@@ -95,11 +95,28 @@ end $$;
 revoke all on function public.catalogo_registrar_lead(text, text, text) from public;
 grant execute on function public.catalogo_registrar_lead(text, text, text) to anon, authenticated;
 
--- 4. Quem recebe os leads do catálogo (TROQUE O E-MAIL ABAIXO antes de rodar)
-insert into public.crm_configuracoes(chave, valor)
-select 'dono_leads_catalogo', u.id::text from auth.users u
- where lower(u.email) = lower('COLOQUE_O_EMAIL_DO_ADMIN_AQUI')
-on conflict (chave) do update set valor = excluded.valor, atualizado_em = now();
+-- 4. Quem recebe os leads do catálogo: definido pelo próprio admin, dentro do CRM.
+create or replace function public.crm_leads_catalogo_status()
+returns jsonb
+language plpgsql security definer set search_path = public, pg_temp as $$
+declare v_owner text;
+begin
+  if auth.uid() is null or not public.is_admin() then raise exception 'Apenas administradores'; end if;
+  select valor into v_owner from public.crm_configuracoes where chave = 'dono_leads_catalogo';
+  return jsonb_build_object('configurado', v_owner is not null, 'sou_eu', v_owner = auth.uid()::text);
+end $$;
 
--- Conferência: deve mostrar 1 linha com o id do admin. Se vier vazio, o e-mail não foi encontrado.
-select chave, valor from public.crm_configuracoes where chave = 'dono_leads_catalogo';
+create or replace function public.crm_receber_leads_catalogo()
+returns jsonb
+language plpgsql security definer set search_path = public, pg_temp as $$
+begin
+  if auth.uid() is null or not public.is_admin() then raise exception 'Apenas administradores'; end if;
+  insert into public.crm_configuracoes(chave, valor) values ('dono_leads_catalogo', auth.uid()::text)
+  on conflict (chave) do update set valor = excluded.valor, atualizado_em = now();
+  return jsonb_build_object('configurado', true, 'sou_eu', true);
+end $$;
+
+revoke all on function public.crm_leads_catalogo_status() from public, anon;
+revoke all on function public.crm_receber_leads_catalogo() from public, anon;
+grant execute on function public.crm_leads_catalogo_status() to authenticated;
+grant execute on function public.crm_receber_leads_catalogo() to authenticated;
